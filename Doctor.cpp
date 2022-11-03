@@ -22,9 +22,9 @@ string Doctor::getStringForFile()
 	stringForFile += Account::getStringForFile() + " " + fullName.getStringForFile() + " " +
 		dateOfBirth.getStringForFile() + " " + address.getStringForFile() + " " + position;
 
-	for (Patient patient : vectorOfPatients)
+	for (string login : vectorOfPatientLogins)
 	{
-		stringForFile += " " + patient.getStringForFile();
+		stringForFile += " " + login;
 	}
 	return stringForFile;
 }

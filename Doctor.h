@@ -17,7 +17,7 @@ class Doctor :
     Address address;
     string position;
 
-    std::vector<Patient> vectorOfPatients;
+    std::vector<string> vectorOfPatientLogins;
 
 public:
 

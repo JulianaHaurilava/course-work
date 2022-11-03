@@ -1,5 +1,12 @@
 #include "Extract.h"
 
+Extract::Extract()
+{
+	diagnosis = "_";
+	totalPrice = 0;
+	recommendations = "_";
+}
+
 void Extract::addService(string serviceName, double price)
 {
 	mapOfUnpaidServices.insert(std::pair<string, double>(serviceName, price));
@@ -8,11 +15,13 @@ void Extract::addService(string serviceName, double price)
 string Extract::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += std::to_string(totalPrice) + " " + "@" + recommendations + "@";
+	stringForFile += diagnosis + " " + std::to_string(totalPrice) + " " + "@" + recommendations + "@";
 
-	for (const auto& [key, value] : mapOfUnpaidServices)
+	stringForFile += " @";
+	for (const auto& serviceInfo : mapOfUnpaidServices)
 	{
-		
+		stringForFile += " " + serviceInfo.first + " " + std::to_string(serviceInfo.second);
 	}
-	return string();
+	stringForFile += " @";
+	return stringForFile;
 }

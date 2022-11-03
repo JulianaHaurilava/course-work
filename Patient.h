@@ -4,6 +4,8 @@
 #include "Address.h"
 #include "Date.h"
 #include "Patient.h"
+#include "Doctor.h"
+#include "Extract.h"
 
 #include <map>
 
@@ -16,8 +18,17 @@ class Patient :
     Date dateOfBirth;
     Address address;
 
-    Doctor patientsDoctor;
+    string patientsDoctorLogin;
 
     std::map<string, double> mapOfPaidServices;
+
+    Extract lastExtract;
+
+public:
+    Patient();
+    Patient(FullName fullName, Date dateOfBirth, Address address, FullName doctorsName);
+
+    string getStringForFile() override;
+    void printAccountAsTable() override;
 };
 

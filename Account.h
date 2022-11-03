@@ -6,7 +6,7 @@ using std::string;
 //abstract
 class Account
 {
-	string  login;
+	string login;
 	string encryptedPassword;
 	int role;
 	bool access;
