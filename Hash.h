@@ -2,13 +2,6 @@
 #pragma once
 
 #include <iostream>
-#include <string>
-#include <vector>
-#include <windows.h>
-#include <iomanip> 
-#include <fstream>
-#include <iomanip> 
-#include<conio.h>
 
 using std::string;
 
