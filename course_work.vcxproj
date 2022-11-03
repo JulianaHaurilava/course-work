@@ -139,7 +139,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Account.cpp" />
+    <ClCompile Include="Address.cpp" />
+    <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="course_work.cpp" />
+    <ClCompile Include="Date.cpp" />
+    <ClCompile Include="Doctor.cpp" />
+    <ClCompile Include="Extract.cpp" />
+    <ClCompile Include="Hash.cpp" />
+    <ClCompile Include="Patient.cpp" />
+    <ClCompile Include="Statistics.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Account.h" />
+    <ClInclude Include="Address.h" />
+    <ClInclude Include="Administrator.h" />
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="Doctor.h" />
+    <ClInclude Include="Extract.h" />
+    <ClInclude Include="Hash.h" />
+    <ClInclude Include="Patient.h" />
+    <ClInclude Include="Statistics.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
