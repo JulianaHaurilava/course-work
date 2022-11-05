@@ -15,9 +15,7 @@ Patient::Patient(FullName fullName, Date dateOfBirth, Address address, FullName 
 	this->fullName = fullName;
 	this->dateOfBirth = dateOfBirth;
 	this->address = address;
-	patientsDoctorLogin = getLoginBuyName(doctorsName);
 }
-
 
 string Patient::getStringForFile()
 {
