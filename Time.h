@@ -1,20 +1,19 @@
 #pragma once
+
 #include <iostream>
 #include <time.h>
 #include <string>
 using std::string;
 
-struct Date
+struct Time
 {
-	int day;
-	int month;
-	int year;
-
-	Date();
-	Date(int day, int month, int year);
+	int hour;
+	int minute;
+	int second;
 
 	string getStringForFile();
 	string getStringForLogin();
-	void setCurrentDate();
+	void setCurrentTime();
 };
+
 

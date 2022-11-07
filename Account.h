@@ -1,23 +1,27 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "FullName.h"
+#include "Date.h"
+#include "Time.h"
 using std::string;
 
 //abstract
 class Account
 {
+private:
+	string generateLogin(int role);
 protected:
 	string login;
 	string encryptedPassword;
-	int role;
 	bool access;
 
 public:
-	Account(); // здесь генерация логина
 
-	virtual string getStringForFile();
-	virtual void printAccountAsTable() = 0;
-	void changeAccess();
+	Account();
+	Account(string encryptedPassword, int role);
+
 	string getLogin();
+	string getEncryptedPassword();
 };
 

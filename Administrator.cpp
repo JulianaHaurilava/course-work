@@ -1,68 +1,58 @@
 #include "Administrator.h"
 
-void Administrator::addNewDoctor(Doctor newDoctor)
+Administrator::Administrator()
 {
-	vectorOfAllDoctors.push_back(newDoctor);
+	login = "0107112022134542";
+	encryptedPassword = "some_password";
+	access = true;
+}
+
+void Administrator::addNewDoctor(Repository r, Doctor newDoctor)
+{
+	r.vectorOfAllDoctors.push_back(newDoctor);
 	newDoctor.changeAccess();
 }
 
-void Administrator::addNewPatient(Doctor newPatient)
+void Administrator::addNewPatient(Repository r, Patient newPatient)
 {
-	vectorOfAllPatients.push_back(newPatient);
+	r.vectorOfAllPatients.push_back(newPatient);
 	newPatient.changeAccess();
 }
 
-// нужен сразу правильный логин (подумать)
-void Administrator::deleteAccount(string loginToDelete) 
+void Administrator::deleteAccount(Repository r, string loginToDelete)
 {
+	int indexToDelete = r.getIndexByLogin(loginToDelete);
+	if (indexToDelete == -1)
+	{
+		std::cout << "Такой аккаунт не зарегистрирован в системе!\n";
+		return;
+	}
+	else if (indexToDelete == -2)
+	{
+		std::cout << "Нельзя удалить аккаунт администратора!\n";
+		return;
+	}
+
 	int role = stoi(loginToDelete.substr(0, 2));
+
 	switch (role)
 	{
-	case 1:
-		std::cout << "Удаление собственного аккаунта невозможно!";
-		break;
 	case 2:
-		vectorOfAllDoctors.erase(vectorOfAllDoctors.begin() +
-			getIndexByLogin(loginToDelete));
+		r.vectorOfAllDoctors.erase(r.vectorOfAllDoctors.begin() +
+			r.getIndexByLogin(loginToDelete));
 		break;
 	case 3:
-		vectorOfAllPatients.erase(vectorOfAllPatients.begin() +
-			getIndexByLogin(loginToDelete));
+		r.vectorOfAllPatients.erase(r.vectorOfAllPatients.begin() +
+			r.getIndexByLogin(loginToDelete));
 		break;
 	}
 }
 
-// возвращает -2 если админ и -1 если не нашел
-int Administrator::getIndexByLogin(string loginToFind)
+void Administrator::changeAccess()
 {
-	int role = stoi(loginToFind.substr(0, 2));
-	switch (role)
-	{
-	case 1:
-		std::cout << "Редактирование аккаунта администратора невозможно!";
-		return -2;
-	case 2:
-		int vectorSize = vectorOfAllDoctors.size();
-		for (int i = 0; i < vectorSize; i++)
-		{
-			if (vectorOfAllDoctors[i].getLogin() == loginToFind)
-			{
-				return i;
-			}
-		}
-		break;
-	case 3:
-		int vectorSize = vectorOfAllPatients.size();
-		for (int i = 0; i < vectorSize; i++)
-		{
-			if (vectorOfAllPatients[i].getLogin() == loginToFind)
-			{
-				return i;
-			}
-		}
-		break;
-	}
-	return -1;
-} // возвращает -2 если админ и -1 если 
+	access = !access;
+}
+
+
 
 

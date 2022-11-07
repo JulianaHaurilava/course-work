@@ -149,7 +149,10 @@
     <ClCompile Include="FullName.cpp" />
     <ClCompile Include="Hash.cpp" />
     <ClCompile Include="Patient.cpp" />
+    <ClCompile Include="Repository.cpp" />
     <ClCompile Include="Statistics.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
@@ -161,7 +164,10 @@
     <ClInclude Include="FullName.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Patient.h" />
+    <ClInclude Include="Repository.h" />
     <ClInclude Include="Statistics.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

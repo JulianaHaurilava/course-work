@@ -32,3 +32,12 @@ string Patient::getStringForFile()
 	stringForFile += " @";
 	return stringForFile;
 }
+
+void Patient::printAccountAsTable()
+{
+}
+
+FullName Patient::getFullName()
+{
+	return fullName;
+}

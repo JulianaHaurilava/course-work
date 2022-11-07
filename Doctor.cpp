@@ -32,3 +32,8 @@ string Doctor::getStringForFile()
 void Doctor::printAccountAsTable()
 {
 }
+
+FullName Doctor::getFullName()
+{
+	return fullName;
+}

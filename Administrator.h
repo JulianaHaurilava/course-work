@@ -6,22 +6,35 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
+#include "Repository.h"
 
 using std::string;
+
 class Administrator :
 	public Account
 {
-	std::vector<Doctor> vectorOfAllDoctors;
-	std::vector<Doctor> vectorOfAllPatients;
-
 public:
+	Administrator();
 
-	void addNewDoctor(Doctor newDoctor);
-	void addNewPatient(Doctor newPatient);
+	/// <summary>
+	/// Добавляет нового доктора в вектор и разрешает доступ к его аккаунту (верификация)
+	/// </summary>
+	/// <param name="newPatient"> - </param>
+	void addNewDoctor(Repository r, Doctor newDoctor);
 
-	void deleteAccount(string loginToDelete);
+	/// <summary>
+	/// Добавляет нового пациента в вектор и разрешает доступ к его аккаунту (верификация)
+	/// </summary>
+	/// <param name="newPatient"> - </param>
+	void addNewPatient(Repository r,Patient newPatient);
 
-	int getIndexByLogin(string loginToFind);
+	/// <summary>
+	/// Удаляет аккаунт по логину
+	/// </summary>
+	/// <param name="loginToDelete">- логин пользователя, которого нужно удалить</param>
+	void deleteAccount(Repository r, string loginToDelete);
 
+	void changeAccess();
 };
 

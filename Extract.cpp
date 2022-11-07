@@ -25,3 +25,7 @@ string Extract::getStringForFile()
 	stringForFile += " @";
 	return stringForFile;
 }
+
+void Extract::print()
+{
+}

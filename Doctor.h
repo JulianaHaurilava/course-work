@@ -1,5 +1,5 @@
 #pragma once
-#include "Account.h"
+#include "User.h"
 #include "FullName.h"
 #include "Address.h"
 #include "Date.h"
@@ -10,7 +10,7 @@
 using std::string;
 
 class Doctor :
-    public Account
+    public User
 {
     FullName fullName;
     Date dateOfBirth;
@@ -26,5 +26,6 @@ public:
 
     string getStringForFile() override;
     void printAccountAsTable() override;
+    FullName getFullName() override;
 };
 
