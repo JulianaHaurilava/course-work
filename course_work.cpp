@@ -16,13 +16,25 @@ std::string getCorrectStingInput(std::istream& s, const char* message)
             std::cin.unsetf(std::ios::skipws);
             std::cin >> userInput;
 
-
             if (!std::cin.good()) throw "Пробел";
+            for (char c : userInput)
+            {
+                if (!isalpha(c))
+                {
+                    throw 1;
+                }
+            }
             std::cin.ignore(32767, '\n');
             std::cin.setf(std::ios::skipws);
             return userInput;
         }
         catch (const char*)
+        {
+            std::cin.clear();
+            std::cin.ignore(32767, '\n');
+            std::cout << "Введенные данные некорректны!\n";
+        }
+        catch (int)
         {
             std::cin.clear();
             std::cin.ignore(32767, '\n');
@@ -149,6 +161,48 @@ double getCorrectPositiveDouble(std::istream& s, const char* message)
     }
 }
 
+//свой класс ісключеній (напісать)
+int getCorrectYear(std::istream& s, const char* message)
+{
+    std::string userInput;
+    while (true)
+    {
+        try
+        {
+            std::cout << message;
+            std::cin.unsetf(std::ios::skipws);
+            std::cin >> userInput;
+            checkIfInteger(userInput);
+
+            int userIntInput = stoi(userInput);
+
+            if (userIntInput > 2004 || userIntInput < 1957) throw 1;
+            std::cin.ignore(32767, '\n');
+            std::cin.setf(std::ios::skipws);
+            return userIntInput;
+        }
+        catch (const char*)
+        {
+            std::cin.clear();
+            std::cin.ignore(32767, '\n');
+            std::cout << "Введенные данные некорректны. Число не целое!\n";
+        }
+        catch (std::invalid_argument)
+        {
+            std::cin.clear();
+            std::cin.ignore(32767, '\n');
+            std::cout << "Введенные данные некорректны. Повторите ввод.\n";
+        }
+        catch (int)
+        {
+            std::cin.clear();
+            std::cin.ignore(32767, '\n');
+            std::cout << "Сотрудники клиники не могут быть младше 18 и старше 65 лет. Повторите ввод.\n";
+        }
+    }
+}
+
+
 int getRole(string login)
 {
     int role;
@@ -171,7 +225,6 @@ void endCase()
     _getch();
     system("cls");
 }
-
 
 bool logInSystem(Repository r)
 {
@@ -228,6 +281,53 @@ bool logInSystem(Repository r)
 
     std::cout << "Введен неверный логин или пароль!\n\n";
     return false;
+}
+
+Doctor CreateDoctorFromConsole()
+{
+    string encryptedPassword = getCorrectEncryptedPassword(std::cin, "Придумайте новый пароль: "); //танцы с паролем, да....
+
+    std::cout << "Введите полное имя врача\n";
+
+    FullName fullName;
+    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
+    fullName.surname = getCorrectStingInput(std::cin, "Фамилия: ");
+    fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
+
+    std::cout << "Введите дату рождения\n";
+
+    Date dateOfBirth = getCorrectDateOfBirth(std::cin, "Дата рождения: ");
+
+    std::cout << "Введите адрес проживания\n";
+
+    Address address;
+    address.city = getCorrectStingInput(std::cin, "Город: ");
+    address.street = getCorrectStingInput(std::cin, "Имя: ");
+    address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
+    address.flatNumber = getCorrectFlatNumber(std::cin, "Номер квартиры: "); //здесь указать, что можно ввести _
+
+    std::cout << "Введите информацию о квалификации врача\n";
+    string position = getCorrectStingInput(std::cin, "Должность: ");
+
+    return Doctor(encryptedPassword, 2, fullName, dateOfBirth, address, position);
+}
+
+bool registerInSystem(Repository r)
+{
+    std::cout << "\nКакой аккаунт вы хотите создать? Выберите соответствующее число.\n"
+        "1 - доктор;\n"
+        "2 - пациент;\n"
+        "3 - выйти в главное меню.\n\n";
+
+    int choice = getCorrectMenuInput(3);
+
+    switch (choice)
+    {
+    case 1:
+        Doctor newDoctor(CreateDoctorFromConsole()); // что будетт
+        //и добавить в массив к админу :) мне пиздец
+    }
+
 }
 
 int main()

@@ -12,7 +12,6 @@ using std::string;
 class Doctor :
     public User
 {
-    
     string position;
 
     std::vector<string> vectorOfPatientLogins;
