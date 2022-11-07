@@ -7,6 +7,10 @@ Administrator::Administrator()
 	access = true;
 }
 
+void Administrator::logInSystem()
+{
+}
+
 void Administrator::addNewDoctor(Repository r, Doctor newDoctor)
 {
 	r.vectorOfAllDoctors.push_back(newDoctor);
@@ -48,10 +52,6 @@ void Administrator::deleteAccount(Repository r, string loginToDelete)
 	}
 }
 
-void Administrator::changeAccess()
-{
-	access = !access;
-}
 
 
 

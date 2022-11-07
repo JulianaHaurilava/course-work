@@ -30,41 +30,24 @@ int Repository::getIndexByLogin(string loginToFind)
 	return -1;
 }
 
-Account* Repository::checkLoginAndPassword(string login, string password, int role)
+Doctor Repository::findDoctorByLogin(string login)
 {
 	int index = getIndexByLogin(login);
-
-	if (index == -1)
+	if (index != -1)
 	{
-		return false;
+		return vectorOfAllDoctors[index];
 	}
-	else
-	{
-		Hash h;
-		string encryptedPassword = h.getHash(password, 12);
-
-		if (role == 1)
-		{
-			Administrator admin;
-			if (!(login == admin.getLogin() && encryptedPassword == admin.getEncryptedPassword()))
-				admin.changeAccess();
-			return &admin;
-		}
-		if (role == 2)
-		{
-			Doctor doctor = vectorOfAllDoctors[index];
-			if (!(login == doctor.getLogin() && encryptedPassword == doctor.getEncryptedPassword()))
-				doctor = Doctor();
-			return &doctor;
-
-		}
-		else if (role == 3)
-		{
-			Patient patient = vectorOfAllPatients[index];
-			if (!(login == patient.getLogin() && encryptedPassword == patient.getEncryptedPassword()))
-				patient = Patient();
-			return &patient;
-		}
-	}
+	return Doctor();
 }
+
+Patient Repository::findPatientByLogin(string login)
+{
+	int index = getIndexByLogin(login);
+	if (index != -1)
+	{
+		return vectorOfAllPatients[index];
+	}
+	return Patient();
+}
+
 

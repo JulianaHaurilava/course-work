@@ -7,9 +7,9 @@ std::ostream& operator<<(std::ostream& os, const FullName& fullName)
 
 FullName::FullName()
 {
-    string name = "_";
-    string surname = "_";
-    string patronymic = "_";
+    name = "_";
+    surname = "_";
+    patronymic = "_";
 }
 
 string FullName::getStringForFile()

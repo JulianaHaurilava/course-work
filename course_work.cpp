@@ -1,4 +1,5 @@
 ﻿#include "Repository.h"
+#include "Administrator.h"
 
 #include <iostream>
 #include <windows.h>
@@ -148,6 +149,22 @@ double getCorrectPositiveDouble(std::istream& s, const char* message)
     }
 }
 
+int getRole(string login)
+{
+    int role;
+    try
+    {
+        role = stoi(login.substr(0, 2));
+    }
+    catch (std::invalid_argument)
+    {
+        std::cin.clear();
+        std::cin.ignore(32767, '\n');
+        return -1;
+    }
+    return role;
+}
+
 void endCase()
 {
     std::cout << "Для того, чтобы продолжить, нажмите любую клавишу...";
@@ -155,33 +172,62 @@ void endCase()
     system("cls");
 }
 
-bool logInSystem()
+
+bool logInSystem(Repository r)
 {
     string login, password;
 
     std::cout << "Введите логин: ";
     std::cin >> login;
-    int role = stoi(login.substr(0, 2));
+    int role = getRole(login);
 
     std::cout << "Введите пароль: ";
     std::cin >> password;
 
+
     if (role == 1)
     {
-
+        Administrator admin;
+        if (admin.loginAndPasswordCorrect(login, password))
+        {
+            admin.logInSystem();
+        }
     }
     else if (role == 2)
     {
-
+        Doctor doctor = r.findDoctorByLogin(login);
+        if (doctor.loginAndPasswordCorrect(login, password))
+        {
+            if (doctor.getAccess())
+            {
+                doctor.logInSystem();
+            }
+            else
+            {
+                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                return false;
+            }
+        }
     }
     else if (role == 3)
     {
-
+        Patient patient = r.findPatientByLogin(login);
+        if (patient.loginAndPasswordCorrect(login, password))
+        {
+            if (patient.getAccess())
+            {
+                patient.logInSystem();
+            }
+            else
+            {
+                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                return false;
+            }
+        }
     }
-    else
-    {
 
-    }
+    std::cout << "Введен неверный логин или пароль!\n\n";
+    return false;
 }
 
 int main()
@@ -202,37 +248,10 @@ int main()
         switch (choice)
         {
         case 1:
-        {
-            int user_number = checkLoginAndPassword(users);
-            if (user_number != -1)
-            {
-                if (users[user_number].returnAccess())
-                {
-                    if (users[user_number].returnRole())
-                    {
-                        system("cls");
-                        cout << "Добрый день, " << users[user_number].returnLogin() << "!\n\n";
-                        inSystemAsAdmin(users, user_number);
-                    }
-                    else
-                    {
-                        system("cls");
-                        cout << "Добрый день, " << users[user_number].returnLogin() << "!\n\n";
-                        inSystemAsUser(users);
-                    }
-
-                    return;
-                }
-                else
-                {
-                    system("cls");
-                    cout << "Вам отказано в доступе! Требуется разрешение администратора.\n";
-                }
-            }
-
+            if (logInSystem(r))
+                return 0;
             break;
-        }
-        case 2: registerInSystem(users); break;
+        case 2: /*registerInSystem(users);*/ break;
         case 3: return 0;
         }
         endCase();

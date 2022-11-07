@@ -10,6 +10,27 @@ string Account::getEncryptedPassword()
     return encryptedPassword;
 }
 
+bool Account::getAccess()
+{
+    return access;
+}
+
+void Account::logInSystem()
+{
+}
+
+void Account::changeAccess()
+{
+    access = !access;
+}
+
+bool Account::loginAndPasswordCorrect(string login, string password)
+{
+    Hash h;
+    string encryptedPassword = h.getHash(password, 6);
+    return this->login == login && this->encryptedPassword == encryptedPassword;
+}
+
 string Account::generateLogin(int role)
 {
     Date currentDate;

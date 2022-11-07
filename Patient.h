@@ -14,11 +14,7 @@ using std::string;
 class Patient :
     public User
 {
-    FullName fullName;
-    Date dateOfBirth;
-    Address address;
-
-    string patientsDoctorLogin;
+    string doctorLogin;
 
     std::map<string, double> mapOfPaidServices;
 
@@ -26,8 +22,10 @@ class Patient :
 
 public:
     Patient();
-    Patient(FullName fullName, Date dateOfBirth, Address address, FullName doctorsName);
+    Patient(string encryptedPassword, bool role, FullName fullName,
+        Date dateOfBirth, Address address, string doctorLogin);
 
+    void logInSystem() override;
     string getStringForFile() override;
     void printAccountAsTable() override;
     FullName getFullName() override;

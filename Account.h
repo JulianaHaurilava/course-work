@@ -4,6 +4,8 @@
 #include "FullName.h"
 #include "Date.h"
 #include "Time.h"
+#include "Address.h"
+#include "Hash.h"
 using std::string;
 
 //abstract
@@ -23,5 +25,10 @@ public:
 
 	string getLogin();
 	string getEncryptedPassword();
+	bool getAccess();
+	virtual void logInSystem();
+	void changeAccess();
+
+	bool loginAndPasswordCorrect(string login, string password);
 };
 

@@ -17,6 +17,8 @@ class Administrator :
 public:
 	Administrator();
 
+	void logInSystem() override;
+
 	/// <summary>
 	/// ƒобавл€ет нового доктора в вектор и разрешает доступ к его аккаунту (верификаци€)
 	/// </summary>
@@ -35,6 +37,6 @@ public:
 	/// <param name="loginToDelete">- логин пользовател€, которого нужно удалить</param>
 	void deleteAccount(Repository r, string loginToDelete);
 
-	void changeAccess();
+	
 };
 

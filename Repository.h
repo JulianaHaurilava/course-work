@@ -4,7 +4,6 @@
 
 #include "Doctor.h"
 #include "Patient.h"
-#include "Administrator.h"
 #include "Hash.h"
 
 #include <vector>
@@ -29,10 +28,10 @@ class Repository
 	/// <param name="loginToFind">- логин аккаунта, индекс которого необходимо найти</param>
 	/// <returns></returns>
 	int getIndexByLogin(string loginToFind);
-
 	friend class Administrator;
 
 public:
-	Account* checkLoginAndPassword(string login, string password, int role);
+	Doctor findDoctorByLogin(string login);
+	Patient findPatientByLogin(string login);
 };
 

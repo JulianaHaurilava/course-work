@@ -1,25 +1,25 @@
 #include "Doctor.h"
 
-Doctor::Doctor()
+Doctor::Doctor() : User::User()
 {
-	fullName = FullName();
-	dateOfBirth = Date();
-	address = Address();
 	position = "_";
 }
 
-Doctor::Doctor(FullName fullName, Date dateOfBirth, Address address, string position)
+Doctor::Doctor(string encryptedPassword, bool role, FullName fullName,
+	Date dateOfBirth, Address address, string position):
+	User::User(encryptedPassword, role, fullName, dateOfBirth, address)
 {
-	this->fullName = fullName;
-	this->dateOfBirth = dateOfBirth;
-	this->address = address;
 	this->position = position;
+}
+
+void Doctor::logInSystem()
+{
 }
 
 string Doctor::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += Account::getStringForFile() + " " + fullName.getStringForFile() + " " +
+	stringForFile += User::getStringForFile() + " " + fullName.getStringForFile() + " " +
 		dateOfBirth.getStringForFile() + " " + address.getStringForFile() + " " + position;
 
 	for (string login : vectorOfPatientLogins)

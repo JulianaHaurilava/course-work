@@ -12,9 +12,7 @@ using std::string;
 class Doctor :
     public User
 {
-    FullName fullName;
-    Date dateOfBirth;
-    Address address;
+    
     string position;
 
     std::vector<string> vectorOfPatientLogins;
@@ -22,8 +20,9 @@ class Doctor :
 public:
 
     Doctor();
-    Doctor(FullName fullName, Date dateOfBirth, Address address, string position);
+    Doctor(string encryptedPassword, bool role, FullName fullName, Date dateOfBirth, Address address, string position);
 
+    void logInSystem() override;
     string getStringForFile() override;
     void printAccountAsTable() override;
     FullName getFullName() override;

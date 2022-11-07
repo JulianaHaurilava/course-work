@@ -1,27 +1,27 @@
 #include "Patient.h"
 
-Patient::Patient()
+Patient::Patient() : User::User()
 {
-	fullName = FullName();
-	dateOfBirth = Date();
-	address = Address();
-
-	patientsDoctorLogin = "_";
+	doctorLogin = "_";
 	lastExtract = Extract();
 }
 
-Patient::Patient(FullName fullName, Date dateOfBirth, Address address, FullName doctorsName)
+Patient::Patient(string encryptedPassword, bool role, FullName fullName,
+	Date dateOfBirth, Address address, string doctorLogin):
+	User::User(encryptedPassword, role, fullName, dateOfBirth, address)
 {
-	this->fullName = fullName;
-	this->dateOfBirth = dateOfBirth;
-	this->address = address;
+	this->doctorLogin = doctorLogin;
+}
+
+void Patient::logInSystem()
+{
 }
 
 string Patient::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += Account::getStringForFile() + " " + fullName.getStringForFile() + " " +
-		dateOfBirth.getStringForFile() + " " + address.getStringForFile() + " " + patientsDoctorLogin +
+	stringForFile += User::getStringForFile() + " " + fullName.getStringForFile() + " " +
+		dateOfBirth.getStringForFile() + " " + address.getStringForFile() + " " + doctorLogin +
 		lastExtract.getStringForFile();
 
 	stringForFile += " @";
