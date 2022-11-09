@@ -41,3 +41,8 @@ FullName Patient::getFullName()
 {
 	return fullName;
 }
+
+void Patient::setDoctorLogin(string doctorLogin)
+{
+	this->doctorLogin = doctorLogin;
+}

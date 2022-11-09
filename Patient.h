@@ -23,11 +23,12 @@ class Patient :
 public:
     Patient();
     Patient(string encryptedPassword, bool role, FullName fullName,
-        Date dateOfBirth, Address address, string doctorLogin);
+        Date dateOfBirth, Address address);
 
     void logInSystem() override;
     string getStringForFile() override;
     void printAccountAsTable() override;
     FullName getFullName() override;
+    void setDoctorLogin(string doctorLogin);
 };
 

@@ -1,223 +1,12 @@
 ﻿#include "Repository.h"
 #include "Administrator.h"
+#include "Checkups.h"
 
 #include <iostream>
 #include <windows.h>
 
 //ошибки еще нужно доработать, но это пока не горит
-std::string getCorrectStingInput(std::istream& s, const char* message)
-{
-    std::string userInput;
-    while (true)
-    {
-        try
-        {
-            std::cout << message;
-            std::cin.unsetf(std::ios::skipws);
-            std::cin >> userInput;
 
-            if (!std::cin.good()) throw "Пробел";
-            for (char c : userInput)
-            {
-                if (!isalpha(c))
-                {
-                    throw 1;
-                }
-            }
-            std::cin.ignore(32767, '\n');
-            std::cin.setf(std::ios::skipws);
-            return userInput;
-        }
-        catch (const char*)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны!\n";
-        }
-        catch (int)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны!\n";
-        }
-    }
-}
-
-void checkIfInteger(std::string userInput)
-{
-    try
-    {
-        if (userInput.find('.') != -1 || userInput.find(',') != -1)
-            throw "Число не целое!";
-    }
-    catch (const char*)
-    {
-        throw "Число не целое!";
-    }
-}
-
-int getCorrectPositiveInteger(std::istream& s, const char* message)
-{
-    std::string userInput;
-    while (true)
-    {
-        try
-        {
-            std::cout << message;
-            std::cin.unsetf(std::ios::skipws);
-            std::cin >> userInput;
-            checkIfInteger(userInput);
-
-            int userIntInput = stoi(userInput);
-
-            if (userIntInput <= 0) throw 1;
-            std::cin.ignore(32767, '\n');
-            std::cin.setf(std::ios::skipws);
-            return userIntInput;
-        }
-        catch (const char*)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны. Число не целое!\n";
-        }
-        catch (std::invalid_argument)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны. Повторите ввод.\n";
-        }
-        catch (int)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенное число не положительное. Повторите ввод.\n";
-        }
-    }
-}
-
-int getCorrectMenuInput(int numberOfMenuItem)
-{
-    int userInput;
-    while (true)
-    {
-        try
-        {
-            std::cin.unsetf(std::ios::skipws);
-            std::cin >> userInput;
-            if (!userInput) throw false;
-            if (userInput < 1 || userInput > numberOfMenuItem) throw 'a';
-            std::cin.ignore(32767, '\n');
-            std::cin.setf(std::ios::skipws);
-
-            return userInput;
-        }
-        catch (char)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Ввод некорректен. Необходимо ввести число от 1 до " << numberOfMenuItem << std::endl;
-        }
-
-        catch (bool)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны. Повторите ввод.\n";
-        }
-    }
-
-    return userInput;
-}
-
-double getCorrectPositiveDouble(std::istream& s, const char* message)
-{
-    double userInput;
-    while (true)
-    {
-        try
-        {
-            std::cout << message;
-            std::cin.unsetf(std::ios::skipws);
-            std::cin >> userInput;
-            if (!std::cin.good()) throw "Некорректный ввод!";
-            if (userInput <= 0) throw 1;
-            std::cin.ignore(32767, '\n');
-            std::cin.setf(std::ios::skipws);
-            return userInput;
-        }
-        catch (const char[])
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Некорректный ввод. Повторите ввод.\n";
-        }
-        catch (int)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенное число не положительное. Повторите ввод.\n";
-        }
-    }
-}
-
-//свой класс ісключеній (напісать)
-int getCorrectYear(std::istream& s, const char* message)
-{
-    std::string userInput;
-    while (true)
-    {
-        try
-        {
-            std::cout << message;
-            std::cin.unsetf(std::ios::skipws);
-            std::cin >> userInput;
-            checkIfInteger(userInput);
-
-            int userIntInput = stoi(userInput);
-
-            if (userIntInput > 2004 || userIntInput < 1957) throw 1;
-            std::cin.ignore(32767, '\n');
-            std::cin.setf(std::ios::skipws);
-            return userIntInput;
-        }
-        catch (const char*)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны. Число не целое!\n";
-        }
-        catch (std::invalid_argument)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Введенные данные некорректны. Повторите ввод.\n";
-        }
-        catch (int)
-        {
-            std::cin.clear();
-            std::cin.ignore(32767, '\n');
-            std::cout << "Сотрудники клиники не могут быть младше 18 и старше 65 лет. Повторите ввод.\n";
-        }
-    }
-}
-
-
-int getRole(string login)
-{
-    int role;
-    try
-    {
-        role = stoi(login.substr(0, 2));
-    }
-    catch (std::invalid_argument)
-    {
-        std::cin.clear();
-        std::cin.ignore(32767, '\n');
-        return -1;
-    }
-    return role;
-}
 
 void endCase()
 {
@@ -226,7 +15,7 @@ void endCase()
     system("cls");
 }
 
-bool logInSystem(Repository r)
+bool logInSystem(Repository r, Administrator admin)
 {
     string login, password;
 
@@ -240,7 +29,6 @@ bool logInSystem(Repository r)
 
     if (role == 1)
     {
-        Administrator admin;
         if (admin.loginAndPasswordCorrect(login, password))
         {
             admin.logInSystem();
@@ -283,11 +71,11 @@ bool logInSystem(Repository r)
     return false;
 }
 
-Doctor CreateDoctorFromConsole()
+Doctor createDoctorFromConsole()
 {
-    string encryptedPassword = getCorrectEncryptedPassword(std::cin, "Придумайте новый пароль: "); //танцы с паролем, да....
+    string encryptedPassword = getCorrectEncryptedPassword(std::cin);
 
-    std::cout << "Введите полное имя врача\n";
+    std::cout << "Введите полное имя\n";
 
     FullName fullName;
     fullName.name = getCorrectStingInput(std::cin, "Имя: ");
@@ -296,7 +84,7 @@ Doctor CreateDoctorFromConsole()
 
     std::cout << "Введите дату рождения\n";
 
-    Date dateOfBirth = getCorrectDateOfBirth(std::cin, "Дата рождения: ");
+    Date dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
 
     std::cout << "Введите адрес проживания\n";
 
@@ -304,15 +92,41 @@ Doctor CreateDoctorFromConsole()
     address.city = getCorrectStingInput(std::cin, "Город: ");
     address.street = getCorrectStingInput(std::cin, "Имя: ");
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
-    address.flatNumber = getCorrectFlatNumber(std::cin, "Номер квартиры: "); //здесь указать, что можно ввести _
+    address.flatNumber = getCorrectFlatNumber(std::cin);
 
-    std::cout << "Введите информацию о квалификации врача\n";
+    std::cout << "Введите информацию о квалификации\n";
     string position = getCorrectStingInput(std::cin, "Должность: ");
 
     return Doctor(encryptedPassword, 2, fullName, dateOfBirth, address, position);
 }
 
-bool registerInSystem(Repository r)
+Patient createPatientFromConsole()
+{
+    string encryptedPassword = getCorrectEncryptedPassword(std::cin);
+
+    std::cout << "Введите полное имя\n";
+
+    FullName fullName;
+    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
+    fullName.surname = getCorrectStingInput(std::cin, "Фамилия: ");
+    fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
+
+    std::cout << "Введите дату рождения\n";
+
+    Date dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
+
+    std::cout << "Введите адрес проживания\n";
+
+    Address address;
+    address.city = getCorrectStingInput(std::cin, "Город: ");
+    address.street = getCorrectStingInput(std::cin, "Имя: ");
+    address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
+    address.flatNumber = getCorrectFlatNumber(std::cin);
+
+    return Patient(encryptedPassword, 2, fullName, dateOfBirth, address);
+}
+
+void registerInSystem(Repository r, Administrator admin)
 {
     std::cout << "\nКакой аккаунт вы хотите создать? Выберите соответствующее число.\n"
         "1 - доктор;\n"
@@ -321,13 +135,16 @@ bool registerInSystem(Repository r)
 
     int choice = getCorrectMenuInput(3);
 
-    switch (choice)
+    if (choice == 1)
     {
-    case 1:
-        Doctor newDoctor(CreateDoctorFromConsole()); // что будетт
-        //и добавить в массив к админу :) мне пиздец
+        Doctor newDoctor(createDoctorFromConsole());
+        admin.addNewDoctor(newDoctor);
     }
-
+    else if (choice == 2)
+    {
+        Patient newPatient(createPatientFromConsole());
+        admin.addNewPatient(newPatient);
+    }
 }
 
 int main()
@@ -336,6 +153,7 @@ int main()
     SetConsoleOutputCP(1251);
 
     Repository r;
+    Administrator admin;
 
     while (true)
     {
@@ -348,7 +166,7 @@ int main()
         switch (choice)
         {
         case 1:
-            if (logInSystem(r))
+            if (logInSystem(r, admin))
                 return 0;
             break;
         case 2: /*registerInSystem(users);*/ break;
