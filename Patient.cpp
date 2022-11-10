@@ -6,11 +6,10 @@ Patient::Patient() : User::User()
 	lastExtract = Extract();
 }
 
-Patient::Patient(string encryptedPassword, bool role, FullName fullName,
-	Date dateOfBirth, Address address, string doctorLogin):
+Patient::Patient(string encryptedPassword, int role, FullName fullName,
+	Date dateOfBirth, Address address):
 	User::User(encryptedPassword, role, fullName, dateOfBirth, address)
 {
-	this->doctorLogin = doctorLogin;
 }
 
 void Patient::logInSystem()

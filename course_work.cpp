@@ -78,8 +78,9 @@ Doctor createDoctorFromConsole()
     std::cout << "Введите полное имя\n";
 
     FullName fullName;
-    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
+    
     fullName.surname = getCorrectStingInput(std::cin, "Фамилия: ");
+    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
     fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
 
     std::cout << "Введите дату рождения\n";
@@ -90,7 +91,7 @@ Doctor createDoctorFromConsole()
 
     Address address;
     address.city = getCorrectStingInput(std::cin, "Город: ");
-    address.street = getCorrectStingInput(std::cin, "Имя: ");
+    address.street = getCorrectStingInput(std::cin, "Улица: ");
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
     address.flatNumber = getCorrectFlatNumber(std::cin);
 
@@ -107,8 +108,9 @@ Patient createPatientFromConsole()
     std::cout << "Введите полное имя\n";
 
     FullName fullName;
-    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
+    
     fullName.surname = getCorrectStingInput(std::cin, "Фамилия: ");
+    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
     fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
 
     std::cout << "Введите дату рождения\n";
@@ -169,7 +171,7 @@ int main()
             if (logInSystem(r, admin))
                 return 0;
             break;
-        case 2: /*registerInSystem(users);*/ break;
+        case 2: registerInSystem(r, admin); break;
         case 3: return 0;
         }
         endCase();

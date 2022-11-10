@@ -9,7 +9,7 @@ protected:
 	Address address;
 public:
 	User();
-	User(string encryptedPassword, bool role,
+	User(string encryptedPassword, int role,
 		FullName fullName, Date dateOfBirth, Address address);
 
 	virtual string getStringForFile();

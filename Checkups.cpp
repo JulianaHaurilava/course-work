@@ -1,5 +1,6 @@
 #include "Checkups.h"
 
+
 int countAge(int day, int month, int year)
 {
     Date todaysDate;
@@ -22,12 +23,20 @@ std::string getCorrectStingInput(std::istream& s, const char* message)
             std::cout << message;
             getline(std::cin, userInput);
 
-            if (userInput == "") throw "Пробел";
+            if (userInput == "") throw "Пустая строка";
             for (char c : userInput)
             {
-                if (!isalpha(c))
+                bool isAlpha = false;
+                for (char c_c : letters)
                 {
-                    throw 1;
+                    if (c == c_c)
+                    {
+                        isAlpha = true;
+                    }
+                }
+                if (!isAlpha)
+                {
+                    throw -1;
                 }
             }
             return userInput;
@@ -69,6 +78,12 @@ int getCorrectPositiveInteger(std::istream& s, const char* message)
         {
             std::cout << message;
             getline(std::cin, userInput);
+
+            for (char c : userInput)
+            {
+                if (!iswdigit(c)) 
+                    throw std::invalid_argument("Ввод содержит недопустимые символы.");
+            }
             checkIfInteger(userInput);
 
             int userIntInput = stoi(userInput);
@@ -106,7 +121,6 @@ int getCorrectMenuInput(int numberOfMenuItem)
         if (userInput < 1 || userInput > numberOfMenuItem)
         {
             std::cin.clear();
-            std::cin.ignore(32767, '\n');
             std::cout << "Введенные данные некорректны! Необходимо ввести число от 1 до " << 
                 numberOfMenuItem << std::endl << "Повторите ввод.\n\n";
             continue;
@@ -126,6 +140,12 @@ double getCorrectPositiveDouble(std::istream& s, const char* message)
         {
             std::cout << message;
             getline(std::cin, userInput);
+
+            for (char c : userInput)
+            {
+                if (iswdigit(c))
+                    throw std::invalid_argument("Ввод содержит недопустимые символы.");
+            }
 
             int userDoubleInput = stod(userInput);
 
@@ -156,7 +176,7 @@ void checkDay(int day, int month, int year)
         {
             if (month < 1 || month > daysForMonths[month - 1])\
             {
-                throw std::range_error("Месяц не может быть меньше 1 и больше 12.");
+                throw std::range_error("Введен некорректный день.");
             }
         }
             
@@ -164,14 +184,14 @@ void checkDay(int day, int month, int year)
         {
             if (month < 1 || month > 29)
             {
-                throw std::range_error("Месяц не может быть меньше 1 и больше 12.");
+                throw std::range_error("Введен некорректный день.");
             }
         }
 
     }
     catch (const std::exception& e)
     {
-        throw std::range_error("Месяц не может быть меньше 1 и больше 12.");
+        throw std::range_error("Введен некорректный день.");
     }
 }
 
@@ -232,7 +252,7 @@ Date getCorrectDateOfBirth(std::istream& s, int role)
             int year = stoi(userInput.substr(6));
 
             checkMonth(month);
-            checkDay(day, year, month);
+            checkDay(day, month, year);
             if (role == 2)
             {
                 checkDoctorAge(day, month, year);
@@ -251,12 +271,6 @@ Date getCorrectDateOfBirth(std::istream& s, int role)
         {
             std::cin.clear();
             std::cout << "Введенные данные некорректны! " << e.what() << "\nПовторите ввод.\n\n";
-        }
-        catch (int)
-        {
-            std::cin.clear();
-            std::cout << "Введенные данные некорректны! Введенное число не положительное.\n" <<
-                "Повторите ввод.\n\n";
         }
     }
 }
@@ -311,15 +325,23 @@ string getCorrectEncryptedPassword(std::istream& s)
                 digitCounter = 0, specialSymbolCounter = 0;
             for (char c: userInput)
             {
-                if (std::isalpha(c))
+                if (c == 32)
                 {
-                    if (std::isupper(c))
+                    throw InvalidPasswordExeption("Пароль не может содержать пробел.");
+                }
+                if (c < 0 || c > 255)
+                {
+                    throw InvalidPasswordExeption("Пароль содержит недопустимые символы.");
+                }
+                if (isalpha(c))
+                {
+                    if (isupper(c))
                     {
                         upperAlphaCounter++;
                     }
                     else lowerAlphaCounter++;
                 }
-                else if (std::isdigit(c))
+                else if (isdigit(c))
                 {
                     digitCounter++;
                 }
@@ -338,7 +360,10 @@ string getCorrectEncryptedPassword(std::istream& s)
                 throw InvalidPasswordExeption("В вашем пароле нет специальных символов!");
 
 
-            return userInput;
+            Hash h;
+
+            string encryptedPassword = h.getHash(userInput, 6);
+            return encryptedPassword;
         }
         catch (const InvalidPasswordExeption& e)
         {

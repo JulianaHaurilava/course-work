@@ -17,6 +17,7 @@ class Administrator :
 	std::vector<Doctor> vectorOfNotVerifiedDoctors;
 	std::vector<Patient> vectorOfNotVerifiedPatients;
 
+	int getIndexByLogin(string loginToFind);
 
 	string getCorrectExistingLogin(std::istream& s, const char* message, Repository r);
 
@@ -45,7 +46,7 @@ public:
 
 	void verifyAccount(Repository r, string login);
 
-	int getIndexByLogin(string loginToFind);
+	
 	
 };
 

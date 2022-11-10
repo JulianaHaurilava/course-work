@@ -7,7 +7,7 @@ User::User() : Account()
 	address = Address();
 }
 
-User::User(string encryptedPassword, bool role,
+User::User(string encryptedPassword, int role,
 	FullName fullName, Date dateOfBirth, Address address):Account(encryptedPassword, role)
 {
 	this->fullName = fullName;

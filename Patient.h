@@ -22,7 +22,7 @@ class Patient :
 
 public:
     Patient();
-    Patient(string encryptedPassword, bool role, FullName fullName,
+    Patient(string encryptedPassword, int role, FullName fullName,
         Date dateOfBirth, Address address);
 
     void logInSystem() override;

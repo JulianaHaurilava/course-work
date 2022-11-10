@@ -5,7 +5,7 @@ Doctor::Doctor() : User::User()
 	position = "_";
 }
 
-Doctor::Doctor(string encryptedPassword, bool role, FullName fullName,
+Doctor::Doctor(string encryptedPassword, int role, FullName fullName,
 	Date dateOfBirth, Address address, string position):
 	User::User(encryptedPassword, role, fullName, dateOfBirth, address)
 {
