@@ -125,7 +125,7 @@ Patient createPatientFromConsole()
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
     address.flatNumber = getCorrectFlatNumber(std::cin);
 
-    return Patient(encryptedPassword, 2, fullName, dateOfBirth, address);
+    return Patient(encryptedPassword, 3, fullName, dateOfBirth, address);
 }
 
 void registerInSystem(Repository r, Administrator admin)
