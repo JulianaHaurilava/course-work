@@ -36,5 +36,14 @@ void Date::setCurrentDate()
 
 std::ostream& operator<<(std::ostream& os, const Date& date)
 {
-	return os << date.day << "." << date.month << "." << date.year;
+	date.day < 10 ? os << "0" << date.day << "." : os << date.day << ".";
+	date.month < 10 ? os << "0" << date.month << "." : os << date.month << ".";
+
+	return os << date.year;
+}
+
+std::istream& operator>>(std::istream& in, Date& day)
+{
+	in >> day.day >> day.month >> day.year;
+	return in;
 }

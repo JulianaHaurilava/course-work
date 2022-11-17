@@ -19,16 +19,8 @@ void Patient::logInSystem()
 string Patient::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += User::getStringForFile() + " " + fullName.getStringForFile() + " " +
-		dateOfBirth.getStringForFile() + " " + address.getStringForFile() + " " + doctorLogin +
+	stringForFile += User::getStringForFile() + " " + doctorLogin +
 		lastExtract.getStringForFile();
-
-	stringForFile += " @";
-	for (const auto& serviceInfo : mapOfPaidServices)
-	{
-		stringForFile += " " + serviceInfo.first + " " + std::to_string(serviceInfo.second);
-	}
-	stringForFile += " @";
 	return stringForFile;
 }
 
@@ -44,4 +36,11 @@ FullName Patient::getFullName()
 void Patient::setDoctorLogin(string doctorLogin)
 {
 	this->doctorLogin = doctorLogin;
+}
+
+std::istream& operator >> (std::istream& in, Patient& patient)
+{
+	return in >> patient.login >> patient.encryptedPassword >> patient.access >>
+		patient.fullName >> patient.dateOfBirth >> patient.address >>
+		patient.doctorLogin >> patient.lastExtract;
 }

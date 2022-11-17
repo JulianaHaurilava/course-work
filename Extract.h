@@ -5,20 +5,19 @@
 
 using std::string;
 
-class Extract //or struct?????
+class Extract
 {
 	string diagnosis;
 
-	std::map<string, double> mapOfUnpaidServices;
 	double totalPrice;
 
 	string recommendations;
 public:
 
 	Extract();
-
-	void addService(string serviceName, double price);
 	string getStringForFile();
 	void print();
+
+	friend std::istream& operator >> (std::istream& in, Extract& extract);
 };
 

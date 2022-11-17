@@ -14,5 +14,10 @@ FullName::FullName()
 
 string FullName::getStringForFile()
 {
-    return name + " " + surname + " " + patronymic;
+    return surname + " " + name + " " + patronymic;
+}
+
+std::istream& operator>>(std::istream& in, FullName& fullName)
+{
+    return in >> fullName.surname >> fullName.name >> fullName.patronymic;
 }

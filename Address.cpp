@@ -22,3 +22,10 @@ string Address::getStringForFile()
 {
 	return city + " " + street + " " + std::to_string(houseNumber) + " " + std::to_string(flatNumber);
 }
+
+std::istream& operator>>(std::istream& in, Address& address)
+{
+	in >> address.city >> address.street >> address.houseNumber >>
+		address.flatNumber;
+	return in;
+}

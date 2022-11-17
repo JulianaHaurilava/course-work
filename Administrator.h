@@ -14,6 +14,9 @@ using std::string;
 class Administrator :
 	public Account
 {
+	string doctorFileName = "not_verified_doctors_file";
+	string patientFileName = "not_verified_patient_file";
+
 	std::vector<Doctor> vectorOfNotVerifiedDoctors;
 	std::vector<Patient> vectorOfNotVerifiedPatients;
 
@@ -21,8 +24,15 @@ class Administrator :
 
 	string getCorrectExistingLogin(std::istream& s, const char* message, Repository r);
 
+	void allDoctorVectorInFile();
+	void allPatientVectorInFile();
+
+	void allDoctorVectorOutOfFile();
+	void allPatientVectorOutOfFile();
+
 public:
 	Administrator();
+	~Administrator();
 
 	void logInSystem() override;
 

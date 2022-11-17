@@ -9,17 +9,23 @@
 #include <vector>
 #include <string>
 #include <conio.h>
+#include <fstream>
 
 //вся черновая работа (сортировка, файлы и тд)
 class Repository
 {
+	string doctorFileName = "doctors_file";
+	string patientFileName = "patient_file";
+
 	std::vector<Doctor> vectorOfAllDoctors;
 	std::vector<Patient> vectorOfAllPatients;
 
-	/*bool sortAccountsBySurname(const Account& account_1, const Account& account_2);
+	void allDoctorVectorInFile();
+	void allPatientVectorInFile();
 
-	void sortDoctorsBySurname(std::vector <Doctor>& employees);
-	void sortPatientsBySurname(std::vector <Patient>& employees);*/
+	void allDoctorVectorOutOfFile();
+	void allPatientVectorOutOfFile();
+
 
 	/// <summary>
 	/// Возвращает индекс аккаунта в векторе по логину. Если аккаунт не найден, возвращает -1.
@@ -31,6 +37,10 @@ class Repository
 	friend class Administrator;
 
 public:
+
+	Repository();
+	~Repository();
+
 	Doctor findDoctorByLogin(string login);
 	Patient findPatientByLogin(string login);
 };

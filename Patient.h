@@ -15,9 +15,6 @@ class Patient :
     public User
 {
     string doctorLogin;
-
-    std::map<string, double> mapOfPaidServices;
-
     Extract lastExtract;
 
 public:
@@ -30,5 +27,7 @@ public:
     void printAccountAsTable() override;
     FullName getFullName() override;
     void setDoctorLogin(string doctorLogin);
+
+    friend std::istream& operator >> (std::istream& in, Patient& patient);
 };
 

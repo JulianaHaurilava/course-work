@@ -12,5 +12,8 @@ struct FullName
 
 	string getStringForFile();
 
+	friend std::istream& operator>>(std::istream& in, FullName& fullName);
+	friend std::ostream& operator<<(std::ostream& os, const FullName& fullName);
+
 };
 

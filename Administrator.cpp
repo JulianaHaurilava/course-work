@@ -69,11 +69,110 @@ string Administrator::getCorrectExistingLogin(std::istream& s, const char* messa
 	}
 }
 
+void Administrator::allDoctorVectorInFile()
+{
+	std::ofstream fout;
+	fout.open(doctorFileName, std::ios::trunc);
+
+	if (!fout.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	for (Doctor doctor : vectorOfNotVerifiedDoctors)
+	{
+		fout << doctor.getStringForFile();
+	}
+
+	fout.close();
+}
+
+void Administrator::allPatientVectorInFile()
+{
+	std::ofstream fout;
+	fout.open(patientFileName, std::ios::trunc);
+
+	if (!fout.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	for (Patient patient : vectorOfNotVerifiedPatients)
+	{
+		fout << patient.getStringForFile();
+	}
+
+	fout.close();
+}
+
+void Administrator::allDoctorVectorOutOfFile()
+{
+	std::fstream fs;
+	fs.open(doctorFileName, std::ios::in | std::fstream::app);
+
+	if (!fs.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	do
+	{
+		Doctor doctor = Doctor();
+		fs >> doctor;
+		vectorOfNotVerifiedDoctors.push_back(doctor);
+
+	} while (!fs.eof());
+
+	if (vectorOfNotVerifiedDoctors.back().getLogin() == "_")
+	{
+		vectorOfNotVerifiedDoctors.pop_back();
+	}
+	fs.close();
+}
+
+void Administrator::allPatientVectorOutOfFile()
+{
+	std::fstream fs;
+	fs.open(patientFileName, std::ios::in | std::fstream::app);
+
+	if (!fs.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	do
+	{
+		Patient patient = Patient();
+		fs >> patient;
+		vectorOfNotVerifiedPatients.push_back(patient);
+
+	} while (!fs.eof());
+
+	if (vectorOfNotVerifiedPatients.back().getLogin() == "_")
+	{
+		vectorOfNotVerifiedPatients.pop_back();
+	}
+	fs.close();
+}
+
 Administrator::Administrator()
 {
 	login = "0107112022134542";
 	encryptedPassword = "some_password";
 	access = true;
+
+	allDoctorVectorOutOfFile();
+	allPatientVectorOutOfFile();
+}
+
+Administrator::~Administrator()
+{
+	allDoctorVectorInFile();
+	allPatientVectorInFile();
 }
 
 void Administrator::logInSystem()

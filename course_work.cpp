@@ -5,9 +5,6 @@
 #include <iostream>
 #include <windows.h>
 
-//ошибки еще нужно доработать, но это пока не горит
-
-
 void endCase()
 {
     std::cout << "Для того, чтобы продолжить, нажмите любую клавишу...";
@@ -15,7 +12,7 @@ void endCase()
     system("cls");
 }
 
-bool logInSystem(Repository r, Administrator admin)
+bool logInSystem(Repository& r, Administrator& admin)
 {
     string login, password;
 
@@ -121,14 +118,14 @@ Patient createPatientFromConsole()
 
     Address address;
     address.city = getCorrectStingInput(std::cin, "Город: ");
-    address.street = getCorrectStingInput(std::cin, "Имя: ");
+    address.street = getCorrectStingInput(std::cin, "Улица: ");
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
     address.flatNumber = getCorrectFlatNumber(std::cin);
 
     return Patient(encryptedPassword, 3, fullName, dateOfBirth, address);
 }
 
-void registerInSystem(Repository r, Administrator admin)
+void registerInSystem(Repository& r, Administrator& admin)
 {
     std::cout << "\nКакой аккаунт вы хотите создать? Выберите соответствующее число.\n"
         "1 - доктор;\n"

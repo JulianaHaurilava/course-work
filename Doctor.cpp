@@ -19,8 +19,7 @@ void Doctor::logInSystem()
 string Doctor::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += User::getStringForFile() + " " + fullName.getStringForFile() + " " +
-		dateOfBirth.getStringForFile() + " " + address.getStringForFile() + " " + position;
+	stringForFile += User::getStringForFile() + " " + position;
 
 	for (string login : vectorOfPatientLogins)
 	{
@@ -36,4 +35,17 @@ void Doctor::printAccountAsTable()
 FullName Doctor::getFullName()
 {
 	return fullName;
+}
+
+std::istream& operator >> (std::istream& in, Doctor& doctor)
+{
+	in >> doctor.login >> doctor.encryptedPassword >> doctor.access >>
+		doctor.fullName >> doctor.dateOfBirth >> doctor.address >>
+		doctor.position;
+
+	for (string login : doctor.vectorOfPatientLogins)
+	{
+		in >> login;
+	}
+	return in;
 }

@@ -18,6 +18,7 @@ User::User(string encryptedPassword, int role,
 string User::getStringForFile()
 {
 
-    return login + " " + encryptedPassword + " " + std::to_string(access);
+    return login + " " + encryptedPassword + " " + std::to_string(access) + " " + fullName.getStringForFile() + " " +
+		dateOfBirth.getStringForFile() + " " + address.getStringForFile();
 
 }

@@ -53,6 +53,12 @@ std::string getCorrectStingInput(std::istream& s, const char* message)
             std::cout << "Введенные данные некорректны! В строке содержатся не только буквы.\n" <<
                 "Повторите ввод.\n\n";
         }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
+        }
     }
 }
 
@@ -109,6 +115,12 @@ int getCorrectPositiveInteger(std::istream& s, const char* message)
             std::cout << "Введенные данные некорректны! Введенное число не положительное.\n" <<
                 "Повторите ввод.\n\n";
         }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
+        }
     }
 }
 
@@ -143,8 +155,9 @@ double getCorrectPositiveDouble(std::istream& s, const char* message)
 
             for (char c : userInput)
             {
-                if (iswdigit(c))
-                    throw std::invalid_argument("Ввод содержит недопустимые символы.");
+                if (!iswdigit(c))
+                    if (c != '.')
+                        throw std::invalid_argument("Ввод содержит недопустимые символы.");
             }
 
             int userDoubleInput = stod(userInput);
@@ -164,6 +177,12 @@ double getCorrectPositiveDouble(std::istream& s, const char* message)
             std::cout << "Введенные данные некорректны! Введенное число не положительное.\n" <<
                 "Повторите ввод.\n\n";
         }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
+        }
     }
 }
 
@@ -172,17 +191,17 @@ void checkDay(int day, int month, int year)
 {
     try
     {
-        if (year % 4 != 0 && month != 2)
+        if (!(year % 4 == 0 && month == 2))
         {
-            if (month < 1 || month > daysForMonths[month - 1])\
+            if (day < 1 || day > daysForMonths[month - 1])\
             {
                 throw std::range_error("Введен некорректный день.");
             }
         }
-            
+
         else
         {
-            if (month < 1 || month > 29)
+            if (day < 1 || day > 29)
             {
                 throw std::range_error("Введен некорректный день.");
             }
@@ -271,6 +290,12 @@ Date getCorrectDateOfBirth(std::istream& s, int role)
         {
             std::cin.clear();
             std::cout << "Введенные данные некорректны! " << e.what() << "\nПовторите ввод.\n\n";
+        }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
         }
     }
 }
@@ -369,6 +394,12 @@ string getCorrectEncryptedPassword(std::istream& s)
         {
             std::cin.clear();
             std::cout << "Введенные данные некорректны! " << e.what() << "\nПовторите ввод.\n\n";
+        }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
         }
     }
 }

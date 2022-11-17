@@ -13,5 +13,8 @@ struct Address
 	Address();
 
 	string getStringForFile();
+
+	friend std::istream& operator>>(std::istream& in, Address& day);
+	friend std::ostream& operator<<(std::ostream& os, const Address& address);
 };
 

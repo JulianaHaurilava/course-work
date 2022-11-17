@@ -25,5 +25,7 @@ public:
     string getStringForFile() override;
     void printAccountAsTable() override;
     FullName getFullName() override;
+
+    friend std::istream& operator >> (std::istream& in, Doctor& doctor);
 };
 

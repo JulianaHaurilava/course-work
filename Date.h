@@ -16,5 +16,8 @@ struct Date
 	string getStringForFile();
 	string getStringForLogin();
 	void setCurrentDate();
+
+	friend std::istream& operator >> (std::istream& in, Date& day);
+	friend std::ostream& operator<<(std::ostream& os, const Date& day);
 };
 
