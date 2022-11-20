@@ -9,9 +9,7 @@ Extract::Extract()
 
 string Extract::getStringForFile()
 {
-	string stringForFile = "";
-	stringForFile += diagnosis + " " + std::to_string(totalPrice) + " \n" + recommendations + "\n";
-	return stringForFile;
+	return diagnosis + '\n' + std::to_string(totalPrice) + " " + recommendations + '\n';
 }
 
 void Extract::print()
@@ -20,10 +18,9 @@ void Extract::print()
 
 std::istream& operator >> (std::istream& in, Extract& extract)
 {
-	in >> extract.diagnosis >> extract.totalPrice;
-	string emptyString;
-	getline(in, emptyString);
-
+	getline(in, extract.diagnosis);
+	in.get();
+	in >> extract.totalPrice;
 	getline(in, extract.recommendations);
 
 	return in;

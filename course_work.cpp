@@ -5,13 +5,6 @@
 #include <iostream>
 #include <windows.h>
 
-void endCase()
-{
-    std::cout << "Для того, чтобы продолжить, нажмите любую клавишу...";
-    _getch();
-    system("cls");
-}
-
 bool logInSystem(Repository& r, Administrator& admin)
 {
     string login, password;
@@ -21,28 +14,44 @@ bool logInSystem(Repository& r, Administrator& admin)
     int role = getRole(login);
 
     std::cout << "Введите пароль: ";
-    std::cin >> password;
 
+    char c;
+    while ((c = _getch()) != '\r')
+    {
+        if (c == '\b')
+        {
+            std::cout << "\b \b";
+            password.pop_back();
+            continue;
+        }
+        password += c;
+        _putch('*');
+    }
 
     if (role == 1)
     {
         if (admin.loginAndPasswordCorrect(login, password))
         {
             admin.logInSystem();
+            return true;
         }
     }
     else if (role == 2)
     {
         Doctor doctor = r.findDoctorByLogin(login);
+        if (doctor.getFullName().surname == "_")
+            doctor = admin.findDoctorByLogin(login);
+
         if (doctor.loginAndPasswordCorrect(login, password))
         {
             if (doctor.getAccess())
             {
                 doctor.logInSystem();
+                return true;
             }
             else
             {
-                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                std::cout << "\nВам отказано в доступе! Дождитесь верификации.\n\n";
                 return false;
             }
         }
@@ -55,16 +64,17 @@ bool logInSystem(Repository& r, Administrator& admin)
             if (patient.getAccess())
             {
                 patient.logInSystem();
+                return true;
             }
             else
             {
-                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                std::cout << "\nВам отказано в доступе! Дождитесь верификации.\n\n";
                 return false;
             }
         }
     }
 
-    std::cout << "Введен неверный логин или пароль!\n\n";
+    std::cout << "\nВведен неверный логин или пароль!\n\n";
     return false;
 }
 
@@ -80,7 +90,7 @@ Doctor createDoctorFromConsole()
     fullName.name = getCorrectStingInput(std::cin, "Имя: ");
     fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
 
-    std::cout << "Введите дату рождения\n";
+    std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 
     Date dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
 
@@ -92,8 +102,10 @@ Doctor createDoctorFromConsole()
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
     address.flatNumber = getCorrectFlatNumber(std::cin);
 
+    string position;
     std::cout << "Введите информацию о квалификации\n";
-    string position = getCorrectStingInput(std::cin, "Должность: ");
+    std::cout << "Должность: ";
+    std::cin >> position;
 
     return Doctor(encryptedPassword, 2, fullName, dateOfBirth, address, position);
 }
@@ -110,9 +122,9 @@ Patient createPatientFromConsole()
     fullName.name = getCorrectStingInput(std::cin, "Имя: ");
     fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
 
-    std::cout << "Введите дату рождения\n";
+    std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 
-    Date dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
+    Date dateOfBirth = getCorrectDateOfBirth(std::cin, 3);
 
     std::cout << "Введите адрес проживания\n";
 
@@ -134,16 +146,26 @@ void registerInSystem(Repository& r, Administrator& admin)
 
     int choice = getCorrectMenuInput(3);
 
-    if (choice == 1)
+    switch (choice)
+    {
+    case 1:
     {
         Doctor newDoctor(createDoctorFromConsole());
         admin.addNewDoctor(newDoctor);
+        std::cout << "Ваш логин: " << newDoctor.getLogin() << std::endl;
+        break;
     }
-    else if (choice == 2)
+    case 2:
     {
         Patient newPatient(createPatientFromConsole());
-        admin.addNewPatient(newPatient);
+        r.addNewPatient(newPatient);
+        std::cout << "Ваш логин: " << newPatient.getLogin() << std::endl;
+        break;
     }
+    case 3:
+        return;
+    }
+    
 }
 
 int main()

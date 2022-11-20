@@ -3,11 +3,13 @@
 
 #include "Doctor.h"
 #include "Patient.h"
+#include "Repository.h"
+#include "Checkups.h"
 
 #include <vector>
 #include <string>
 #include <algorithm>
-#include "Repository.h"
+
 
 using std::string;
 
@@ -15,20 +17,16 @@ class Administrator :
 	public Account
 {
 	string doctorFileName = "not_verified_doctors_file";
-	string patientFileName = "not_verified_patient_file";
 
 	std::vector<Doctor> vectorOfNotVerifiedDoctors;
-	std::vector<Patient> vectorOfNotVerifiedPatients;
 
 	int getIndexByLogin(string loginToFind);
 
 	string getCorrectExistingLogin(std::istream& s, const char* message, Repository r);
 
 	void allDoctorVectorInFile();
-	void allPatientVectorInFile();
 
 	void allDoctorVectorOutOfFile();
-	void allPatientVectorOutOfFile();
 
 public:
 	Administrator();
@@ -41,13 +39,6 @@ public:
 	/// </summary>
 	/// <param name="newPatient"> - </param>
 	void addNewDoctor(Doctor newDoctor);
-
-	/// <summary>
-	/// Добавляет нового пациента в вектор
-	/// </summary>
-	/// <param name="newPatient"> - </param>
-	void addNewPatient(Patient newPatient);
-
 	/// <summary>
 	/// Удаляет аккаунт по логину
 	/// </summary>
@@ -56,7 +47,6 @@ public:
 
 	void verifyAccount(Repository r, string login);
 
-	
-	
+	Doctor findDoctorByLogin(string login);
 };
 

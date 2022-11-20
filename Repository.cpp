@@ -4,12 +4,14 @@ Repository::Repository()
 {
 	allDoctorVectorOutOfFile();
 	allPatientVectorOutOfFile();
+	allServiceMapOutOfFile();
 }
 
 Repository::~Repository()
 {
 	allDoctorVectorInFile();
 	allPatientVectorInFile();
+	allServiceMapInFile();
 }
 
 void Repository::allDoctorVectorInFile()
@@ -45,6 +47,26 @@ void Repository::allPatientVectorInFile()
 	for (Patient patient : vectorOfAllPatients)
 	{
 		fout << patient.getStringForFile();
+	}
+
+	fout.close();
+}
+
+void Repository::allServiceMapInFile()
+{
+	
+	std::ofstream fout;
+	fout.open(serviceFileName, std::ios::trunc);
+
+	if (!fout.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	for (auto& serviceInfo : allServices)
+	{
+		fout << std::to_string(serviceInfo.second) + " " +  serviceInfo.first + '\n';
 	}
 
 	fout.close();
@@ -102,6 +124,35 @@ void Repository::allPatientVectorOutOfFile()
 	fs.close();
 }
 
+void Repository::allServiceMapOutOfFile()
+{
+	std::fstream fs;
+	fs.open(serviceFileName, std::ios::in | std::fstream::app);
+
+	if (!fs.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	do
+	{
+		double servicePrice;
+		fs >> servicePrice;
+
+		string serviceName;
+		fs.get();
+		getline(fs, serviceName);
+
+		if (servicePrice < 0)
+			allServices.insert(std::pair<string, double>(serviceName, servicePrice));
+
+	} while (!fs.eof());
+
+
+	fs.close();
+}
+
 
 int Repository::getIndexByLogin(string loginToFind)
 {
@@ -151,6 +202,11 @@ Patient Repository::findPatientByLogin(string login)
 		return vectorOfAllPatients[index];
 	}
 	return Patient();
+}
+
+void Repository::addNewPatient(Patient newPatient)
+{
+	vectorOfAllPatients.push_back(newPatient);
 }
 
 

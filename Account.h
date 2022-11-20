@@ -27,6 +27,8 @@ public:
 	string getEncryptedPassword();
 	bool getAccess();
 	virtual void logInSystem();
+	virtual string getStringForFile();
+
 	void changeAccess();
 
 	bool loginAndPasswordCorrect(string login, string password);

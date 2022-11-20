@@ -404,3 +404,10 @@ string getCorrectEncryptedPassword(std::istream& s)
     }
 }
 
+void endCase()
+{
+    std::cout << "Для того, чтобы продолжить, нажмите любую клавишу...";
+    _getch();
+    system("cls");
+}
+

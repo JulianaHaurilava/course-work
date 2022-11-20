@@ -14,7 +14,6 @@ using std::string;
 class Patient :
     public User
 {
-    string doctorLogin;
     Extract lastExtract;
 
 public:
@@ -26,7 +25,6 @@ public:
     string getStringForFile() override;
     void printAccountAsTable() override;
     FullName getFullName() override;
-    void setDoctorLogin(string doctorLogin);
 
     friend std::istream& operator >> (std::istream& in, Patient& patient);
 };

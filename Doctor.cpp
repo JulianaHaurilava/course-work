@@ -19,12 +19,13 @@ void Doctor::logInSystem()
 string Doctor::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += User::getStringForFile() + " " + position;
+	stringForFile += User::getStringForFile() + '\n' + position + '\n';
 
 	for (string login : vectorOfPatientLogins)
 	{
-		stringForFile += " " + login;
+		stringForFile += login + " ";
 	}
+	stringForFile.back() = '\n';
 	return stringForFile;
 }
 
@@ -40,12 +41,23 @@ FullName Doctor::getFullName()
 std::istream& operator >> (std::istream& in, Doctor& doctor)
 {
 	in >> doctor.login >> doctor.encryptedPassword >> doctor.access >>
-		doctor.fullName >> doctor.dateOfBirth >> doctor.address >>
-		doctor.position;
+		doctor.fullName >> doctor.dateOfBirth >> doctor.address;
 
-	for (string login : doctor.vectorOfPatientLogins)
+	in.get();
+	getline(in, doctor.position);
+
+	int index = 0;
+
+	char next_c = in.get();
+
+	while (in.peek() == 3)
 	{
-		in >> login;
+		in.seekg(-2, in.cur);
+		in >> doctor.vectorOfPatientLogins[index++];
 	}
+
+	if (in.peek() == '2') in.seekg(-2, in.cur);
+	else in.get();
+
 	return in;
 }

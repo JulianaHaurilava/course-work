@@ -5,6 +5,7 @@
 #include "Hash.h"
 
 #include <string>
+#include <conio.h>
 #include <iostream>
 #include <stdexcept>
 #include <vector>
@@ -38,4 +39,6 @@ int getRole(string login);
 int getCorrectFlatNumber(std::istream& s);
 
 string getCorrectEncryptedPassword(std::istream& s);
+
+void endCase();
 

@@ -19,6 +19,11 @@ void Account::logInSystem()
 {
 }
 
+string Account::getStringForFile()
+{
+    return login + " " + encryptedPassword + " " + std::to_string(access);
+}
+
 void Account::changeAccess()
 {
     access = !access;

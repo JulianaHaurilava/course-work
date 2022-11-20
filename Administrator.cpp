@@ -88,25 +88,6 @@ void Administrator::allDoctorVectorInFile()
 	fout.close();
 }
 
-void Administrator::allPatientVectorInFile()
-{
-	std::ofstream fout;
-	fout.open(patientFileName, std::ios::trunc);
-
-	if (!fout.is_open())
-	{
-		std::cout << "\nОшибка открытия файла!\n";
-		return;
-	}
-
-	for (Patient patient : vectorOfNotVerifiedPatients)
-	{
-		fout << patient.getStringForFile();
-	}
-
-	fout.close();
-}
-
 void Administrator::allDoctorVectorOutOfFile()
 {
 	std::fstream fs;
@@ -133,61 +114,48 @@ void Administrator::allDoctorVectorOutOfFile()
 	fs.close();
 }
 
-void Administrator::allPatientVectorOutOfFile()
-{
-	std::fstream fs;
-	fs.open(patientFileName, std::ios::in | std::fstream::app);
-
-	if (!fs.is_open())
-	{
-		std::cout << "\nОшибка открытия файла!\n";
-		return;
-	}
-
-	do
-	{
-		Patient patient = Patient();
-		fs >> patient;
-		vectorOfNotVerifiedPatients.push_back(patient);
-
-	} while (!fs.eof());
-
-	if (vectorOfNotVerifiedPatients.back().getLogin() == "_")
-	{
-		vectorOfNotVerifiedPatients.pop_back();
-	}
-	fs.close();
-}
-
 Administrator::Administrator()
 {
 	login = "0107112022134542";
-	encryptedPassword = "some_password";
+	encryptedPassword = "Qi1Yld";
 	access = true;
 
 	allDoctorVectorOutOfFile();
-	allPatientVectorOutOfFile();
 }
 
 Administrator::~Administrator()
 {
 	allDoctorVectorInFile();
-	allPatientVectorInFile();
 }
 
 void Administrator::logInSystem()
 {
-	
+	while (true)
+	{
+		std::cout << "\nЧто вы хотите сделать? Выберите соответствующее число.\n"
+			"1 - работа с услугами клинки;\n"
+			"2 - работа с аккаунтами;\n"
+			"3 - выйти из системы.\n\n";
+
+		int choice = getCorrectMenuInput(3);
+		switch (choice)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+
+			break;
+		case 3: 
+			return;
+		}
+		endCase();
+	}
 }
 
 void Administrator::addNewDoctor(Doctor newDoctor)
 {
 	vectorOfNotVerifiedDoctors.push_back(newDoctor);
-}
-
-void Administrator::addNewPatient(Patient newPatient)
-{
-	vectorOfNotVerifiedPatients.push_back(newPatient);
 }
 
 void Administrator::deleteAccount(Repository r, string loginToDelete)
@@ -212,24 +180,27 @@ void Administrator::deleteAccount(Repository r, string loginToDelete)
 void Administrator::verifyAccount(Repository r, string login)
 {
 	int indexToVerify = getIndexByLogin(login);
+	if (indexToVerify == -1)
+	{
+		std::cout << "Пользовательские аккаунты не требуют верификации\n";
+		return;
+	}
 
 	int role = stoi(login.substr(0, 2));
-	switch (role)
-	{
-	case 2:
-		vectorOfNotVerifiedDoctors[indexToVerify].changeAccess();
-		r.vectorOfAllDoctors.push_back(vectorOfNotVerifiedDoctors[indexToVerify]);
-		vectorOfNotVerifiedDoctors.erase(vectorOfNotVerifiedDoctors.begin() + indexToVerify);
-		break;
-	case 3:
-		string doctorLogin = getCorrectExistingLogin(std::cin, "Введите логин лечащего врача: ", r);
-		vectorOfNotVerifiedPatients[indexToVerify].setDoctorLogin(doctorLogin);
 
-		vectorOfNotVerifiedPatients[indexToVerify].changeAccess();
-		r.vectorOfAllPatients.push_back(vectorOfNotVerifiedPatients[indexToVerify]);
-		vectorOfNotVerifiedPatients.erase(vectorOfNotVerifiedPatients.begin() + indexToVerify);
-		break;
+	vectorOfNotVerifiedDoctors[indexToVerify].changeAccess();
+	r.vectorOfAllDoctors.push_back(vectorOfNotVerifiedDoctors[indexToVerify]);
+	vectorOfNotVerifiedDoctors.erase(vectorOfNotVerifiedDoctors.begin() + indexToVerify);
+}
+
+Doctor Administrator::findDoctorByLogin(string login)
+{
+	int index = getIndexByLogin(login);
+	if (index != -1)
+	{
+		return vectorOfNotVerifiedDoctors[index];
 	}
+	return Doctor();
 }
 
 int Administrator::getIndexByLogin(string loginToFind)
@@ -247,18 +218,7 @@ int Administrator::getIndexByLogin(string loginToFind)
 			}
 		}
 	}
-	else if (role == 3)
-	{
-		int vectorSize = vectorOfNotVerifiedPatients.size();
-		for (int i = 0; i < vectorSize; i++)
-		{
-			if (vectorOfNotVerifiedPatients[i].getLogin() == loginToFind)
-			{
-				return i;
-			}
-		}
-	}
-
+	return -1;
 }
 
 
