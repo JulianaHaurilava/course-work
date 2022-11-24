@@ -40,7 +40,7 @@ bool logInSystem(Repository& r, Administrator& admin)
     {
         Doctor doctor = r.findDoctorByLogin(login);
         if (doctor.getFullName().surname == "_")
-            doctor = admin.findDoctorByLogin(login);
+            doctor = r.findNotVerifiedDoctorByLogin(login);
 
         if (doctor.loginAndPasswordCorrect(login, password))
         {
@@ -151,7 +151,7 @@ void registerInSystem(Repository& r, Administrator& admin)
     case 1:
     {
         Doctor newDoctor(createDoctorFromConsole());
-        admin.addNewDoctor(newDoctor);
+        r.addNewDoctor(newDoctor);
         std::cout << "Ваш логин: " << newDoctor.getLogin() << std::endl;
         break;
     }
