@@ -16,20 +16,23 @@ using std::string;
 class Administrator :
 	public Account
 {
-	string getCorrectExistingLogin(std::istream& s, const char* message, Repository r);
-
-
+	string getCorrectLogin(std::istream& s, const char* message, Repository& r);
 
 public:
 	Administrator();
 	~Administrator();
 
-	void logInSystem() override;
+	void logInSystem(Repository &r);
 
 
-	void workWithAccounts();
-	void workWithServices();
+	void workWithAccounts(Repository& r);
 
+	void verifyAccount(string loginToVerify, Repository& r);
+	void deactivateAccount(string loginToDeactivate, Repository& r);
+	void printAccountByLogin(string loginToFind, Repository& r);
 
+	void workWithServices(Repository& r);
+
+	
 };
 

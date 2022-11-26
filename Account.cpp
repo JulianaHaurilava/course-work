@@ -15,9 +15,6 @@ bool Account::getAccess()
     return access;
 }
 
-void Account::logInSystem()
-{
-}
 
 string Account::getStringForFile()
 {

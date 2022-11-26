@@ -9,10 +9,13 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "Checkups.h"
 
 //вся черновая работа (сортировка, файлы и тд)
 class Repository
 {
+	string clinicName = "Лучшая клиника в мире";
+
 	string doctorFileName = "doctors_file";
 	string patientFileName = "patient_file";
 	string serviceFileName = "service_file";
@@ -73,7 +76,19 @@ public:
 /// <param name="loginToDelete">- логин пользователя, которого нужно удалить</param>
 	void deleteAccount(string loginToDelete);
 
-	void verifyAccount(string loginToVerify);
+	template <typename T>
+	void printAllAccounts(std::vector<T> vector);
+
+
+	void printTableOfServices();
+
+	void addNewService(string name, double price);
+
+	void deleteService(string name);
+
+	double getPriceByName(string name);
+
+	void editService(string name);
 };
 
 template<typename T>
@@ -121,4 +136,14 @@ inline void Repository::allVectorOutOfFile(std::vector<T> &vector, string fileNa
 		vector.pop_back();
 	}
 	fs.close();
+}
+
+template<typename T>
+inline void Repository::printAllAccounts(std::vector<T> vector)
+{
+	for (T vectorItem : vector)
+	{
+		vectorItem.print();
+		std::cout << std::endl;
+	}
 }

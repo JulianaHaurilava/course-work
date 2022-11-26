@@ -22,3 +22,13 @@ string User::getStringForFile()
 		dateOfBirth.getStringForFile() + " " + address.getStringForFile();
 
 }
+
+void User::print()
+{
+	std::cout << "Логин: " << login << std::endl;
+	std::cout << "Ф.И.О: " << fullName << std::endl;
+	std::cout << "Дата рождения: " << dateOfBirth << std::endl;
+	std::cout << "Адрес: " << address << std::endl;
+}
+
+

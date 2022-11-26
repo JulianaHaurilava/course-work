@@ -1,5 +1,7 @@
 #pragma once
 #include "Account.h"
+#include <iomanip>
+
 class User :
     public Account
 {
@@ -13,7 +15,8 @@ public:
 		FullName fullName, Date dateOfBirth, Address address);
 
 	virtual string getStringForFile();
-	virtual void printAccountAsTable() = 0;
+	virtual void print();
 	virtual FullName getFullName() = 0;
+	virtual void logInSystem() = 0;
 };
 

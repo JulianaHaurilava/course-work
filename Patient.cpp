@@ -13,6 +13,7 @@ Patient::Patient(string encryptedPassword, int role, FullName fullName,
 	lastExtract = Extract();
 }
 
+
 void Patient::logInSystem()
 {
 }
@@ -22,8 +23,9 @@ string Patient::getStringForFile()
 	return  User::getStringForFile() + " " + lastExtract.getStringForFile();
 }
 
-void Patient::printAccountAsTable()
+void Patient::print()
 {
+	User::print();
 }
 
 FullName Patient::getFullName()

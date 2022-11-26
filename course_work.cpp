@@ -32,7 +32,8 @@ bool logInSystem(Repository& r, Administrator& admin)
     {
         if (admin.loginAndPasswordCorrect(login, password))
         {
-            admin.logInSystem();
+            system("cls");
+            admin.logInSystem(r);
             return true;
         }
     }
@@ -46,6 +47,7 @@ bool logInSystem(Repository& r, Administrator& admin)
         {
             if (doctor.getAccess())
             {
+                system("cls");
                 doctor.logInSystem();
                 return true;
             }
@@ -63,6 +65,7 @@ bool logInSystem(Repository& r, Administrator& admin)
         {
             if (patient.getAccess())
             {
+                system("cls");
                 patient.logInSystem();
                 return true;
             }
@@ -86,9 +89,9 @@ Doctor createDoctorFromConsole()
 
     FullName fullName;
     
-    fullName.surname = getCorrectStingInput(std::cin, "Фамилия: ");
-    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
-    fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
+    fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
+    fullName.name = getCorrectWordInput(std::cin, "Имя: ");
+    fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
 
     std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 
@@ -97,15 +100,14 @@ Doctor createDoctorFromConsole()
     std::cout << "Введите адрес проживания\n";
 
     Address address;
-    address.city = getCorrectStingInput(std::cin, "Город: ");
-    address.street = getCorrectStingInput(std::cin, "Улица: ");
+    address.city = getCorrectWordInput(std::cin, "Город: ");
+    address.street = getCorrectStringInput(std::cin, "Улица: ");
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
     address.flatNumber = getCorrectFlatNumber(std::cin);
 
     string position;
     std::cout << "Введите информацию о квалификации\n";
-    std::cout << "Должность: ";
-    std::cin >> position;
+    position = getCorrectStringInput(std::cin, "Должность: ");
 
     return Doctor(encryptedPassword, 2, fullName, dateOfBirth, address, position);
 }
@@ -118,9 +120,9 @@ Patient createPatientFromConsole()
 
     FullName fullName;
     
-    fullName.surname = getCorrectStingInput(std::cin, "Фамилия: ");
-    fullName.name = getCorrectStingInput(std::cin, "Имя: ");
-    fullName.patronymic = getCorrectStingInput(std::cin, "Отчество: ");
+    fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
+    fullName.name = getCorrectWordInput(std::cin, "Имя: ");
+    fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
 
     std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 
@@ -129,8 +131,8 @@ Patient createPatientFromConsole()
     std::cout << "Введите адрес проживания\n";
 
     Address address;
-    address.city = getCorrectStingInput(std::cin, "Город: ");
-    address.street = getCorrectStingInput(std::cin, "Улица: ");
+    address.city = getCorrectWordInput(std::cin, "Город: ");
+    address.street = getCorrectStringInput(std::cin, "Улица: ");
     address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
     address.flatNumber = getCorrectFlatNumber(std::cin);
 
@@ -145,6 +147,7 @@ void registerInSystem(Repository& r, Administrator& admin)
         "3 - выйти в главное меню.\n\n";
 
     int choice = getCorrectMenuInput(3);
+    system("cls");
 
     switch (choice)
     {

@@ -21,9 +21,9 @@ public:
     Doctor();
     Doctor(string encryptedPassword, int role, FullName fullName, Date dateOfBirth, Address address, string position);
 
-    void logInSystem() override;
+    void logInSystem();
     string getStringForFile() override;
-    void printAccountAsTable() override;
+    void print() override;
     FullName getFullName() override;
 
     friend std::istream& operator >> (std::istream& in, Doctor& doctor);

@@ -15,7 +15,9 @@ using std::string;
 const int daysForMonths[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 const string letters = "àáâãäå¸æùèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
 
-std::string getCorrectStingInput(std::istream& s, const char* message);
+std::string getCorrectStringInput(std::istream& s, const char* message);
+
+std::string getCorrectWordInput(std::istream& s, const char* message);
 
 void checkIfInteger(std::string userInput);
 

@@ -12,6 +12,7 @@ Doctor::Doctor(string encryptedPassword, int role, FullName fullName,
 	this->position = position;
 }
 
+
 void Doctor::logInSystem()
 {
 }
@@ -29,8 +30,11 @@ string Doctor::getStringForFile()
 	return stringForFile;
 }
 
-void Doctor::printAccountAsTable()
+
+void Doctor::print()
 {
+	User::print();
+	std::cout << "Должность: " << position << std::endl;
 }
 
 FullName Doctor::getFullName()

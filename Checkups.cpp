@@ -13,7 +13,56 @@ int countAge(int day, int month, int year)
     return age;
 }
 
-std::string getCorrectStingInput(std::istream& s, const char* message)
+std::string getCorrectStringInput(std::istream& s, const char* message)
+{
+    std::string userInput;
+    while (true)
+    {
+        try
+        {
+            std::cout << message;
+            getline(std::cin, userInput);
+
+            if (userInput == "") throw "Пустая строка";
+            for (char c : userInput)
+            {
+                bool isAlpha = false;
+                for (char c_c : letters)
+                {
+                    if (c == c_c)
+                    {
+                        isAlpha = true;
+                    }
+                }
+                if (!isAlpha && c != ' ')
+                {
+                    throw -1;
+                }
+            }
+            return userInput;
+        }
+        catch (const char*)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Введена пустая строка.\n" <<
+                "Повторите ввод.\n\n";
+        }
+        catch (int)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! В строке содержатся не только буквы.\n" <<
+                "Повторите ввод.\n\n";
+        }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
+        }
+    }
+}
+
+std::string getCorrectWordInput(std::istream& s, const char* message)
 {
     std::string userInput;
     while (true)
@@ -36,7 +85,7 @@ std::string getCorrectStingInput(std::istream& s, const char* message)
                 }
                 if (!isAlpha)
                 {
-                    throw -1;
+                    throw - 1;
                 }
             }
             return userInput;
@@ -408,6 +457,7 @@ void endCase()
 {
     std::cout << "Для того, чтобы продолжить, нажмите любую клавишу...";
     _getch();
+    std::cin.clear();
     system("cls");
 }
 

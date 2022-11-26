@@ -3,7 +3,6 @@
 #include "FullName.h"
 #include "Address.h"
 #include "Date.h"
-#include "Patient.h"
 #include "Doctor.h"
 #include "Extract.h"
 
@@ -21,9 +20,9 @@ public:
     Patient(string encryptedPassword, int role, FullName fullName,
         Date dateOfBirth, Address address);
 
-    void logInSystem() override;
+    void logInSystem();
     string getStringForFile() override;
-    void printAccountAsTable() override;
+    void print() override;
     FullName getFullName() override;
 
     friend std::istream& operator >> (std::istream& in, Patient& patient);
