@@ -13,21 +13,13 @@ Doctor::Doctor(string encryptedPassword, int role, FullName fullName,
 }
 
 
-void Doctor::logInSystem()
+void Doctor::logInSystem(AccountRepository<Patient>& pr)
 {
 }
 
 string Doctor::getStringForFile()
 {
-	string stringForFile = "";
-	stringForFile += User::getStringForFile() + '\n' + position + '\n';
-
-	for (string login : vectorOfPatientLogins)
-	{
-		stringForFile += login + " ";
-	}
-	stringForFile.back() = '\n';
-	return stringForFile;
+	return User::getStringForFile() + '\n' + position + '\n';
 }
 
 
@@ -44,24 +36,6 @@ FullName Doctor::getFullName()
 
 std::istream& operator >> (std::istream& in, Doctor& doctor)
 {
-	in >> doctor.login >> doctor.encryptedPassword >> doctor.access >>
+	return in >> doctor.login >> doctor.encryptedPassword >> doctor.access >>
 		doctor.fullName >> doctor.dateOfBirth >> doctor.address;
-
-	in.get();
-	getline(in, doctor.position);
-
-	int index = 0;
-
-	char next_c = in.get();
-
-	while (in.peek() == 3)
-	{
-		in.seekg(-2, in.cur);
-		in >> doctor.vectorOfPatientLogins[index++];
-	}
-
-	if (in.peek() == '2') in.seekg(-2, in.cur);
-	else in.get();
-
-	return in;
 }

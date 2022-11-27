@@ -1,12 +1,6 @@
 #pragma once
 #include "User.h"
-#include "FullName.h"
-#include "Address.h"
-#include "Date.h"
-#include "Doctor.h"
 #include "Extract.h"
-
-#include <map>
 
 using std::string;
 
@@ -20,7 +14,7 @@ public:
     Patient(string encryptedPassword, int role, FullName fullName,
         Date dateOfBirth, Address address);
 
-    void logInSystem();
+    void logInSystem(ClinicRepository& cr);
     string getStringForFile() override;
     void print() override;
     FullName getFullName() override;

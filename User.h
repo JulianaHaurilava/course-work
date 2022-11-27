@@ -1,5 +1,7 @@
 #pragma once
 #include "Account.h"
+
+#include "ClinicRepository.h"
 #include <iomanip>
 
 class User :
@@ -17,6 +19,5 @@ public:
 	virtual string getStringForFile();
 	virtual void print();
 	virtual FullName getFullName() = 0;
-	virtual void logInSystem() = 0;
 };
 

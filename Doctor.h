@@ -1,9 +1,7 @@
 #pragma once
 #include "User.h"
-#include "FullName.h"
-#include "Address.h"
-#include "Date.h"
 #include "Patient.h"
+#include "AccountRepository.h"
 
 #include <vector>
 
@@ -14,14 +12,12 @@ class Doctor :
 {
     string position;
 
-    std::vector<string> vectorOfPatientLogins;
-
 public:
 
     Doctor();
     Doctor(string encryptedPassword, int role, FullName fullName, Date dateOfBirth, Address address, string position);
 
-    void logInSystem();
+    void logInSystem(AccountRepository<Patient>& pr);
     string getStringForFile() override;
     void print() override;
     FullName getFullName() override;

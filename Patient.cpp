@@ -14,7 +14,7 @@ Patient::Patient(string encryptedPassword, int role, FullName fullName,
 }
 
 
-void Patient::logInSystem()
+void Patient::logInSystem(ClinicRepository& cr)
 {
 }
 

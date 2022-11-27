@@ -1,11 +1,13 @@
-﻿#include "Repository.h"
+﻿#include "ClinicRepository.h"
 #include "Administrator.h"
 #include "Checkups.h"
+#include "AccountRepository.h"
 
 #include <iostream>
 #include <windows.h>
 
-bool logInSystem(Repository& r, Administrator& admin)
+bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
+    AccountRepository<Patient>& pr, ClinicRepository& cr)
 {
     string login, password;
 
@@ -30,25 +32,26 @@ bool logInSystem(Repository& r, Administrator& admin)
 
     if (role == 1)
     {
+        Administrator admin;
         if (admin.loginAndPasswordCorrect(login, password))
         {
             system("cls");
-            admin.logInSystem(r);
+            admin.logInSystem(dr, ndr, pr, cr);
             return true;
         }
     }
     else if (role == 2)
     {
-        Doctor doctor = r.findDoctorByLogin(login);
+        Doctor doctor = dr.findAccountByLogin(login);
         if (doctor.getFullName().surname == "_")
-            doctor = r.findNotVerifiedDoctorByLogin(login);
+            doctor = ndr.findAccountByLogin(login);
 
         if (doctor.loginAndPasswordCorrect(login, password))
         {
             if (doctor.getAccess())
             {
                 system("cls");
-                doctor.logInSystem();
+                doctor.logInSystem(pr);
                 return true;
             }
             else
@@ -60,13 +63,13 @@ bool logInSystem(Repository& r, Administrator& admin)
     }
     else if (role == 3)
     {
-        Patient patient = r.findPatientByLogin(login);
+        Patient patient = pr.findAccountByLogin(login);
         if (patient.loginAndPasswordCorrect(login, password))
         {
             if (patient.getAccess())
             {
                 system("cls");
-                patient.logInSystem();
+                patient.logInSystem(cr);
                 return true;
             }
             else
@@ -139,7 +142,7 @@ Patient createPatientFromConsole()
     return Patient(encryptedPassword, 3, fullName, dateOfBirth, address);
 }
 
-void registerInSystem(Repository& r, Administrator& admin)
+void registerInSystem(AccountRepository<Doctor>& ndr, AccountRepository<Patient>& pr)
 {
     std::cout << "\nКакой аккаунт вы хотите создать? Выберите соответствующее число.\n"
         "1 - доктор;\n"
@@ -154,21 +157,20 @@ void registerInSystem(Repository& r, Administrator& admin)
     case 1:
     {
         Doctor newDoctor(createDoctorFromConsole());
-        r.addNewDoctor(newDoctor);
+        ndr.addNewAccount(newDoctor);
         std::cout << "Ваш логин: " << newDoctor.getLogin() << std::endl;
         break;
     }
     case 2:
     {
         Patient newPatient(createPatientFromConsole());
-        r.addNewPatient(newPatient);
+        pr.addNewAccount(newPatient);
         std::cout << "Ваш логин: " << newPatient.getLogin() << std::endl;
         break;
     }
     case 3:
         return;
     }
-    
 }
 
 int main()
@@ -176,7 +178,11 @@ int main()
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    Repository r;
+    AccountRepository<Doctor> dr("doctors_file");
+    AccountRepository<Doctor> ndr("not_verified_doctors_file");
+    AccountRepository<Patient> pr("patient_file");
+
+    ClinicRepository cr;
     Administrator admin;
 
     while (true)
@@ -190,10 +196,10 @@ int main()
         switch (choice)
         {
         case 1:
-            if (logInSystem(r, admin))
+            if (logInSystem(dr, ndr, pr, cr))
                 return 0;
             break;
-        case 2: registerInSystem(r, admin); break;
+        case 2: registerInSystem(ndr, pr); break;
         case 3: return 0;
         }
         endCase();

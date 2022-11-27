@@ -1,6 +1,6 @@
 #include "Administrator.h"
 
-string Administrator::getCorrectLogin(std::istream& s, const char* message, Repository& r)
+string Administrator::getCorrectLogin(std::istream& s, const char* message)
 {
 	string adminInput;
 	while (true)
@@ -12,19 +12,12 @@ string Administrator::getCorrectLogin(std::istream& s, const char* message, Repo
 
 			int role = stoi(adminInput.substr(0, 2));
 			if (adminInput.length() != 16 ||
-				role != 2)
+				!(role == 2 || role == 3))
 			{
 				throw -1;
 			}
-			if (role == 1) throw false;
 
 			return adminInput;
-		}
-		catch (bool)
-		{
-			std::cin.clear();
-			std::cout << "Введенные данные некорректны! Пользователь с таким логином" <<
-				"не зарегистрирован в системе.\n Повторите ввод.\n\n";
 		}
 		catch (std::invalid_argument)
 		{
@@ -53,7 +46,8 @@ Administrator::~Administrator()
 
 }
 
-void Administrator::logInSystem(Repository& r)
+void Administrator::logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
+	AccountRepository<Patient>& pr, ClinicRepository& cr)
 {
 	while (true)
 	{
@@ -67,10 +61,10 @@ void Administrator::logInSystem(Repository& r)
 		switch (choice)
 		{
 		case 1:
-			workWithServices(r);
+			workWithServices(cr);
 			break;
 		case 2: 
-			workWithAccounts(r);
+			workWithAccounts(dr, ndr, pr);
 			break;
 		case 3: 
 			return;
@@ -79,7 +73,8 @@ void Administrator::logInSystem(Repository& r)
 	}
 }
 
-void Administrator::workWithAccounts(Repository& r)
+void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
+	AccountRepository<Patient>& pr)
 {
 	while (true)
 	{
@@ -97,36 +92,36 @@ void Administrator::workWithAccounts(Repository& r)
 		switch (choice)
 		{
 		case 1:
-			std::cout << "Персонал клиники \"" << r.clinicName << "\"\n\n";
-			r.printAllAccounts(r.vectorOfAllDoctors);
+			std::cout << "Персонал клиники\n\n";
+			dr.printAllAccounts();
 			break;
 		case 2:
-			std::cout << "Пациенты клиники \"" << r.clinicName << "\"\n\n";
-			r.printAllAccounts(r.vectorOfAllPatients);
+			std::cout << "Пациенты клиники\n\n";
+			pr.printAllAccounts();
 			break;
 		case 3:
 			std::cout << "Аккаунты, которые ждут верификации\n\n";
-			r.printAllAccounts(r.vectorOfNotVerifiedDoctors);
+			ndr.printAllAccounts();
 			break;
 		case 4:
 		{
 			string loginToVerify = getCorrectLogin(std::cin, 
-				"Введите логин пользователя, которого хотите верифицировать:\n", r);
-			verifyAccount(loginToVerify, r);
+				"Введите логин пользователя, которого хотите верифицировать:\n");
+			verifyAccount(loginToVerify, ndr, dr);
 			break;
 		}
 		case 5:
 		{
 			string loginToDeactivate = getCorrectLogin(std::cin,
-				"Введите логин пользователя, аккаунт которого хотите деактивировать:\n", r);
-			deactivateAccount(loginToDeactivate, r);
+				"Введите логин пользователя, аккаунт которого хотите деактивировать:\n");
+			deactivateAccount(loginToDeactivate, dr, pr);
 			break;
 		}
 		case 6:
 		{
 			string loginToFind = getCorrectLogin(std::cin,
-				"Введите логин верифицированного пользователя, аккаунт которого хотите найти:\n", r);
-			printAccountByLogin(loginToFind, r);
+				"Введите логин верифицированного пользователя, аккаунт которого хотите найти:\n");
+			printAccountByLogin(loginToFind, dr, pr);
 			break;
 		}
 		case 7:
@@ -136,7 +131,7 @@ void Administrator::workWithAccounts(Repository& r)
 	}
 }
 
-void Administrator::workWithServices(Repository& r)
+void Administrator::workWithServices(ClinicRepository& cr)
 {
 	while (true)
 	{
@@ -153,35 +148,35 @@ void Administrator::workWithServices(Repository& r)
 		switch (choice)
 		{
 		case 1:
-			r.printTableOfServices();
+			cr.printTableOfServices();
 			break;
 		case 2:
 		{
 			std::cout << "Введите информацию о новой услуге\n";
 			string name = getCorrectStringInput(std::cin, "Название услуги: ");
 			double price = getCorrectPositiveDouble(std::cin, "Цена: ");
-			r.addNewService(name, price);
+			cr.addNewService(name, price);
 			break;
 		}
 		case 3:
 		{
 			std::cout << "Введите название услуги, которую хотите удалить\n";
 			string name = getCorrectStringInput(std::cin, "Название услуги: ");
-			r.deleteService(name);
+			cr.deleteService(name);
 			break;
 		}
 		case 4:
 		{
 			std::cout << "Введите название услуги, информацию о которой хотите редактировать\n";
 			string name = getCorrectStringInput(std::cin, "Название услуги: ");
-			r.editService(name);
+			cr.editService(name);
 			break;
 		}
 		case 5:
 		{
 			std::cout << "Введите название услуги, цену которой хотите узнать\n";
 			string name = getCorrectStringInput(std::cin, "Название услуги: ");
-			double foundPrice = r.getPriceByName(name);
+			double foundPrice = cr.getPriceByName(name);
 			if (foundPrice != 0)
 			{
 				std::cout << "Цена: " << foundPrice << std::endl;
@@ -196,58 +191,67 @@ void Administrator::workWithServices(Repository& r)
 	}
 }
 
-void Administrator::verifyAccount(string loginToVerify, Repository& r)
+void Administrator::verifyAccount(string loginToVerify, AccountRepository<Doctor>& ndr,
+	AccountRepository<Doctor>& dr)
 {
-	int indexToVerify = r.getNonVerifiedIndexByLogin(loginToVerify);
+	/*int indexToVerify = ndr.getIndexByLogin(loginToVerify);
 	if (indexToVerify == -1)
 	{
-		std::cout << "Аккаунт с таким логином не существует!\n";
+		std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
 		return;
 	}
 
-	int role = stoi(loginToVerify.substr(0, 2));
-
-	r.vectorOfNotVerifiedDoctors[indexToVerify].changeAccess();
-	r.vectorOfAllDoctors.push_back(r.vectorOfNotVerifiedDoctors[indexToVerify]);
-	r.vectorOfNotVerifiedDoctors.erase(r.vectorOfNotVerifiedDoctors.begin() + indexToVerify);
+	ndr.vectorOfAccounts[indexToVerify].changeAccess();
+	dr.vectorOfAccounts.push_back(ndr.vectorOfAccounts[indexToVerify]);
+	ndr.vectorOfAccounts.erase(ndr.vectorOfAccounts.begin() + indexToVerify);*/
 }
 
-void Administrator::deactivateAccount(string loginToDeactivate, Repository& r)
+void Administrator::deactivateAccount(string loginToDeactivate, AccountRepository<Doctor>& dr,
+	AccountRepository<Patient>& pr)
 {
-	int indexToVerify = r.getIndexByLogin(loginToDeactivate);
-
-	int role = stoi(login.substr(0, 2));
+	/*int role = stoi(login.substr(0, 2));
 
 	switch (role)
 	{
-	case 1:
-		r.vectorOfAllDoctors.erase(r.vectorOfAllDoctors.begin() + indexToVerify);
-		return;
 	case 2:
-		r.vectorOfAllPatients.erase(r.vectorOfAllPatients.begin() + indexToVerify);
-		return;
-	default:
-		std::cout << "Аккаунт с таким логином не существует!\n";
+	{
+		int indexToVerify = dr.getIndexByLogin(loginToDeactivate);
+		dr.vectorOfAccounts.erase(dr.vectorOfAccounts.begin() + indexToVerify);
 		return;
 	}
+	case 3:
+	{
+		int indexToVerify = pr.getIndexByLogin(loginToDeactivate);
+		pr.vectorOfAccounts.erase(pr.vectorOfAccounts.begin() + indexToVerify);
+		return;
+	}
+	default:
+		std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
+		return;
+	}*/
 }
 
-void Administrator::printAccountByLogin(string loginToFind, Repository& r)
+void Administrator::printAccountByLogin(string loginToFind, AccountRepository<Doctor>& dr,
+	AccountRepository<Patient>& pr)
 {
-	int index = r.getIndexByLogin(loginToFind);
-
-	int role = stoi(login.substr(0, 2));
+	/*int role = stoi(login.substr(0, 2));
 
 	switch (role)
 	{
-	case 1:
-		r.vectorOfAllDoctors[index].print();
-		return;
 	case 2:
-		r.vectorOfAllPatients[index].print();
+	{
+		int index = dr.getIndexByLogin(loginToFind);
+		dr.vectorOfAccounts[index].print();
 		return;
+	}
+	case 3:
+	{
+		int index = pr.getIndexByLogin(loginToFind);
+		pr.vectorOfAccounts[index].print();
+		return;
+	}
 	default:
 		std::cout << "Аккаунт с таким логином не существует!\n";
 		return;
-	}
+	}*/
 }
