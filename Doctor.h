@@ -12,6 +12,8 @@ class Doctor :
 {
     string position;
 
+    void editAccountInfo();
+
 public:
 
     Doctor();
@@ -20,7 +22,6 @@ public:
     void logInSystem(AccountRepository<Patient>& pr);
     string getStringForFile() override;
     void print() override;
-    FullName getFullName() override;
 
     friend std::istream& operator >> (std::istream& in, Doctor& doctor);
 };

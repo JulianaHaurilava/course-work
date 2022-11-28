@@ -11,14 +11,17 @@ protected:
 	FullName fullName;
 	Date dateOfBirth;
 	Address address;
+
+	virtual void editAccountInfo() = 0;
 public:
 	User();
 	User(string encryptedPassword, int role,
 		FullName fullName, Date dateOfBirth, Address address);
 
+	bool getAccess();
 	void enableAccess();
 	virtual string getStringForFile();
 	virtual void print();
-	virtual FullName getFullName() = 0;
+	virtual FullName getFullName();
 };
 

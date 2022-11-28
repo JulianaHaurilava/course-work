@@ -97,7 +97,6 @@ public:
 		return T();
 	}
 
-
 	void addNewAccount(T newAccount)
 	{
 		vectorOfAccounts.push_back(newAccount);

@@ -1,5 +1,9 @@
 #include "Doctor.h"
 
+void Doctor::editAccountInfo()
+{
+}
+
 Doctor::Doctor() : User::User()
 {
 	position = "_";
@@ -27,11 +31,6 @@ void Doctor::print()
 {
 	User::print();
 	std::cout << "Должность: " << position << std::endl;
-}
-
-FullName Doctor::getFullName()
-{
-	return fullName;
 }
 
 std::istream& operator >> (std::istream& in, Doctor& doctor)

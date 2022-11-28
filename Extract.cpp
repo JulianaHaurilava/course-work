@@ -14,6 +14,9 @@ string Extract::getStringForFile()
 
 void Extract::print()
 {
+	std::cout << "Диагноз: " << diagnosis << std::endl;
+	std::cout << "Рекомендации: " << recommendations << std::endl << std::endl;
+	std::cout << "Цена: " << totalPrice << " BYN" << std::endl;
 }
 
 std::istream& operator >> (std::istream& in, Extract& extract)

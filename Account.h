@@ -26,11 +26,8 @@ public:
 
 	string getLogin();
 	string getEncryptedPassword();
-	bool getAccess();
+
 	virtual string getStringForFile();
-
-
-	
 
 	bool loginAndPasswordCorrect(string login, string password);
 };

@@ -10,12 +10,6 @@ string Account::getEncryptedPassword()
     return encryptedPassword;
 }
 
-bool Account::getAccess()
-{
-    return access;
-}
-
-
 string Account::getStringForFile()
 {
     return login + " " + encryptedPassword + " " + std::to_string(access);

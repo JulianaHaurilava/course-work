@@ -15,6 +15,11 @@ User::User(string encryptedPassword, int role,
 	this->address = address;
 }
 
+bool User::getAccess()
+{
+	return access;
+}
+
 void User::enableAccess()
 {
 	access = !access;
@@ -34,6 +39,11 @@ void User::print()
 	std::cout << "Ф.И.О: " << fullName << std::endl;
 	std::cout << "Дата рождения: " << dateOfBirth << std::endl;
 	std::cout << "Адрес: " << address << std::endl;
+}
+
+FullName User::getFullName()
+{
+	return fullName;
 }
 
 
