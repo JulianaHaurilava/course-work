@@ -36,6 +36,11 @@ FullName Doctor::getFullName()
 
 std::istream& operator >> (std::istream& in, Doctor& doctor)
 {
-	return in >> doctor.login >> doctor.encryptedPassword >> doctor.access >>
+	in >> doctor.login >> doctor.encryptedPassword >> doctor.access >>
 		doctor.fullName >> doctor.dateOfBirth >> doctor.address;
+
+	in.get();
+	getline(in, doctor.position);
+
+	return in;
 }

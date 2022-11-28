@@ -114,14 +114,16 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		{
 			string loginToDeactivate = getCorrectLogin(std::cin,
 				"Введите логин пользователя, аккаунт которого хотите деактивировать:\n");
+
 			deactivateAccount(loginToDeactivate, dr, pr);
 			break;
 		}
 		case 6:
 		{
-			string loginToFind = getCorrectLogin(std::cin,
-				"Введите логин верифицированного пользователя, аккаунт которого хотите найти:\n");
-			printAccountByLogin(loginToFind, dr, pr);
+			string loginToPrint = getCorrectLogin(std::cin,
+				"Введите логин пользователя, аккаунт которого хотите найти:\n");
+
+			printAccountByLogin(loginToPrint, dr, pr);
 			break;
 		}
 		case 7:
@@ -191,67 +193,46 @@ void Administrator::workWithServices(ClinicRepository& cr)
 	}
 }
 
-void Administrator::verifyAccount(string loginToVerify, AccountRepository<Doctor>& ndr,
-	AccountRepository<Doctor>& dr)
-{
-	/*int indexToVerify = ndr.getIndexByLogin(loginToVerify);
-	if (indexToVerify == -1)
-	{
-		std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
-		return;
-	}
-
-	ndr.vectorOfAccounts[indexToVerify].changeAccess();
-	dr.vectorOfAccounts.push_back(ndr.vectorOfAccounts[indexToVerify]);
-	ndr.vectorOfAccounts.erase(ndr.vectorOfAccounts.begin() + indexToVerify);*/
-}
-
 void Administrator::deactivateAccount(string loginToDeactivate, AccountRepository<Doctor>& dr,
 	AccountRepository<Patient>& pr)
 {
-	/*int role = stoi(login.substr(0, 2));
+	int role = stoi(loginToDeactivate.substr(0, 2));
 
 	switch (role)
 	{
 	case 2:
-	{
-		int indexToVerify = dr.getIndexByLogin(loginToDeactivate);
-		dr.vectorOfAccounts.erase(dr.vectorOfAccounts.begin() + indexToVerify);
-		return;
-	}
+		dr.deleteAccount(loginToDeactivate);
+		break;
 	case 3:
-	{
-		int indexToVerify = pr.getIndexByLogin(loginToDeactivate);
-		pr.vectorOfAccounts.erase(pr.vectorOfAccounts.begin() + indexToVerify);
-		return;
+		pr.deleteAccount(loginToDeactivate);
+		break;
 	}
-	default:
-		std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
-		return;
-	}*/
 }
 
-void Administrator::printAccountByLogin(string loginToFind, AccountRepository<Doctor>& dr,
+void Administrator::printAccountByLogin(string loginToPrint, AccountRepository<Doctor>& dr,
 	AccountRepository<Patient>& pr)
 {
-	/*int role = stoi(login.substr(0, 2));
+	int role = stoi(loginToPrint.substr(0, 2));
 
 	switch (role)
 	{
 	case 2:
-	{
-		int index = dr.getIndexByLogin(loginToFind);
-		dr.vectorOfAccounts[index].print();
-		return;
-	}
+		dr.printAccountByLogin(loginToPrint);
+		break;
 	case 3:
-	{
-		int index = pr.getIndexByLogin(loginToFind);
-		pr.vectorOfAccounts[index].print();
-		return;
+		pr.printAccountByLogin(loginToPrint);
+		break;
 	}
-	default:
-		std::cout << "Аккаунт с таким логином не существует!\n";
-		return;
-	}*/
+}
+
+void Administrator::verifyAccount(string loginToVerify, AccountRepository<Doctor>& ndr,
+	AccountRepository<Doctor>& dr)
+{
+	Doctor doctorToVerify = ndr.changeAccess(loginToVerify);
+	if (doctorToVerify.getAccess())
+	{
+		dr.addNewAccount(doctorToVerify);
+		ndr.deleteAccount(loginToVerify);
+	}
+	else std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
 }

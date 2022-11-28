@@ -21,11 +21,6 @@ string Account::getStringForFile()
     return login + " " + encryptedPassword + " " + std::to_string(access);
 }
 
-void Account::changeAccess()
-{
-    access = !access;
-}
-
 bool Account::loginAndPasswordCorrect(string login, string password)
 {
     Hash h;

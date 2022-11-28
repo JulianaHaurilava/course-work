@@ -30,7 +30,7 @@ public:
 	virtual string getStringForFile();
 
 
-	void changeAccess();
+	
 
 	bool loginAndPasswordCorrect(string login, string password);
 };

@@ -15,6 +15,11 @@ User::User(string encryptedPassword, int role,
 	this->address = address;
 }
 
+void User::enableAccess()
+{
+	access = !access;
+}
+
 string User::getStringForFile()
 {
 

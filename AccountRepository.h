@@ -10,6 +10,7 @@
 
 using std::string;
 
+//стремно сделаны функции со стороны записи в файл!!! если будут силы, переделай...
 template <typename T>
 class AccountRepository
 {
@@ -109,7 +110,13 @@ public:
 	void deleteAccount(string loginToDelete)
 	{
 		int indexToDelete = getIndexByLogin(loginToDelete);
-		vectorOfAccounts.erase(vectorOfAccounts.begin() + indexToDelete);
+		if (indexToDelete != -1)
+		{
+			vectorOfAccounts.erase(vectorOfAccounts.begin() + indexToDelete);
+			allVectorInFile();
+			return;
+		}
+		std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
 	}
 
 	void printAllAccounts()
@@ -121,18 +128,31 @@ public:
 		}
 	}
 
-	bool changeAccess(string loginToVerify)
+	void printAccountByLogin(string loginToPrint)
+	{
+		int indexToPrint = getIndexByLogin(loginToPrint);
+		if (indexToPrint != -1)
+		{
+			std::cout << std::endl;
+			vectorOfAccounts[indexToPrint].print();
+			std::cout << std::endl;
+			return;
+		}
+
+		std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
+	}
+
+	T changeAccess(string loginToVerify)
 	{
 		int indexToVerify = getIndexByLogin(loginToVerify);
 		if (indexToVerify == -1)
 		{
-			std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
-			return false;
+			return T();
 		}
-		vectorOfAccounts[indexToVerify].changeAccess();
-		return true;
-	}
 
+		vectorOfAccounts[indexToVerify].enableAccess();
+		return vectorOfAccounts[indexToVerify];
+	}
 };
 
 

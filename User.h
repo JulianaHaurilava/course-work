@@ -16,6 +16,7 @@ public:
 	User(string encryptedPassword, int role,
 		FullName fullName, Date dateOfBirth, Address address);
 
+	void enableAccess();
 	virtual string getStringForFile();
 	virtual void print();
 	virtual FullName getFullName() = 0;

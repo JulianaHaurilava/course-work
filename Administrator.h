@@ -19,25 +19,25 @@ class Administrator :
 {
 	string getCorrectLogin(std::istream& s, const char* message);
 
-public:
-	Administrator();
-	~Administrator();
+	void deactivateAccount(string loginToDeactivate, AccountRepository<Doctor>& dr,
+		AccountRepository<Patient>& pr);
 
-	void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
-		AccountRepository<Patient>& pr, ClinicRepository& cr);
-
+	void printAccountByLogin(string loginToPrint, AccountRepository<Doctor>& dr,
+		AccountRepository<Patient>& pr);
 
 	void workWithAccounts(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
 		AccountRepository<Patient>& pr);
 
 	void verifyAccount(string loginToVerify, AccountRepository<Doctor>& ndr,
 		AccountRepository<Doctor>& dr);
-	void deactivateAccount(string loginToDeactivate, AccountRepository<Doctor>& dr,
-		AccountRepository<Patient>& pr);
-	void printAccountByLogin(string loginToFind, AccountRepository<Doctor>& dr,
-		AccountRepository<Patient>& pr);
 
 	void workWithServices(ClinicRepository& cr);
 
+public:
+	Administrator();
+	~Administrator();
+
+	void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
+		AccountRepository<Patient>& pr, ClinicRepository& cr);
 };
 
