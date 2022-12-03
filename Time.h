@@ -14,6 +14,8 @@ struct Time
 	string getStringForFile();
 	string getStringForLogin();
 	void setCurrentTime();
+
+	friend std::ostream& operator<<(std::ostream& os, const Time& time);
 };
 
 

@@ -12,7 +12,6 @@ protected:
 	Date dateOfBirth;
 	Address address;
 
-	virtual void editAccountInfo() = 0;
 public:
 	User();
 	User(string encryptedPassword, int role,

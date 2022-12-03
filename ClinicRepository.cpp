@@ -41,7 +41,7 @@ void ClinicRepository::allServiceMapOutOfFile()
 		fs.get();
 		getline(fs, serviceName);
 
-		if (servicePrice > 0)
+		if (serviceName != "")
 			allServices.insert(std::pair<string, double>(serviceName, servicePrice));
 
 	} while (!fs.eof());
@@ -62,13 +62,10 @@ ClinicRepository::~ClinicRepository()
 
 void ClinicRepository::printTableOfServices()
 {
-	std::cout << '|' << std::setw(15) << "Название услуги" << std::setw(6)
-		<< '|' << std::setw(7) << "Цена" << std::setw(2) << '|' << std::endl;
+	std::cout << std::setw(20) << "Название услуги" << "   " << "Цена" << std::endl;
 	for (auto& service : allServices)
 	{
-		std::cout << '|' << std::setw(19) << service.first << std::setw(2)
-			<< '|' << std::setw(7) << std::setprecision(6) << service.second << std::setw(2)
-			<< '|' << std::endl;
+		std::cout << std::setw(20) << service.first << "   " << service.second << std::endl;
 	}
 }
 
@@ -134,4 +131,5 @@ void ClinicRepository::editService(string name)
 	}
 	std::cout << "Услуга не найдена!\n";
 }
+
 

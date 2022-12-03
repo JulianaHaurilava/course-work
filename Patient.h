@@ -7,11 +7,15 @@ using std::string;
 class Patient :
     public User
 {
+    
     Extract lastExtract;
 
-    void printLastExtract();
-    void editAccountInfo() override;
-    void buyService();
+    std::map<string, int> mapOfUnpaidServices;
+    double totalPrice;
+
+    void editAccountInfo();
+    void buyService(ClinicRepository cr);
+    void printUnpaidServices();
 
 public:
     Patient();
@@ -22,6 +26,8 @@ public:
 
     string getStringForFile() override;
     void print() override;
+    void printInfoForDoctor();
+    void changeExtract(string newDiagnosis, string newRecommendation);
 
     friend std::istream& operator >> (std::istream& in, Patient& patient);
 };

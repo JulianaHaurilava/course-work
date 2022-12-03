@@ -12,7 +12,7 @@ class Doctor :
 {
     string position;
 
-    void editAccountInfo();
+    void workWithPatient(AccountRepository<Patient>& pr);
 
 public:
 

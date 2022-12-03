@@ -4,9 +4,10 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <map>
+#include <memory>
 
 #include "Checkups.h"
+#include "FullName.h"
 
 using std::string;
 
@@ -75,6 +76,19 @@ class AccountRepository
 		return -1;
 	}
 
+	int getIndexByFullName(FullName fullName)
+	{
+		int vectorSize = vectorOfAccounts.size();
+		for (int i = 0; i < vectorSize; i++)
+		{
+			if (vectorOfAccounts[i].getFullName() == fullName)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
 public:
 
 	AccountRepository(string fileName)
@@ -87,15 +101,37 @@ public:
 		allVectorInFile();
 	}
 
-	T findAccountByLogin(string login)
+	T* findAccountByLogin(string login)
 	{
 		int index = getIndexByLogin(login);
 		if (index != -1)
 		{
-			return vectorOfAccounts[index];
+			return &vectorOfAccounts[index];
 		}
-		return T();
+		return new T();
 	}
+
+	T* findAccountByFullName(FullName fullName)
+	{
+		int index = getIndexByFullName(fullName);
+		if (index != -1)
+		{
+			return &vectorOfAccounts[index];
+		}
+
+		T* emptyT = new T();
+		return emptyT;
+	}
+
+	//std::shared_ptr<T> findAccountByFullName(FullName fullName)
+	//{
+	//	int index = getIndexByFullName(fullName);
+	//	if (index != -1)
+	//	{
+	//		return std::make_shared<T>(vectorOfAccounts[index]);
+	//	}
+	//	return std::make_shared<T>(new T());
+	//}
 
 	void addNewAccount(T newAccount)
 	{

@@ -42,16 +42,16 @@ bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
     }
     else if (role == 2)
     {
-        Doctor doctor = dr.findAccountByLogin(login);
-        if (doctor.getFullName().surname == "_")
+        Doctor* doctor = dr.findAccountByLogin(login);
+        if (doctor->getFullName().surname == "_")
             doctor = ndr.findAccountByLogin(login);
 
-        if (doctor.loginAndPasswordCorrect(login, password))
+        if (doctor->loginAndPasswordCorrect(login, password))
         {
-            if (doctor.getAccess())
+            if (doctor->getAccess())
             {
                 system("cls");
-                doctor.logInSystem(pr);
+                doctor->logInSystem(pr);
                 return true;
             }
             else
@@ -63,13 +63,13 @@ bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
     }
     else if (role == 3)
     {
-        Patient patient = pr.findAccountByLogin(login);
-        if (patient.loginAndPasswordCorrect(login, password))
+        Patient* patient = pr.findAccountByLogin(login);
+        if (patient->loginAndPasswordCorrect(login, password))
         {
-            if (patient.getAccess())
+            if (patient->getAccess())
             {
                 system("cls");
-                patient.logInSystem(cr);
+                patient->logInSystem(cr);
                 return true;
             }
             else
