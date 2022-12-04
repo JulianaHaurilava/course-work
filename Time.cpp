@@ -17,7 +17,12 @@ string Time::getStringForFile()
 
 string Time::getStringForLogin()
 {
-    return std::to_string(hour) + std::to_string(minute) + std::to_string(second);
+    string stringForLogin = "";
+    hour < 10 ? stringForLogin += "0" + std::to_string(hour) : stringForLogin += std::to_string(hour);
+    minute < 10 ? stringForLogin += "0" + std::to_string(minute) : stringForLogin += std::to_string(minute);
+    second < 10 ? stringForLogin += "0" + std::to_string(second) : stringForLogin += std::to_string(second);
+
+    return stringForLogin;
 }
 
 std::ostream& operator<<(std::ostream& os, const Time& time)

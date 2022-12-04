@@ -7,10 +7,9 @@ using std::string;
 class Patient :
     public User
 {
-    
     Extract lastExtract;
 
-    std::map<string, int> mapOfUnpaidServices;
+    std::map<string, double> mapOfUnpaidServices;
     double totalPrice;
 
     void editAccountInfo();

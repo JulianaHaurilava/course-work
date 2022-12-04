@@ -24,9 +24,6 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 
 	Patient* patientToWorkWith = pr.findAccountByFullName(fullName);
 
-	/*std::shared_ptr<Patient> patientToWorkWith;*/
-	/*patientToWorkWith.swap(pr.findAccountByFullName(fullName));*/
-
 	if (patientToWorkWith->getLogin() == "_")
 	{
 		std::cout << "Пациент с таким именем не зарегистрирован в системе!\n";
@@ -40,10 +37,10 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 	string recommendations;
 	std::cout << "Введите информацию о приеме" << std::endl << std::endl;
 	std::cout << "Диагноз: ";
-	std::cout << diagnosis;
+	getline(std::cin, diagnosis);
 
 	std::cout << "Рекомендации : ";
-	std::cout << recommendations;
+	getline(std::cin, recommendations);
 
 	patientToWorkWith->changeExtract(diagnosis, recommendations);
 }

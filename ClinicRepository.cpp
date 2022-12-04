@@ -115,14 +115,13 @@ void ClinicRepository::editService(string name)
 			allServices.erase(foundService);
 
 			allServices[newName] = oldPrice;
-			break;
+			return;
 		}
 		case 2:
 		{
 			double newPrice = getCorrectPositiveDouble(std::cin, "Новая цена услуги: ");
 			foundService->second = newPrice;
-
-			break;
+			return;
 		}
 		case 3:
 			return;

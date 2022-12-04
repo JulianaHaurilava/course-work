@@ -119,18 +119,18 @@ void Patient::editAccountInfo()
 			fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
 			fullName.name = getCorrectWordInput(std::cin, "Имя: ");
 			fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
-			break;
+			return;
 		case 2:
 			std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 			dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
-			break;
+			return;
 		case 3:
 			std::cout << "Введите адрес проживания\n";
 			address.city = getCorrectWordInput(std::cin, "Город: ");
 			address.street = getCorrectStringInput(std::cin, "Улица: ");
 			address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
 			address.flatNumber = getCorrectFlatNumber(std::cin);
-			break;
+			return;
 		case 4:
 			return;
 		}
@@ -188,9 +188,18 @@ std::istream& operator >> (std::istream& in, Patient& patient)
 		int i = 0;
 		while (nextChar != '\n')
 		{
+			string buff;
 			string serviceName;
 			double servicePrice;
-			in >> serviceName >> servicePrice;
+			in >> buff;
+
+			while (buff[0] < 48 || buff[0] > 58)
+			{
+				serviceName += buff + " ";
+				in >> buff;
+			}
+			serviceName.pop_back();
+			servicePrice = stod(buff);
 			patient.totalPrice += servicePrice;
 			patient.mapOfUnpaidServices.insert({ serviceName, servicePrice });
 			nextChar = in.peek();

@@ -2,7 +2,7 @@
 
 std::ostream& operator<<(std::ostream& os, const FullName& fullName)
 {
-    return os << fullName.name << " " << fullName.surname << " " << fullName.patronymic;
+    return os << fullName.surname << " " << fullName.name << " " << fullName.patronymic;
 }
 
 bool operator==(const FullName& fullName_1, const FullName& fullName_2)

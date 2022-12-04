@@ -21,7 +21,11 @@ string Date::getStringForFile()
 
 string Date::getStringForLogin()
 {
-	return std::to_string(day) + std::to_string(month) + std::to_string(year);
+	string stringForLogin = "";
+	day < 10 ? stringForLogin += "0" + std::to_string(day) : stringForLogin += std::to_string(day);
+	month < 10 ? stringForLogin += "0" + std::to_string(month) : stringForLogin += std::to_string(month);
+
+	return stringForLogin + std::to_string(year);
 }
 
 void Date::setCurrentDate()

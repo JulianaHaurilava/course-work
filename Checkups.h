@@ -17,6 +17,8 @@ const string letters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕ
 
 std::string getCorrectStringInput(std::istream& s, const char* message);
 
+std::string getCorrectStringInputEsc(std::istream& s, const char* message);
+
 std::string getCorrectWordInput(std::istream& s, const char* message);
 
 void checkIfInteger(std::string userInput);

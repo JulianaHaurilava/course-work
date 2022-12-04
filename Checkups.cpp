@@ -62,6 +62,48 @@ std::string getCorrectStringInput(std::istream& s, const char* message)
     }
 }
 
+std::string getCorrectStringInputEsc(std::istream& s, const char* message)
+{
+    std::string userInput;
+    while (true)
+    {
+        try
+        {
+            std::cout << message;
+            getline(std::cin, userInput);
+
+            for (char c : userInput)
+            {
+                bool isAlpha = false;
+                for (char c_c : letters)
+                {
+                    if (c == c_c)
+                    {
+                        isAlpha = true;
+                    }
+                }
+                if (!isAlpha && c != ' ')
+                {
+                    throw -1;
+                }
+            }
+            return userInput;
+        }
+        catch (int)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! В строке содержатся не только буквы.\n" <<
+                "Повторите ввод.\n\n";
+        }
+        catch (std::out_of_range)
+        {
+            std::cin.clear();
+            std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                "Повторите ввод.\n\n";
+        }
+    }
+}
+
 std::string getCorrectWordInput(std::istream& s, const char* message)
 {
     std::string userInput;
@@ -455,9 +497,9 @@ string getCorrectEncryptedPassword(std::istream& s)
 
 void endCase()
 {
-    std::cout << "Для того, чтобы продолжить, нажмите любую клавишу...";
+    std::cout << "\nДля того, чтобы продолжить, нажмите любую клавишу...";
     _getch();
-    std::cin.clear();
     system("cls");
+    std::cin.clear();
 }
 

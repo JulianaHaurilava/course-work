@@ -77,9 +77,15 @@ void Extract::setRecommendations(string recommendations)
 	this->recommendations = recommendations;
 }
 
-void Extract::setMap(std::map<string, int> mapOfPaidServices)
+void Extract::setMap(std::map<string, double> mapOfPaidServices)
 {
+	totalPrice = 0;
 	this->mapOfPaidServices.swap(mapOfPaidServices);
+	
+	for (const auto& serviceInfo : this->mapOfPaidServices)
+	{
+		totalPrice += serviceInfo.second;
+	}
 }
 
 std::istream& operator >> (std::istream& in, Extract& extract)
@@ -95,9 +101,19 @@ std::istream& operator >> (std::istream& in, Extract& extract)
 		int i = 0;
 		while (nextChar != '\n')
 		{
+			string buff;
 			string serviceName;
 			double servicePrice;
-			in >> serviceName >> servicePrice;
+			in >> buff;
+
+			while (buff[0] < 48 || buff[0] > 58)
+			{
+				serviceName += buff + " ";
+				in >> buff;
+			}
+			serviceName.pop_back();
+			servicePrice = stod(buff);
+
 			extract.totalPrice += servicePrice;
 			extract.mapOfPaidServices.insert({ serviceName, servicePrice });
 			nextChar = in.peek();

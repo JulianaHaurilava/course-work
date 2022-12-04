@@ -9,7 +9,7 @@ class Extract
 {
 	string diagnosis;
 
-	std::map<string, int> mapOfPaidServices;
+	std::map<string, double> mapOfPaidServices;
 
 	double totalPrice;
 
@@ -23,7 +23,7 @@ public:
 
 	void setDiagnosis(string diagnosis);
 	void setRecommendations(string recommendations);
-	void setMap(std::map<string, int> mapOfPaidServices);
+	void setMap(std::map<string, double> mapOfPaidServices);
 
 	friend std::istream& operator >> (std::istream& in, Extract& extract);
 };

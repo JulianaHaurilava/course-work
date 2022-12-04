@@ -14,7 +14,8 @@ string Administrator::getCorrectLogin(std::istream& s, const char* message)
 			if (adminInput.length() != 16 ||
 				!(role == 2 || role == 3))
 			{
-				throw -1;
+				if (adminInput.length() != 0)
+					throw -1;
 			}
 
 			return adminInput;
@@ -107,6 +108,9 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		{
 			string loginToVerify = getCorrectLogin(std::cin, 
 				"¬ведите логин пользовател€, которого хотите верифицировать:\n");
+
+			if (loginToVerify == "") break;
+
 			verifyAccount(loginToVerify, ndr, dr);
 			break;
 		}
@@ -115,6 +119,8 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 			string loginToDeactivate = getCorrectLogin(std::cin,
 				"¬ведите логин пользовател€, аккаунт которого хотите деактивировать:\n");
 
+			if (loginToDeactivate == "") break;
+
 			deactivateAccount(loginToDeactivate, dr, pr);
 			break;
 		}
@@ -122,6 +128,8 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		{
 			string loginToPrint = getCorrectLogin(std::cin,
 				"¬ведите логин пользовател€, аккаунт которого хотите найти:\n");
+
+			if (loginToPrint == "") break;
 
 			printAccountByLogin(loginToPrint, dr, pr);
 			break;
