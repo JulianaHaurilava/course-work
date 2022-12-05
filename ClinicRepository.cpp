@@ -3,7 +3,6 @@
 
 void ClinicRepository::allServiceMapInFile()
 {
-
 	std::ofstream fout;
 	fout.open(serviceFileName, std::ios::trunc);
 
@@ -50,6 +49,23 @@ void ClinicRepository::allServiceMapOutOfFile()
 	fs.close();
 }
 
+void ClinicRepository::addServiceInFile(string serviceName)
+{
+	std::ofstream fout;
+	fout.open(serviceFileName, std::ios::app);
+
+	if (!fout.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	fout << std::to_string(allServices.find(serviceName)->second) + " " +
+		allServices.find(serviceName)->first + '\n';
+
+	fout.close();
+}
+
 ClinicRepository::ClinicRepository()
 {
 	allServiceMapOutOfFile();
@@ -62,22 +78,24 @@ ClinicRepository::~ClinicRepository()
 
 void ClinicRepository::printTableOfServices()
 {
-	std::cout << std::setw(20) << "Название услуги" << "   " << "Цена" << std::endl;
+	std::cout << std::setw(25) << "Название услуги" << "   " << "Цена" << std::endl << std::endl;
 	for (auto& service : allServices)
 	{
-		std::cout << std::setw(20) << service.first << "   " << service.second << std::endl;
+		std::cout << std::setw(25) << service.first << "   " << service.second << std::endl;
 	}
 }
 
 void ClinicRepository::addNewService(string name, double price)
 {
 	allServices.insert(std::pair<string, double>(name, price));
+	addServiceInFile(name);
 }
 
 void ClinicRepository::deleteService(string name)
 {
 	if (allServices.erase(name))
 	{
+		allServiceMapInFile();
 		return;
 	}
 	else std::cout << "Услуга не найдена!\n";
@@ -115,12 +133,16 @@ void ClinicRepository::editService(string name)
 			allServices.erase(foundService);
 
 			allServices[newName] = oldPrice;
+
+			allServiceMapInFile();
 			return;
 		}
 		case 2:
 		{
 			double newPrice = getCorrectPositiveDouble(std::cin, "Новая цена услуги: ");
 			foundService->second = newPrice;
+
+			allServiceMapInFile();
 			return;
 		}
 		case 3:

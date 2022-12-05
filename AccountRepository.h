@@ -11,31 +11,13 @@
 
 using std::string;
 
-//стремно сделаны функции со стороны записи в файл!!! если будут силы, переделай...
 template <typename T>
 class AccountRepository
 {
 	string fileName;
 	std::vector<T> vectorOfAccounts;
 
-	void allVectorInFile()
-	{
-		std::ofstream fout;
-		fout.open(fileName, std::ios::trunc);
-
-		if (!fout.is_open())
-		{
-			std::cout << "\nОшибка открытия файла!\n";
-			return;
-		}
-
-		for (T info : vectorOfAccounts)
-		{
-			fout << info.getStringForFile();
-		}
-
-		fout.close();
-	}
+	
 
 	void allVectorOutOfFile()
 	{
@@ -61,6 +43,21 @@ class AccountRepository
 			vectorOfAccounts.pop_back();
 		}
 		fs.close();
+	}
+
+	void lastAccountInFile()
+	{
+		std::ofstream fout;
+		fout.open(fileName, std::ios::app);
+
+		if (!fout.is_open())
+		{
+			std::cout << "\nОшибка открытия файла!\n";
+			return;
+		}
+
+		fout << vectorOfAccounts.back().getStringForFile();
+		fout.close();
 	}
 
 	int getIndexByLogin(string loginToFind)
@@ -89,8 +86,27 @@ class AccountRepository
 		return -1;
 	}
 
-public:
+	void allVectorInFile()
+	{
+		std::ofstream fout;
+		fout.open(fileName, std::ios::trunc);
 
+		if (!fout.is_open())
+		{
+			std::cout << "\nОшибка открытия файла!\n";
+			return;
+		}
+
+		for (T info : vectorOfAccounts)
+		{
+			fout << info.getStringForFile();
+		}
+
+		fout.close();
+	}
+
+public:
+	
 	AccountRepository(string fileName)
 	{
 		this->fileName = fileName;
@@ -123,19 +139,10 @@ public:
 		return emptyT;
 	}
 
-	//std::shared_ptr<T> findAccountByFullName(FullName fullName)
-	//{
-	//	int index = getIndexByFullName(fullName);
-	//	if (index != -1)
-	//	{
-	//		return std::make_shared<T>(vectorOfAccounts[index]);
-	//	}
-	//	return std::make_shared<T>(new T());
-	//}
-
 	void addNewAccount(T newAccount)
 	{
 		vectorOfAccounts.push_back(newAccount);
+		lastAccountInFile();
 	}
 
 	/// <summary>
@@ -187,6 +194,11 @@ public:
 
 		vectorOfAccounts[indexToVerify].enableAccess();
 		return vectorOfAccounts[indexToVerify];
+	}
+
+	void updateRepository()
+	{
+		allVectorInFile();
 	}
 };
 

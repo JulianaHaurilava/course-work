@@ -6,7 +6,7 @@
 #include <iostream>
 #include <windows.h>
 
-bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
+void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
     AccountRepository<Patient>& pr, ClinicRepository& cr)
 {
     string login, password;
@@ -36,8 +36,9 @@ bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
         if (admin.loginAndPasswordCorrect(login, password))
         {
             system("cls");
+            std::cin.clear();
             admin.logInSystem(dr, ndr, pr, cr);
-            return true;
+            return;
         }
     }
     else if (role == 2)
@@ -51,13 +52,14 @@ bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
             if (doctor->getAccess())
             {
                 system("cls");
+                std::cin.clear();
                 doctor->logInSystem(pr);
-                return true;
+                return;
             }
             else
             {
-                std::cout << "\nВам отказано в доступе! Дождитесь верификации.\n\n";
-                return false;
+                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                return;
             }
         }
     }
@@ -69,19 +71,20 @@ bool logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
             if (patient->getAccess())
             {
                 system("cls");
-                patient->logInSystem(cr);
-                return true;
+                std::cin.clear();
+                patient->logInSystem(cr, pr);
+                return;
             }
             else
             {
-                std::cout << "\nВам отказано в доступе! Дождитесь верификации.\n\n";
-                return false;
+                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                return;
             }
         }
     }
 
-    std::cout << "\nВведен неверный логин или пароль!\n\n";
-    return false;
+    std::cout << "Введен неверный логин или пароль!\n\n";
+    return;
 }
 
 Doctor createDoctorFromConsole()
@@ -187,21 +190,22 @@ int main()
 
     while (true)
     {
-        std::cout << "\nЧто вы хотите сделать? Выберите соответствующее число.\n"
+        std::cout << "Что вы хотите сделать? Выберите соответствующее число.\n"
             "1 - войти в систему;\n"
             "2 - зарегистрироваться в системе;\n"
             "3 - выйти из системы.\n\n";
 
         int choice = getCorrectMenuInput(3);
+        system("cls");
         switch (choice)
         {
-        case 1:
-            if (logInSystem(dr, ndr, pr, cr))
-                return 0;
+        case 1: (logInSystem(dr, ndr, pr, cr)); break;
+        case 2: 
+            registerInSystem(ndr, pr);
+            endCase();
             break;
-        case 2: registerInSystem(ndr, pr); break;
         case 3: return 0;
         }
-        endCase();
+        
     }
 }

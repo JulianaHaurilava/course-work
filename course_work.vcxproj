@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Account.cpp" />
-    <ClCompile Include="AccountRepository.cpp" />
     <ClCompile Include="Address.cpp" />
     <ClCompile Include="Administrator.cpp" />
     <ClCompile Include="Checkups.cpp" />
@@ -152,7 +151,6 @@
     <ClCompile Include="FullName.cpp" />
     <ClCompile Include="Hash.cpp" />
     <ClCompile Include="Patient.cpp" />
-    <ClCompile Include="Statistics.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
@@ -170,7 +168,6 @@
     <ClInclude Include="Hash.h" />
     <ClInclude Include="InvalidPasswordExeption.h" />
     <ClInclude Include="Patient.h" />
-    <ClInclude Include="Statistics.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

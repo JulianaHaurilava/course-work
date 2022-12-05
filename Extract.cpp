@@ -54,17 +54,21 @@ void Extract::print()
 
 void Extract::printExtractForDoctor()
 {
-	std::cout << "Диагноз: " << diagnosis << std::endl;
-	std::cout << "Рекомендации: " << recommendations << std::endl << std::endl;
-
-	if (totalPrice != 0)
+	if (diagnosis != "_")
 	{
-		std::cout << "Оказанные услуги" << std::endl;
-		for (const auto& serviceInfo : mapOfPaidServices)
+		std::cout << "Диагноз: " << diagnosis << std::endl;
+		std::cout << "Рекомендации: " << recommendations << std::endl << std::endl;
+
+		if (totalPrice != 0)
 		{
-			std::cout << serviceInfo.first << std::endl;
+			std::cout << "Оказанные услуги" << std::endl;
+			for (const auto& serviceInfo : mapOfPaidServices)
+			{
+				std::cout << serviceInfo.first << std::endl;
+			}
 		}
 	}
+	else std::cout << "Выписка отсутствует";
 }
 
 void Extract::setDiagnosis(string diagnosis)

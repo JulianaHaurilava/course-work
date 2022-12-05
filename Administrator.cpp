@@ -10,13 +10,11 @@ string Administrator::getCorrectLogin(std::istream& s, const char* message)
 			std::cout << message;
 			getline(std::cin, adminInput);
 
+			if (adminInput.length() == 0) return adminInput;
 			int role = stoi(adminInput.substr(0, 2));
 			if (adminInput.length() != 16 ||
 				!(role == 2 || role == 3))
-			{
-				if (adminInput.length() != 0)
 					throw -1;
-			}
 
 			return adminInput;
 		}
@@ -52,7 +50,7 @@ void Administrator::logInSystem(AccountRepository<Doctor>& dr, AccountRepository
 {
 	while (true)
 	{
-		std::cout << "\nЧто вы хотите сделать? Выберите соответствующее число.\n"
+		std::cout << "Что вы хотите сделать? Выберите соответствующее число.\n"
 			"1 - работа с услугами клинки;\n"
 			"2 - работа с аккаунтами;\n"
 			"3 - выйти.\n\n";
@@ -70,7 +68,6 @@ void Administrator::logInSystem(AccountRepository<Doctor>& dr, AccountRepository
 		case 3: 
 			return;
 		}
-		endCase();
 	}
 }
 
@@ -79,16 +76,17 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 {
 	while (true)
 	{
-		std::cout << "\nЧто вы хотите сделать? Выберите соответствующее число.\n"
+		std::cout << "Что вы хотите сделать? Выберите соответствующее число.\n"
 			"1 - просмотреть информацию обо всех врачах;\n"
 			"2 - просмотреть информацию обо всех пациентах;\n"
 			"3 - просмотреть информацию обо всех неверефецированных аккаунтах;\n"
 			"4 - верифицировать аккаунт;\n"
 			"5 - деактивировать аккаунт;\n"
 			"6 - найти аккаунт по логину;\n"
-			"7 - выйти.\n\n";
+			"7 - редактировать должность сотрудника;\n"
+			"8 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(7);
+		int choice = getCorrectMenuInput(8);
 		system("cls");
 		switch (choice)
 		{
@@ -106,6 +104,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 			break;
 		case 4:
 		{
+			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
 			string loginToVerify = getCorrectLogin(std::cin, 
 				"Введите логин пользователя, которого хотите верифицировать:\n");
 
@@ -116,6 +115,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		}
 		case 5:
 		{
+			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
 			string loginToDeactivate = getCorrectLogin(std::cin,
 				"Введите логин пользователя, аккаунт которого хотите деактивировать:\n");
 
@@ -126,6 +126,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		}
 		case 6:
 		{
+			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
 			string loginToPrint = getCorrectLogin(std::cin,
 				"Введите логин пользователя, аккаунт которого хотите найти:\n");
 
@@ -135,6 +136,16 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 			break;
 		}
 		case 7:
+		{
+			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
+			string loginToEdit = getCorrectLogin(std::cin,
+				"Введите логин сотрудника, чью должность хотите редактировать:\n");
+
+			if (loginToEdit == "") break;
+			editDoctorsPosition(loginToEdit, dr);
+			break;
+		}
+		case 8:
 			return;
 		}
 		endCase();
@@ -199,6 +210,18 @@ void Administrator::workWithServices(ClinicRepository& cr)
 		}
 		endCase();
 	}
+}
+
+void Administrator::editDoctorsPosition(string loginToEdit, AccountRepository<Doctor>& dr)
+{
+	Doctor* doctorToEdit = dr.findAccountByLogin(loginToEdit);
+	if (doctorToEdit->getAccess())
+	{
+		doctorToEdit->editAccountInfo();
+		dr.updateRepository();
+		return;
+	}
+	std::cout << "Пользователь с таким логном не зарегистрирован в системе!\n";
 }
 
 void Administrator::deactivateAccount(string loginToDeactivate, AccountRepository<Doctor>& dr,

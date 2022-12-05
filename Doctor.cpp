@@ -30,11 +30,14 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 		delete patientToWorkWith;
 		return;
 	}
-	
+
+	std::cout << std::endl;
 	patientToWorkWith->printInfoForDoctor();
 
 	string diagnosis;
 	string recommendations;
+
+	std::cout << std::endl;
 	std::cout << "Введите информацию о приеме" << std::endl << std::endl;
 	std::cout << "Диагноз: ";
 	getline(std::cin, diagnosis);
@@ -43,6 +46,13 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 	getline(std::cin, recommendations);
 
 	patientToWorkWith->changeExtract(diagnosis, recommendations);
+	pr.updateRepository();
+}
+
+bool Doctor::editAccountInfo()
+{
+	position = getCorrectStringInput(std::cin, "Введите новую должность: ");
+	return true;
 }
 
 
@@ -50,9 +60,9 @@ void Doctor::logInSystem(AccountRepository<Patient>& pr)
 {
 	while (true)
 	{
-		std::cout << "\nЧто вы хотите сделать? Выберите соответствующее число.\n"
+		std::cout << "Что вы хотите сделать? Выберите соответствующее число.\n"
 			"1 - посмотреть информацию профиля;\n"
-			"2 - записать информацию о приеме;\n" // блок работы с пациентом (вытащить из вектора пациентов: просмотр инфы и редактирование выписки)
+			"2 - записать информацию о приеме;\n"
 			"3 - выйти.\n\n";
 
 		int choice = getCorrectMenuInput(3);

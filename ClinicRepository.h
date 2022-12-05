@@ -16,6 +16,7 @@ class ClinicRepository
 
 	void allServiceMapInFile();
 	void allServiceMapOutOfFile();
+	void addServiceInFile(string serviceName);
 
 	friend class Administrator;
 

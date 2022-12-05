@@ -33,6 +33,8 @@ class Administrator :
 
 	void workWithServices(ClinicRepository& cr);
 
+	void editDoctorsPosition(string loginToEdit, AccountRepository<Doctor>& dr);
+
 public:
 	Administrator();
 	~Administrator();

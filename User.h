@@ -12,6 +12,8 @@ protected:
 	Date dateOfBirth;
 	Address address;
 
+	virtual bool editAccountInfo() = 0;
+
 public:
 	User();
 	User(string encryptedPassword, int role,

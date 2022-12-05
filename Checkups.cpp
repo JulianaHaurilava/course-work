@@ -34,7 +34,7 @@ std::string getCorrectStringInput(std::istream& s, const char* message)
                         isAlpha = true;
                     }
                 }
-                if (!isAlpha && c != ' ')
+                if (!isAlpha && c != ' ' && c != '-')
                 {
                     throw -1;
                 }
@@ -50,7 +50,7 @@ std::string getCorrectStringInput(std::istream& s, const char* message)
         catch (int)
         {
             std::cin.clear();
-            std::cout << "Введенные данные некорректны! В строке содержатся не только буквы.\n" <<
+            std::cout << "Введенные данные некорректны! В строке содержатся недопустимые символы.\n" <<
                 "Повторите ввод.\n\n";
         }
         catch (std::out_of_range)
@@ -82,7 +82,7 @@ std::string getCorrectStringInputEsc(std::istream& s, const char* message)
                         isAlpha = true;
                     }
                 }
-                if (!isAlpha && c != ' ')
+                if (!isAlpha && c != ' ' && c != '-')
                 {
                     throw -1;
                 }
@@ -174,7 +174,11 @@ int getCorrectPositiveInteger(std::istream& s, const char* message)
         try
         {
             std::cout << message;
-            getline(std::cin, userInput);
+            std::cin.clear();
+            do
+            {
+                getline(std::cin, userInput);
+            } while (userInput.empty());
 
             for (char c : userInput)
             {
@@ -251,7 +255,7 @@ double getCorrectPositiveDouble(std::istream& s, const char* message)
                         throw std::invalid_argument("Ввод содержит недопустимые символы.");
             }
 
-            int userDoubleInput = stod(userInput);
+            double userDoubleInput = stod(userInput);
 
             if (userDoubleInput <= 0) throw - 1;
             return userDoubleInput;
@@ -425,6 +429,12 @@ int getCorrectFlatNumber(std::istream& s)
 string getCorrectEncryptedPassword(std::istream& s)
 {
     std::string userInput;
+    std::cout << "Требования к паролю:\n" <<
+        "Минимальная длина - 8 символов. Пароль должен содержать:\n" <<
+        "1. Заглавную латинскую букву;\n" <<
+        "2. Маленькую латинскую букву;\n" <<
+        "3. Цифру;\n" <<
+        "4. Специальный символ.\n\n";
     while (true)
     {
         try

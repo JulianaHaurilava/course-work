@@ -1,6 +1,7 @@
 #pragma once
 #include "User.h"
 #include "Extract.h"
+#include "AccountRepository.h"
 
 using std::string;
 
@@ -12,8 +13,8 @@ class Patient :
     std::map<string, double> mapOfUnpaidServices;
     double totalPrice;
 
-    void editAccountInfo();
-    void buyService(ClinicRepository cr);
+    bool editAccountInfo();
+    bool buyService(ClinicRepository cr);
     void printUnpaidServices();
 
 public:
@@ -21,7 +22,7 @@ public:
     Patient(string encryptedPassword, int role, FullName fullName,
         Date dateOfBirth, Address address);
 
-    void logInSystem(ClinicRepository& cr);
+    void logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr);
 
     string getStringForFile() override;
     void print() override;

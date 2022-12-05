@@ -14,11 +14,11 @@ Patient::Patient(string encryptedPassword, int role, FullName fullName,
 }
 
 
-void Patient::logInSystem(ClinicRepository& cr)
+void Patient::logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr)
 {
 	while (true)
 	{
-		std::cout << "\nЧто вы хотите сделать? Выберите соответствующее число.\n"
+		std::cout << "Что вы хотите сделать? Выберите соответствующее число.\n"
 			"1 - посмотреть информацию профиля;\n"
 			"2 - редактировать профиль;\n"
 			"3 - просмотреть последнюю выписку;\n"
@@ -35,7 +35,8 @@ void Patient::logInSystem(ClinicRepository& cr)
 			print();
 			break;
 		case 2:
-			editAccountInfo();
+			if (editAccountInfo())
+				pr.updateRepository();
 			break;
 		case 3:
 			lastExtract.print();
@@ -44,7 +45,7 @@ void Patient::logInSystem(ClinicRepository& cr)
 			cr.printTableOfServices();
 			break;
 		case 5:
-			buyService(cr);
+			if (buyService(cr)) pr.updateRepository(); 
 			break;
 		case 6:
 			printUnpaidServices();
@@ -100,11 +101,11 @@ void Patient::changeExtract(string newDiagnosis, string newRecommendation)
 }
 
 
-void Patient::editAccountInfo()
+bool Patient::editAccountInfo()
 {
 	while (true)
 	{
-		std::cout << "\nЧто вы хотите редактировать? Выберите соответствующее число.\n"
+		std::cout << "Что вы хотите редактировать? Выберите соответствующее число.\n"
 			"1 - полное имя;\n"
 			"2 - дата рождения;\n"
 			"3 - адрес;\n"
@@ -119,53 +120,58 @@ void Patient::editAccountInfo()
 			fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
 			fullName.name = getCorrectWordInput(std::cin, "Имя: ");
 			fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
-			return;
+
+			
+			return true;
 		case 2:
 			std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 			dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
-			return;
+			return true;
 		case 3:
 			std::cout << "Введите адрес проживания\n";
 			address.city = getCorrectWordInput(std::cin, "Город: ");
 			address.street = getCorrectStringInput(std::cin, "Улица: ");
 			address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
 			address.flatNumber = getCorrectFlatNumber(std::cin);
-			return;
+			return true;
 		case 4:
-			return;
+			return false;
 		}
 		endCase();
 	}
 }
 
-void Patient::buyService(ClinicRepository cr)
+bool Patient::buyService(ClinicRepository cr)
 {
-	std::cout << "Для того, чтобы выйти введите пробел.\n";
+	std::cout << "Для того, чтобы выйти введите пустую строку.\n";
+	bool gotService = false;
 	while (true)
 	{
 		std::cout << "Введите название услуги, которую хотите приобрести.\n";
-		string serviceToBuy = getCorrectStringInput(std::cin, "Название: ");
-		if (serviceToBuy == " ") break;
+		string serviceToBuy = getCorrectStringInputEsc(std::cin, "Название: ");
+		if (serviceToBuy == "") break;
 
 		double servicePrice = cr.getPriceByName(serviceToBuy);
 		if (servicePrice != 0)
 		{
 			mapOfUnpaidServices.insert(std::pair<string, double>(serviceToBuy, servicePrice));
 			totalPrice += servicePrice;
+			gotService = true;
 		}
 		else std::cout << "Наша клиника не предоставляет услуг с таким названием.\n";
 	}
+	return gotService;
 }
 
 void Patient::printUnpaidServices()
 {
 	if (totalPrice != 0)
 	{
-		std::cout << std::setw(20) << "Услуги" << "   " << "Цена" << std::endl;
+		std::cout << std::setw(25) << "Услуги" << "   " << "Цена" << std::endl << std::endl;
 
 		for (const auto& serviceInfo : mapOfUnpaidServices)
 		{
-			std::cout << std::setw(20) << serviceInfo.first << "   " << serviceInfo.second << std::endl;
+			std::cout << std::setw(25) << serviceInfo.first << "   " << serviceInfo.second << std::endl;
 		}
 
 		std::cout << std::endl;
