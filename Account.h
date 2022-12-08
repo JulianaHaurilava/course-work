@@ -13,11 +13,16 @@ using std::string;
 class Account
 {
 private:
+
 	string generateLogin(int role);
+
 protected:
+
 	string login;
 	string encryptedPassword;
 	bool access;
+
+	virtual string getStringForFile();
 
 public:
 
@@ -26,9 +31,6 @@ public:
 
 	string getLogin();
 	string getEncryptedPassword();
-
-	virtual string getStringForFile();
-
 	bool loginAndPasswordCorrect(string login, string password);
 };
 

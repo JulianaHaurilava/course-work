@@ -18,7 +18,8 @@ class Doctor :
 public:
 
     Doctor();
-    Doctor(string encryptedPassword, int role, FullName fullName, Date dateOfBirth, Address address, string position);
+    Doctor(string encryptedPassword, int role, FullName fullName,
+        Date dateOfBirth, Address address, string position);
 
     void logInSystem(AccountRepository<Patient>& pr);
     string getStringForFile() override;

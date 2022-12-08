@@ -38,7 +38,7 @@ string Hash::getHash(string userString, int length)
         int realMinlen = 0;
 
         //Получение хеша с помощью метода getSault(userString);
-        int originalSault = this->getSault(userString);
+        int originalSault = getSault(userString);
         //Получение длины строки
         int originalStringLength = userString.size();
 
@@ -58,11 +58,11 @@ string Hash::getHash(string userString, int length)
         //Добавление
         for (int i = 0; i < addCount; i++)
         {
-            userString += this->recieveCode(userString[i] + userString[i + 1]);
+            userString += recieveCode(userString[i] + userString[i + 1]);
         }
 
         //Определение максимальной соли
-        int maxSault = this->getSault(userString);
+        int maxSault = getSault(userString);
         int maxStringLength = userString.size();
 
         //Определение степени сжатия строки до ближайшего значения
@@ -70,31 +70,31 @@ string Hash::getHash(string userString, int length)
         {
             for (int i = 0, stringMid = userString.size() / 2; i < stringMid; i++)
             {
-                this->hash += this->recieveCode(userString[stringMid + i] + userString[stringMid - i]);
+                hash += recieveCode(userString[stringMid + i] + userString[stringMid - i]);
             }
-            userString = this->hash;
-            this->hash.clear();
+            userString = hash;
+            hash.clear();
         }
 
         //Приведение к нужной длине
         int symbolsToRemoveAmount = realMinlen - length;
         for (int i = 0, countCompress = realMinlen / symbolsToRemoveAmount;
-            this->hash.size() < (length - 4); i++)
+            hash.size() < (length - 4); i++)
         {
             if (i % countCompress == 0)
             {
-                this->hash += this->recieveCode(userString[i] + userString[++i]);
+                hash += recieveCode(userString[i] + userString[++i]);
             }
-            else this->hash += userString[i];
+            else hash += userString[i];
         }
 
         //Добавление оставшейся соли
-        this->hash += this->recieveCode(originalSault);
-        this->hash += this->recieveCode(originalStringLength);
-        this->hash += this->recieveCode(maxSault);
-        this->hash += this->recieveCode(maxStringLength);
+        hash += recieveCode(originalSault);
+        hash += recieveCode(originalStringLength);
+        hash += recieveCode(maxSault);
+        hash += recieveCode(maxStringLength);
 
-        return this->hash;
+        return hash;
     }
     return "";
 }

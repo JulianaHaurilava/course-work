@@ -11,7 +11,6 @@
 #include <string>
 #include <algorithm>
 
-
 using std::string;
 
 class Administrator :

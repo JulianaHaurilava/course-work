@@ -7,6 +7,7 @@ using std::string;
 
 class Hash
 {
+    static int counter;
     string hash;
 
     /// <summary>
@@ -14,14 +15,14 @@ class Hash
     /// </summary>
     /// <param name="element"></param>
     /// <returns></returns>
-    int recieveCode(int element);
+    static int recieveCode(int element);
 
     /// <summary>
     /// Получает сумму кодов всех символов, находящихся в строке
     /// </summary>
     /// <param name="passwordString"></param>
     /// <returns></returns>
-    int getSault(string userString);
+    static int getSault(string userString);
 
 public:
 
