@@ -87,7 +87,10 @@ void Patient::printInfoForDoctor()
 {
 	std::cout << "Ф.И.О: " << fullName << std::endl;
 	std::cout << "Дата рождения: " << dateOfBirth << std::endl << std::endl;
+
+
 	lastExtract.printExtractForDoctor();
+	printUnpaidServicesForDoctor();
 }
 
 void Patient::changeExtract(string newDiagnosis, string newRecommendation)
@@ -98,6 +101,42 @@ void Patient::changeExtract(string newDiagnosis, string newRecommendation)
 
 	mapOfUnpaidServices.clear();
 	totalPrice = 0;
+}
+
+void Patient::makeReport()
+{
+	std::ofstream fout;
+	fout.open(REPORT_FILE_NAME, std::ios::app);
+
+	if (!fout.is_open())
+	{
+		std::cout << "\nОшибка открытия файла!\n";
+		return;
+	}
+
+	fout << fullName << '\n';
+	for (auto& serviceInfo : mapOfUnpaidServices)
+	{
+		fout << std::setw(25) << serviceInfo.first << std::setw(15) << 
+			std::to_string(serviceInfo.second) << '\n';
+	}
+	fout << '\n';
+	fout.close();
+
+	fout.close();
+}
+
+void Patient::printUnpaidServicesForDoctor()
+{
+	if (totalPrice != 0)
+	{
+		std::cout << "Заказанные услуги" << std::endl;
+		for (const auto& serviceInfo : mapOfUnpaidServices)
+		{
+			std::cout << serviceInfo.first << std::endl;
+		}
+		std::cout << std::endl;
+	}
 }
 
 
@@ -143,7 +182,7 @@ bool Patient::editAccountInfo()
 
 bool Patient::buyService(ClinicRepository cr)
 {
-	std::cout << "Для того, чтобы выйти введите пустую строку.\n";
+	std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
 	bool gotService = false;
 	while (true)
 	{
@@ -171,7 +210,7 @@ void Patient::printUnpaidServices()
 
 		for (const auto& serviceInfo : mapOfUnpaidServices)
 		{
-			std::cout << std::setw(25) << serviceInfo.first << "   " << serviceInfo.second << std::endl;
+			std::cout << std::setw(25) << serviceInfo.first << "   " << serviceInfo.second << " BYN" << std::endl;
 		}
 
 		std::cout << std::endl;

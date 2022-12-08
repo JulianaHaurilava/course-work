@@ -5,6 +5,8 @@
 
 using std::string;
 
+const string REPORT_FILE_NAME = "report.txt";
+
 class Patient :
     public User
 {
@@ -28,6 +30,8 @@ public:
     void print() override;
     void printInfoForDoctor();
     void changeExtract(string newDiagnosis, string newRecommendation);
+    void makeReport();
+    void printUnpaidServicesForDoctor();
 
     friend std::istream& operator >> (std::istream& in, Patient& patient);
 };

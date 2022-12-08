@@ -81,7 +81,7 @@ void ClinicRepository::printTableOfServices()
 	std::cout << std::setw(25) << "Название услуги" << "   " << "Цена" << std::endl << std::endl;
 	for (auto& service : allServices)
 	{
-		std::cout << std::setw(25) << service.first << "   " << service.second << std::endl;
+		std::cout << std::setw(25) << service.first << "   " << service.second << " BYN" << std::endl;
 	}
 }
 
@@ -96,6 +96,7 @@ void ClinicRepository::deleteService(string name)
 	if (allServices.erase(name))
 	{
 		allServiceMapInFile();
+		std::cout << "Выбранная услуга успешно удалена!\n";
 		return;
 	}
 	else std::cout << "Услуга не найдена!\n";
@@ -135,6 +136,7 @@ void ClinicRepository::editService(string name)
 			allServices[newName] = oldPrice;
 
 			allServiceMapInFile();
+			std::cout << "Данные успешно изменены!\n";
 			return;
 		}
 		case 2:
@@ -143,12 +145,12 @@ void ClinicRepository::editService(string name)
 			foundService->second = newPrice;
 
 			allServiceMapInFile();
+			std::cout << "Данные успешно изменены!\n";
 			return;
 		}
 		case 3:
 			return;
 		}
-		endCase();
 	}
 	std::cout << "Услуга не найдена!\n";
 }

@@ -23,6 +23,6 @@ public:
 	void enableAccess();
 	virtual string getStringForFile();
 	virtual void print();
-	virtual FullName getFullName();
+	FullName getFullName();
 };
 

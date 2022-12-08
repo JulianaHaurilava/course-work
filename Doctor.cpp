@@ -42,8 +42,10 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 	std::cout << "Диагноз: ";
 	getline(std::cin, diagnosis);
 
-	std::cout << "Рекомендации : ";
+	std::cout << "Рекомендации: ";
 	getline(std::cin, recommendations);
+
+	patientToWorkWith->makeReport();
 
 	patientToWorkWith->changeExtract(diagnosis, recommendations);
 	pr.updateRepository();
@@ -54,7 +56,6 @@ bool Doctor::editAccountInfo()
 	position = getCorrectStringInput(std::cin, "Введите новую должность: ");
 	return true;
 }
-
 
 void Doctor::logInSystem(AccountRepository<Patient>& pr)
 {

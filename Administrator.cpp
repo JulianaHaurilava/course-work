@@ -200,7 +200,7 @@ void Administrator::workWithServices(ClinicRepository& cr)
 			double foundPrice = cr.getPriceByName(name);
 			if (foundPrice != 0)
 			{
-				std::cout << "Цена: " << foundPrice << std::endl;
+				std::cout << "Цена: " << foundPrice << " BYN" << std::endl;
 			}
 			else std::cout << "Услуга не найдена!\n";
 			break;
@@ -219,6 +219,7 @@ void Administrator::editDoctorsPosition(string loginToEdit, AccountRepository<Do
 	{
 		doctorToEdit->editAccountInfo();
 		dr.updateRepository();
+		std::cout << "Данные успешно изменены!\n";
 		return;
 	}
 	std::cout << "Пользователь с таким логном не зарегистрирован в системе!\n";
@@ -233,9 +234,11 @@ void Administrator::deactivateAccount(string loginToDeactivate, AccountRepositor
 	{
 	case 2:
 		dr.deleteAccount(loginToDeactivate);
+		std::cout << "Аккаунт деактивирован!\n";
 		break;
 	case 3:
 		pr.deleteAccount(loginToDeactivate);
+		std::cout << "Аккаунт деактивирован!\n";
 		break;
 	}
 }
@@ -264,6 +267,7 @@ void Administrator::verifyAccount(string loginToVerify, AccountRepository<Doctor
 	{
 		dr.addNewAccount(doctorToVerify);
 		ndr.deleteAccount(loginToVerify);
+		std::cout << "Аккаунт верифицирован!\n";
 	}
 	else std::cout << "Аккаунт с таким логином не зарегистрирован в системе!\n";
 }

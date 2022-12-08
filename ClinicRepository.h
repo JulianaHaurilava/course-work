@@ -11,7 +11,7 @@ using std::string;
 
 class ClinicRepository
 {
-	string serviceFileName = "service_file";
+	string serviceFileName = "service_file.txt";
 	std::map<string, double> allServices;
 
 	void allServiceMapInFile();

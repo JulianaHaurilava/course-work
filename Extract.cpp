@@ -42,7 +42,7 @@ void Extract::print()
 
 			for (const auto& serviceInfo : mapOfPaidServices)
 			{
-				std::cout << std::setw(20) << serviceInfo.first << "   " << serviceInfo.second << std::endl;
+				std::cout << std::setw(20) << serviceInfo.first << "   " << serviceInfo.second << " BYN" << std::endl;
 			}
 
 			std::cout << std::endl;
@@ -66,9 +66,10 @@ void Extract::printExtractForDoctor()
 			{
 				std::cout << serviceInfo.first << std::endl;
 			}
+			std::cout << std::endl;
 		}
 	}
-	else std::cout << "Выписка отсутствует";
+	else std::cout << "Выписка отсутствует\n\n";
 }
 
 void Extract::setDiagnosis(string diagnosis)

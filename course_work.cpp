@@ -58,7 +58,7 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
             }
             else
             {
-                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                std::cout << "\nВам отказано в доступе! Дождитесь верификации.\n\n";
                 return;
             }
         }
@@ -77,13 +77,13 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
             }
             else
             {
-                std::cout << "Вам отказано в доступе! Дождитесь верификации.\n\n";
+                std::cout << "\nВам отказано в доступе! Дождитесь верификации.\n\n";
                 return;
             }
         }
     }
 
-    std::cout << "Введен неверный логин или пароль!\n\n";
+    std::cout << "\nВведен неверный логин или пароль!\n\n";
     return;
 }
 
@@ -181,9 +181,9 @@ int main()
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    AccountRepository<Doctor> dr("doctors_file");
-    AccountRepository<Doctor> ndr("not_verified_doctors_file");
-    AccountRepository<Patient> pr("patient_file");
+    AccountRepository<Doctor> dr("doctors_file.txt");
+    AccountRepository<Doctor> ndr("not_verified_doctors_file.txt");
+    AccountRepository<Patient> pr("patient_file.txt");
 
     ClinicRepository cr;
     Administrator admin;
