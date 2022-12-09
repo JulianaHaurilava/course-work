@@ -122,14 +122,14 @@ void ClinicRepository::editService(string name)
 			"2 - редактировать цену услуги;\n"
 			"3 - выйти;\n\n";
 
-		int choice = getCorrectMenuInput(3);
+		int choice = chps::getCorrectMenuInput(3);
 		system("cls");
 
 		switch (choice)
 		{
 		case 1:
 		{
-			string newName = getCorrectStringInput(std::cin, "Новое название услуги: ");
+			string newName = chps::getCorrectStringInput(std::cin, "Новое название услуги: ");
 			double oldPrice = foundService->second;
 			allServices.erase(foundService);
 
@@ -141,7 +141,7 @@ void ClinicRepository::editService(string name)
 		}
 		case 2:
 		{
-			double newPrice = getCorrectPositiveDouble(std::cin, "Новая цена услуги: ");
+			double newPrice = chps::getCorrectPositiveDouble(std::cin, "Новая цена услуги: ");
 			foundService->second = newPrice;
 
 			allServiceMapInFile();

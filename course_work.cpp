@@ -1,7 +1,4 @@
-﻿#include "ClinicRepository.h"
-#include "Administrator.h"
-#include "Checkups.h"
-#include "AccountRepository.h"
+﻿#include "Administrator.h"
 
 #include <iostream>
 #include <windows.h>
@@ -13,7 +10,7 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
 
     std::cout << "Введите логин: ";
     std::cin >> login;
-    int role = getRole(login);
+    int role = chps::getRole(login);
 
     std::cout << "Введите пароль: ";
 
@@ -89,58 +86,58 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
 
 Doctor createDoctorFromConsole()
 {
-    string encryptedPassword = getCorrectEncryptedPassword(std::cin);
+    string encryptedPassword = chps::getCorrectEncryptedPassword(std::cin);
 
     std::cout << "Введите полное имя\n";
 
     FullName fullName;
     
-    fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
-    fullName.name = getCorrectWordInput(std::cin, "Имя: ");
-    fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
+    fullName.surname = chps::getCorrectWordInput(std::cin, "Фамилия: ");
+    fullName.name = chps::getCorrectWordInput(std::cin, "Имя: ");
+    fullName.patronymic = chps::getCorrectWordInput(std::cin, "Отчество: ");
 
     std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 
-    Date dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
+    Date dateOfBirth = chps::getCorrectDateOfBirth(std::cin, 2);
 
     std::cout << "Введите адрес проживания\n";
 
     Address address;
-    address.city = getCorrectWordInput(std::cin, "Город: ");
-    address.street = getCorrectStringInput(std::cin, "Улица: ");
-    address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
-    address.flatNumber = getCorrectFlatNumber(std::cin);
+    address.city = chps::getCorrectWordInput(std::cin, "Город: ");
+    address.street = chps::getCorrectStringInput(std::cin, "Улица: ");
+    address.houseNumber = chps::getCorrectPositiveInteger(std::cin, "Номер дома: ");
+    address.flatNumber = chps::getCorrectFlatNumber(std::cin);
 
     string position;
     std::cout << "Введите информацию о квалификации\n";
-    position = getCorrectStringInput(std::cin, "Должность: ");
+    position = chps::getCorrectStringInput(std::cin, "Должность: ");
 
     return Doctor(encryptedPassword, 2, fullName, dateOfBirth, address, position);
 }
 
 Patient createPatientFromConsole()
 {
-    string encryptedPassword = getCorrectEncryptedPassword(std::cin);
+    string encryptedPassword = chps::getCorrectEncryptedPassword(std::cin);
 
     std::cout << "Введите полное имя\n";
 
     FullName fullName;
     
-    fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
-    fullName.name = getCorrectWordInput(std::cin, "Имя: ");
-    fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
+    fullName.surname = chps::getCorrectWordInput(std::cin, "Фамилия: ");
+    fullName.name = chps::getCorrectWordInput(std::cin, "Имя: ");
+    fullName.patronymic = chps::getCorrectWordInput(std::cin, "Отчество: ");
 
     std::cout << "Введите дату рождения (дд.мм.гггг)\n";
 
-    Date dateOfBirth = getCorrectDateOfBirth(std::cin, 3);
+    Date dateOfBirth = chps::getCorrectDateOfBirth(std::cin, 3);
 
     std::cout << "Введите адрес проживания\n";
 
     Address address;
-    address.city = getCorrectWordInput(std::cin, "Город: ");
-    address.street = getCorrectStringInput(std::cin, "Улица: ");
-    address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
-    address.flatNumber = getCorrectFlatNumber(std::cin);
+    address.city = chps::getCorrectWordInput(std::cin, "Город: ");
+    address.street = chps::getCorrectStringInput(std::cin, "Улица: ");
+    address.houseNumber = chps::getCorrectPositiveInteger(std::cin, "Номер дома: ");
+    address.flatNumber = chps::getCorrectFlatNumber(std::cin);
 
     return Patient(encryptedPassword, 3, fullName, dateOfBirth, address);
 }
@@ -152,7 +149,7 @@ void registerInSystem(AccountRepository<Doctor>& ndr, AccountRepository<Patient>
         "2 - пациент;\n"
         "3 - выйти в главное меню.\n\n";
 
-    int choice = getCorrectMenuInput(3);
+    int choice = chps::getCorrectMenuInput(3);
     system("cls");
 
     switch (choice)
@@ -195,14 +192,14 @@ int main()
             "2 - зарегистрироваться в системе;\n"
             "3 - выйти из системы.\n\n";
 
-        int choice = getCorrectMenuInput(3);
+        int choice = chps::getCorrectMenuInput(3);
         system("cls");
         switch (choice)
         {
         case 1: (logInSystem(dr, ndr, pr, cr)); break;
         case 2: 
             registerInSystem(ndr, pr);
-            endCase();
+            chps::endCase();
             break;
         case 3: return 0;
         }

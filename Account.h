@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "Address.h"
 #include "Hash.h"
+#include "AccountRepository.h"
 
 #include <iostream>
 #include <string>

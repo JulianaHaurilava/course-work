@@ -27,7 +27,7 @@ void Patient::logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr)
 			"6 - проcмотреть неоплаченные услуги;\n"
 			"7 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(7);
+		int choice = chps::getCorrectMenuInput(7);
 		system("cls");
 		switch (choice)
 		{
@@ -53,7 +53,7 @@ void Patient::logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr)
 		case 7:
 			return;
 		}
-		endCase();
+		chps::endCase();
 	}
 }
 
@@ -150,33 +150,33 @@ bool Patient::editAccountInfo()
 			"3 - адрес;\n"
 			"4 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(4);
+		int choice = chps::getCorrectMenuInput(4);
 		system("cls");
 		switch (choice)
 		{
 		case 1:
 			std::cout << "Введите полное имя\n";
-			fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
-			fullName.name = getCorrectWordInput(std::cin, "Имя: ");
-			fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
+			fullName.surname = chps::getCorrectWordInput(std::cin, "Фамилия: ");
+			fullName.name = chps::getCorrectWordInput(std::cin, "Имя: ");
+			fullName.patronymic = chps::getCorrectWordInput(std::cin, "Отчество: ");
 
 			
 			return true;
 		case 2:
 			std::cout << "Введите дату рождения (дд.мм.гггг)\n";
-			dateOfBirth = getCorrectDateOfBirth(std::cin, 2);
+			dateOfBirth = chps::getCorrectDateOfBirth(std::cin, 2);
 			return true;
 		case 3:
 			std::cout << "Введите адрес проживания\n";
-			address.city = getCorrectWordInput(std::cin, "Город: ");
-			address.street = getCorrectStringInput(std::cin, "Улица: ");
-			address.houseNumber = getCorrectPositiveInteger(std::cin, "Номер дома: ");
-			address.flatNumber = getCorrectFlatNumber(std::cin);
+			address.city = chps::getCorrectWordInput(std::cin, "Город: ");
+			address.street = chps::getCorrectStringInput(std::cin, "Улица: ");
+			address.houseNumber = chps::getCorrectPositiveInteger(std::cin, "Номер дома: ");
+			address.flatNumber = chps::getCorrectFlatNumber(std::cin);
 			return true;
 		case 4:
 			return false;
 		}
-		endCase();
+		chps::endCase();
 	}
 }
 
@@ -187,7 +187,7 @@ bool Patient::buyService(ClinicRepository cr)
 	while (true)
 	{
 		std::cout << "Введите название услуги, которую хотите приобрести.\n";
-		string serviceToBuy = getCorrectStringInputEsc(std::cin, "Название: ");
+		string serviceToBuy = chps::getCorrectStringInputEsc(std::cin, "Название: ");
 		if (serviceToBuy == "") break;
 
 		double servicePrice = cr.getPriceByName(serviceToBuy);

@@ -7,6 +7,7 @@
 
 #include "Checkups.h"
 
+
 using std::string;
 
 class ClinicRepository

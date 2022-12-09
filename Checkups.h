@@ -8,41 +8,50 @@
 #include <conio.h>
 #include <iostream>
 #include <stdexcept>
-#include <vector>
 
 using std::string;
 
 const int daysForMonths[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-const string letters = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
+const string RUS_LETTERS = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß";
 
-std::string getCorrectStringInput(std::istream& s, const char* message);
+namespace chps
+{
+    int countAge(int day, int month, int year);
 
-std::string getCorrectStringInputEsc(std::istream& s, const char* message);
+    std::string getCorrectStringInput(std::istream& s, const char* message);
 
-std::string getCorrectWordInput(std::istream& s, const char* message);
+    std::string getCorrectStringInputEsc(std::istream& s, const char* message);
 
-void checkIfInteger(std::string userInput);
+    std::string getCorrectWordInput(std::istream& s, const char* message);
 
-int getCorrectPositiveInteger(std::istream& s, const char* message);
+    void checkIfInteger(std::string userInput);
 
-int getCorrectMenuInput(int numberOfMenuItem);
+    int getCorrectPositiveInteger(std::istream& s, const char* message);
 
-double getCorrectPositiveDouble(std::istream& s, const char* message);
+    int getCorrectMenuInput(int numberOfMenuItem);
 
-int countAge(int day, int month, int year);
+    double getCorrectPositiveDouble(std::istream& s, const char* message);
 
-void checkDay(int day, int month, int year);
-void checkMonth(int month);
-void checkDoctorAge(int day, int month, int year);
-void checkPatientAge(int day, int month, int year);
 
-Date getCorrectDateOfBirth(std::istream& s, int role);
+    void checkDay(int day, int month, int year);
+    void checkMonth(int month);
 
-int getRole(string login);
+    void checkDoctorAge(int day, int month, int year);
 
-int getCorrectFlatNumber(std::istream& s);
+    void checkPatientAge(int day, int month, int year);
 
-string getCorrectEncryptedPassword(std::istream& s);
+    Date getCorrectDateOfBirth(std::istream& s, int role);
 
-void endCase();
+
+    int getRole(string login);
+
+    int getCorrectFlatNumber(std::istream& s);
+
+    string getCorrectEncryptedPassword(std::istream& s);
+
+    void endCase();
+}
+
+
+
 

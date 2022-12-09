@@ -4,8 +4,6 @@
 #include "Doctor.h"
 #include "Patient.h"
 #include "ClinicRepository.h"
-#include "AccountRepository.h"
-#include "Checkups.h"
 
 #include <vector>
 #include <string>

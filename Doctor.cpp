@@ -18,9 +18,9 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 
 	FullName fullName;
 
-	fullName.surname = getCorrectWordInput(std::cin, "Фамилия: ");
-	fullName.name = getCorrectWordInput(std::cin, "Имя: ");
-	fullName.patronymic = getCorrectWordInput(std::cin, "Отчество: ");
+	fullName.surname = chps::getCorrectWordInput(std::cin, "Фамилия: ");
+	fullName.name = chps::getCorrectWordInput(std::cin, "Имя: ");
+	fullName.patronymic = chps::getCorrectWordInput(std::cin, "Отчество: ");
 
 	Patient* patientToWorkWith = pr.findAccountByFullName(fullName);
 
@@ -53,7 +53,7 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 
 bool Doctor::editAccountInfo()
 {
-	position = getCorrectStringInput(std::cin, "Введите новую должность: ");
+	position = chps::getCorrectStringInput(std::cin, "Введите новую должность: ");
 	return true;
 }
 
@@ -66,7 +66,7 @@ void Doctor::logInSystem(AccountRepository<Patient>& pr)
 			"2 - записать информацию о приеме;\n"
 			"3 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(3);
+		int choice = chps::getCorrectMenuInput(3);
 		system("cls");
 		switch (choice)
 		{
@@ -79,7 +79,7 @@ void Doctor::logInSystem(AccountRepository<Patient>& pr)
 		case 3:
 			return;
 		}
-		endCase();
+		chps::endCase();
 	}
 }
 

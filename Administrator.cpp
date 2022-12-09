@@ -55,7 +55,7 @@ void Administrator::logInSystem(AccountRepository<Doctor>& dr, AccountRepository
 			"2 - работа с аккаунтами;\n"
 			"3 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(3);
+		int choice = chps::getCorrectMenuInput(3);
 		system("cls");
 		switch (choice)
 		{
@@ -86,7 +86,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 			"7 - редактировать должность сотрудника;\n"
 			"8 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(8);
+		int choice = chps::getCorrectMenuInput(8);
 		system("cls");
 		switch (choice)
 		{
@@ -148,7 +148,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		case 8:
 			return;
 		}
-		endCase();
+		chps::endCase();
 	}
 }
 
@@ -164,7 +164,7 @@ void Administrator::workWithServices(ClinicRepository& cr)
 			"5 - узнать цену по названию услуги;\n"
 			"6 - выйти.\n\n";
 
-		int choice = getCorrectMenuInput(6);
+		int choice = chps::getCorrectMenuInput(6);
 		system("cls");
 		switch (choice)
 		{
@@ -174,29 +174,29 @@ void Administrator::workWithServices(ClinicRepository& cr)
 		case 2:
 		{
 			std::cout << "Введите информацию о новой услуге\n";
-			string name = getCorrectStringInput(std::cin, "Название услуги: ");
-			double price = getCorrectPositiveDouble(std::cin, "Цена: ");
+			string name = chps::getCorrectStringInput(std::cin, "Название услуги: ");
+			double price = chps::getCorrectPositiveDouble(std::cin, "Цена: ");
 			cr.addNewService(name, price);
 			break;
 		}
 		case 3:
 		{
 			std::cout << "Введите название услуги, которую хотите удалить\n";
-			string name = getCorrectStringInput(std::cin, "Название услуги: ");
+			string name = chps::getCorrectStringInput(std::cin, "Название услуги: ");
 			cr.deleteService(name);
 			break;
 		}
 		case 4:
 		{
 			std::cout << "Введите название услуги, информацию о которой хотите редактировать\n";
-			string name = getCorrectStringInput(std::cin, "Название услуги: ");
+			string name = chps::getCorrectStringInput(std::cin, "Название услуги: ");
 			cr.editService(name);
 			break;
 		}
 		case 5:
 		{
 			std::cout << "Введите название услуги, цену которой хотите узнать\n";
-			string name = getCorrectStringInput(std::cin, "Название услуги: ");
+			string name = chps::getCorrectStringInput(std::cin, "Название услуги: ");
 			double foundPrice = cr.getPriceByName(name);
 			if (foundPrice != 0)
 			{
@@ -208,7 +208,7 @@ void Administrator::workWithServices(ClinicRepository& cr)
 		case 6:
 			return;
 		}
-		endCase();
+		chps::endCase();
 	}
 }
 
