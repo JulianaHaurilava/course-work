@@ -1,37 +1,6 @@
 #include "Administrator.h"
 
-string Administrator::getCorrectLogin(std::istream& s, const char* message)
-{
-	string adminInput;
-	while (true)
-	{
-		try
-		{
-			std::cout << message;
-			getline(std::cin, adminInput);
 
-			if (adminInput.length() == 0) return adminInput;
-			int role = stoi(adminInput.substr(0, 2));
-			if (adminInput.length() != 16 ||
-				!(role == 2 || role == 3))
-					throw -1;
-
-			return adminInput;
-		}
-		catch (std::invalid_argument)
-		{
-			std::cin.clear();
-			std::cout << "Введенные данные некорректны! Введен неверный логин.\n" <<
-				"Повторите ввод.\n\n";
-		}
-		catch (int)
-		{
-			std::cin.clear();
-			std::cout << "Введенные данные некорректны! Введен неверный логин.\n" <<
-				"Повторите ввод.\n\n";
-		}
-	}
-}
 
 Administrator::Administrator()
 {
@@ -105,7 +74,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		case 4:
 		{
 			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
-			string loginToVerify = getCorrectLogin(std::cin, 
+			string loginToVerify = chps::getCorrectLogin(std::cin, 
 				"Введите логин пользователя, которого хотите верифицировать:\n");
 
 			if (loginToVerify == "") break;
@@ -116,7 +85,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		case 5:
 		{
 			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
-			string loginToDeactivate = getCorrectLogin(std::cin,
+			string loginToDeactivate = chps::getCorrectLogin(std::cin,
 				"Введите логин пользователя, аккаунт которого хотите деактивировать:\n");
 
 			if (loginToDeactivate == "") break;
@@ -127,7 +96,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		case 6:
 		{
 			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
-			string loginToPrint = getCorrectLogin(std::cin,
+			string loginToPrint = chps::getCorrectLogin(std::cin,
 				"Введите логин пользователя, аккаунт которого хотите найти:\n");
 
 			if (loginToPrint == "") break;
@@ -138,7 +107,7 @@ void Administrator::workWithAccounts(AccountRepository<Doctor>& dr, AccountRepos
 		case 7:
 		{
 			std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
-			string loginToEdit = getCorrectLogin(std::cin,
+			string loginToEdit = chps::getCorrectLogin(std::cin,
 				"Введите логин сотрудника, чью должность хотите редактировать:\n");
 
 			if (loginToEdit == "") break;

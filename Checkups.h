@@ -16,6 +16,8 @@ const string RUS_LETTERS = "àáâãäå¸æçèéêëìíîïğñòóôõö÷øùúûüışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑ
 
 namespace chps
 {
+    string getCorrectLogin(std::istream& s, const char* message);
+
     int countAge(int day, int month, int year);
 
     std::string getCorrectStringInput(std::istream& s, const char* message);

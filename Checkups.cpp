@@ -3,6 +3,39 @@
 
 namespace chps
 {
+    string getCorrectLogin(std::istream& s, const char* message)
+    {
+        string adminInput;
+        while (true)
+        {
+            try
+            {
+                std::cout << message;
+                getline(std::cin, adminInput);
+
+                if (adminInput.length() == 0) return adminInput;
+                int role = stoi(adminInput.substr(0, 2));
+                if (adminInput.length() != 16 ||
+                    !(role == 2 || role == 3))
+                    throw - 1;
+
+                return adminInput;
+            }
+            catch (std::invalid_argument)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Введен неверный логин.\n" <<
+                    "Повторите ввод.\n\n";
+            }
+            catch (int)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Введен неверный логин.\n" <<
+                    "Повторите ввод.\n\n";
+            }
+        }
+    }
+
     int countAge(int day, int month, int year)
     {
         Date todaysDate;

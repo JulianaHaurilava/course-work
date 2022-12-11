@@ -15,7 +15,7 @@ string Account::getStringForFile()
     return login + " " + encryptedPassword + " " + std::to_string(access);
 }
 
-bool Account::loginAndPasswordCorrect(string login, string password)
+bool Account::checkLoginAndPassword(string login, string password)
 {
     Hash h;
     string encryptedPassword = h.getHash(password, 6);

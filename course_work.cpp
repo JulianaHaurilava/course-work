@@ -30,7 +30,7 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
     if (role == 1)
     {
         Administrator admin;
-        if (admin.loginAndPasswordCorrect(login, password))
+        if (admin.checkLoginAndPassword(login, password))
         {
             system("cls");
             std::cin.clear();
@@ -44,7 +44,7 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
         if (doctor->getFullName().surname == "_")
             doctor = ndr.findAccountByLogin(login);
 
-        if (doctor->loginAndPasswordCorrect(login, password))
+        if (doctor->checkLoginAndPassword(login, password))
         {
             if (doctor->getAccess())
             {
@@ -63,7 +63,7 @@ void logInSystem(AccountRepository<Doctor>& dr, AccountRepository<Doctor>& ndr,
     else if (role == 3)
     {
         Patient* patient = pr.findAccountByLogin(login);
-        if (patient->loginAndPasswordCorrect(login, password))
+        if (patient->checkLoginAndPassword(login, password))
         {
             if (patient->getAccess())
             {
@@ -178,11 +178,15 @@ int main()
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    AccountRepository<Doctor> dr("doctors_file.txt");
-    AccountRepository<Doctor> ndr("not_verified_doctors_file.txt");
-    AccountRepository<Patient> pr("patient_file.txt");
+    // создание объектов шаблонного класса AccountRepository для работы с вектором аккаунтов
+    AccountRepository<Doctor> dr("doctors_file.txt"); // данные о работниках клиники
+    AccountRepository<Doctor> ndr("not_verified_doctors_file.txt"); // данные о неверифицированных работниках
+    AccountRepository<Patient> pr("patient_file.txt"); // данные о пациентах
 
-    ClinicRepository cr;
+    // создание объекта класса ClinicRepository для работы с таблицей,
+    // в которой хранится информация об услугах клиники
+    ClinicRepository cr; 
+
     Administrator admin;
 
     while (true)
@@ -192,13 +196,15 @@ int main()
             "2 - зарегистрироваться в системе;\n"
             "3 - выйти из системы.\n\n";
 
-        int choice = chps::getCorrectMenuInput(3);
+        int choice = chps::getCorrectMenuInput(3); //ввод корректного значения меню
         system("cls");
         switch (choice)
         {
-        case 1: (logInSystem(dr, ndr, pr, cr)); break;
+        case 1: 
+            logInSystem(dr, ndr, pr, cr); // вход в систему
+            break;
         case 2: 
-            registerInSystem(ndr, pr);
+            registerInSystem(ndr, pr); // регистрация в системе
             chps::endCase();
             break;
         case 3: return 0;

@@ -32,6 +32,6 @@ public:
 
 	string getLogin();
 	string getEncryptedPassword();
-	bool loginAndPasswordCorrect(string login, string password);
+	bool checkLoginAndPassword(string login, string password);
 };
 
