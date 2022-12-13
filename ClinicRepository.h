@@ -24,7 +24,7 @@ public:
 	ClinicRepository();
 	~ClinicRepository();
 
-	void printTableOfServices();
+	void printTableOfServices(bool asc);
 
 	void addNewService(string name, double price);
 
@@ -33,5 +33,7 @@ public:
 	double getPriceByName(string name);
 
 	void editService(string name);
+
+	
 };
 

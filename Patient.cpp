@@ -3,6 +3,8 @@
 Patient::Patient() : User::User()
 {
 	lastExtract = Extract();
+	dateOfReception = Date();
+	timeOfReception = Time();
 }
 
 Patient::Patient(string encryptedPassword, int role, FullName fullName,
@@ -24,7 +26,7 @@ void Patient::logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr)
 			"3 - просмотреть последнюю выписку;\n"
 			"4 - просмотреть услуги клиники;\n"
 			"5 - заказать услуги;\n"
-			"6 - проcмотреть неоплаченные услуги;\n"
+			"6 - просмотреть информации о записи на прием;\n"
 			"7 - выйти.\n\n";
 
 		int choice = chps::getCorrectMenuInput(7);
@@ -32,22 +34,48 @@ void Patient::logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr)
 		switch (choice)
 		{
 		case 1:
+			// просмотр информации о пользователе
 			print();
 			break;
 		case 2:
+			// редакирование аккаунта пользователя
 			if (editAccountInfo())
 				pr.updateRepository();
 			break;
 		case 3:
+			// просмотр информации о последней выписке
 			lastExtract.print();
 			break;
 		case 4:
-			cr.printTableOfServices();
+		{
+			// просмотр всех услуг клиники
+			std::cout << "\nКак вывести услуги?\n"
+				"1 - по алфавиту;\n"
+				"2 - против алфавита.\n\n";
+
+			int choice = chps::getCorrectMenuInput(2);
+
+			if (choice == 1)
+				cr.printTableOfServices(true);
+			else cr.printTableOfServices(false);
 			break;
+		}
 		case 5:
-			if (buyService(cr)) pr.updateRepository(); 
+			// заказ услуг
+			if (mapOfUnpaidServices.empty())
+			{
+				if (makeOrder(cr))
+				{
+					makeReception();
+					pr.updateRepository();
+				}
+			}
+			else std::cout << "Заказ уже совершен!\n\n" <<
+				"Дата приема: " << dateOfReception << std::endl <<
+				"Время приема: " << timeOfReception << std::endl << std::endl;
 			break;
 		case 6:
+			// просмотр всех неоплаченных услуг
 			printUnpaidServices();
 			break;
 		case 7:
@@ -57,10 +85,16 @@ void Patient::logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr)
 	}
 }
 
+Time Patient::getTimeOfReception()
+{
+	return timeOfReception;
+}
+
 string Patient::getStringForFile()
 {
 	string stringForFile = "";
-	stringForFile += User::getStringForFile() + " " + lastExtract.getStringForFile();
+	stringForFile += User::getStringForFile() + " " + dateOfReception.getStringForFile() + " " + 
+		timeOfReception.getStringForFile() + " " + lastExtract.getStringForFile();
 
 	if (!mapOfUnpaidServices.empty())
 	{
@@ -139,6 +173,12 @@ void Patient::printUnpaidServicesForDoctor()
 	}
 }
 
+void Patient::makeReception()
+{
+	dateOfReception = chps::getCorrectDateOfReseption(std::cin);
+	timeOfReception = chps::getCorrectTimeOfReseption(std::cin);
+}
+
 
 bool Patient::editAccountInfo()
 {
@@ -180,17 +220,25 @@ bool Patient::editAccountInfo()
 	}
 }
 
-bool Patient::buyService(ClinicRepository cr)
+bool Patient::makeOrder(ClinicRepository cr)
 {
 	std::cout << "Для того, чтобы выйти введите пустую строку.\n\n";
-	bool gotService = false;
+	bool gotService = false; // заказал ли пользователь услугу
+
+	// заказ услуг
 	while (true)
 	{
 		std::cout << "Введите название услуги, которую хотите приобрести.\n";
-		string serviceToBuy = chps::getCorrectStringInputEsc(std::cin, "Название: ");
-		if (serviceToBuy == "") break;
+		string serviceToBuy = chps::getCorrectStringInputEsc(std::cin, "Название: "); // ввод названия услуги
 
+		// заказ новых услуг будет осуществляться, пока не введена пустая строка
+		if (serviceToBuy == "") 
+			break;
+
+		// получение цены услуги по названию
 		double servicePrice = cr.getPriceByName(serviceToBuy);
+
+		//добавление услуги в таблицу неоплаченных услуг и подсчет итоговой стоимости
 		if (servicePrice != 0)
 		{
 			mapOfUnpaidServices.insert(std::pair<string, double>(serviceToBuy, servicePrice));
@@ -206,6 +254,9 @@ void Patient::printUnpaidServices()
 {
 	if (totalPrice != 0)
 	{
+		std::cout << "Дата приема: " << dateOfReception << std::endl <<
+			"Время приема: " << timeOfReception << std::endl << std::endl;
+
 		std::cout << std::setw(25) << "Услуги" << "   " << "Цена" << std::endl << std::endl;
 
 		for (const auto& serviceInfo : mapOfUnpaidServices)
@@ -215,6 +266,8 @@ void Patient::printUnpaidServices()
 
 		std::cout << std::endl;
 		std::cout << "Итоговая цена: " << totalPrice << " BYN" << std::endl;
+
+
 	}
 	else std::cout << "\nУслуги не заказаны!\n";
 }
@@ -223,8 +276,8 @@ void Patient::printUnpaidServices()
 std::istream& operator >> (std::istream& in, Patient& patient)
 {
 	in >> patient.login >> patient.encryptedPassword >> patient.access >>
-		patient.fullName >> patient.dateOfBirth >> patient.address >>
-		patient.lastExtract;
+		patient.fullName >> patient.dateOfBirth >> patient.address >> 
+		patient.dateOfReception >> patient.timeOfReception >> patient.lastExtract;
 	patient.totalPrice = 0;
 
 	if (in.peek() == 'u')

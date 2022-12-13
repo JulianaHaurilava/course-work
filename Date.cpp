@@ -46,6 +46,18 @@ std::ostream& operator<<(std::ostream& os, const Date& date)
 	return os << date.year;
 }
 
+bool operator<=(const Date& day_1, const Date& day_2)
+{
+	return day_1.day <= day_2.day && day_1.month <= day_2.month &&
+		day_1.year <= day_2.year;
+}
+
+bool operator>=(const Date& day_1, const Date& day_2)
+{
+	return day_1.day >= day_2.day&& day_1.month >= day_2.month&&
+		day_1.year >= day_2.year;
+}
+
 std::istream& operator>>(std::istream& in, Date& day)
 {
 	in >> day.day >> day.month >> day.year;

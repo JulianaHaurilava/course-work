@@ -547,4 +547,133 @@ namespace chps
         system("cls");
         std::cin.clear();
     }
+
+    void checkHour(int hour)
+    {
+        try
+        {
+
+            if (hour < 7 || hour > 19)
+            {
+                throw std::range_error("Введено некорректное время.");
+            }
+
+        }
+        catch (const std::exception& e)
+        {
+            throw std::range_error("Введено некорректное время.");
+        }
+    }
+
+    void checkMinute(int minute)
+    {
+        try
+        {
+
+            if (minute < 0 || minute > 60)
+            {
+                throw std::range_error("Введено некорректное время.");
+            }
+
+        }
+        catch (const std::exception& e)
+        {
+            throw std::range_error("Введено некорректное время.");
+        }
+    }
+
+    Date getCorrectDateOfReseption(std::istream& s)
+    {
+        std::string userInput;
+        while (true)
+        {
+            try
+            {
+                std::cout << "Дата приема: ";
+                getline(std::cin, userInput);
+
+                int day = stoi(userInput.substr(0, 2));
+                int month = stoi(userInput.substr(3, 2));
+                int year = stoi(userInput.substr(6));
+
+                checkMonth(month);
+                checkDay(day, month, year);
+
+                Date receptionDate = Date(day, month, year);
+                Date todaysDate;
+                todaysDate.setCurrentDate();
+
+                if (receptionDate <= todaysDate) throw 1;
+
+                return Date(day, month, year);
+            }
+            catch (std::invalid_argument)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Ввод содержит недопустимые символы.\n" <<
+                    "Повторите ввод.\n\n";
+            }
+            catch (const std::range_error& e)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! " << e.what() << "\nПовторите ввод.\n\n";
+            }
+            catch (std::out_of_range)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                    "Повторите ввод.\n\n";
+            }
+            catch (int)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Введенная дата раньше сегодняшней\n" <<
+                    "Повторите ввод.\n\n";
+            }
+        }
+    }
+    Time getCorrectTimeOfReseption(std::istream& s)
+    {
+        std::string userInput;
+        while (true)
+        {
+            try
+            {
+                std::cout << "Время приема (в формате чч:ММ): ";
+                getline(std::cin, userInput);
+
+                int hour = stoi(userInput.substr(0, 2));
+                int minute = stoi(userInput.substr(3, 2));
+
+                checkHour(hour);
+                checkMinute(minute);
+
+
+                return Time(hour, minute);
+            }
+            catch (std::invalid_argument)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Ввод содержит недопустимые символы.\n" <<
+                    "Повторите ввод.\n\n";
+            }
+            catch (const std::range_error& e)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! " << e.what() << "\nПовторите ввод.\n\n";
+            }
+            catch (std::out_of_range)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Ввод превышает допустимые размеры.\n" <<
+                    "Повторите ввод.\n\n";
+            }
+            catch (int)
+            {
+                std::cin.clear();
+                std::cout << "Введенные данные некорректны! Введенная дата раньше сегодняшней\n" <<
+                    "Повторите ввод.\n\n";
+            }
+        }
+    }
 }

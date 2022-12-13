@@ -1,5 +1,5 @@
 #include "ClinicRepository.h"
-
+#include <vector>
 
 void ClinicRepository::allServiceMapInFile()
 {
@@ -76,12 +76,27 @@ ClinicRepository::~ClinicRepository()
 	allServiceMapInFile();
 }
 
-void ClinicRepository::printTableOfServices()
+void ClinicRepository::printTableOfServices(bool asc)
 {
 	std::cout << std::setw(25) << "Название услуги" << "   " << "Цена" << std::endl << std::endl;
-	for (auto& service : allServices)
+	if (asc)
 	{
-		std::cout << std::setw(25) << service.first << "   " << service.second << " BYN" << std::endl;
+		for (auto& service : allServices)
+		{
+			std::cout << std::setw(25) << service.first << "   " << service.second << " BYN" << std::endl;
+		}
+	}
+	else
+	{
+		std::vector<std::pair<string, double>> allServices;
+		for (auto& service : this->allServices)
+		{
+			allServices.push_back(service);
+		}
+		for (int i = allServices.size() - 1; i >= 0; i--)
+		{
+			std::cout << std::setw(25) << allServices[i].first << "   " << allServices[i].second << " BYN" << std::endl;
+		}
 	}
 }
 

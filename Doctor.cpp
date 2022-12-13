@@ -14,6 +14,7 @@ Doctor::Doctor(string encryptedPassword, int role, FullName fullName,
 
 void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 {
+	// ввод ФИО пациента
 	std::cout << "Введите полное имя пациента\n";
 
 	FullName fullName;
@@ -22,6 +23,7 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 	fullName.name = chps::getCorrectWordInput(std::cin, "Имя: ");
 	fullName.patronymic = chps::getCorrectWordInput(std::cin, "Отчество: ");
 
+	// поиск аккаунта по ФИО
 	Patient* patientToWorkWith = pr.findAccountByFullName(fullName);
 
 	if (patientToWorkWith->getLogin() == "_")
@@ -31,12 +33,21 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 		return;
 	}
 
+	// проверка на наличие записи
+	if (patientToWorkWith->getTimeOfReception().hour == 0)
+	{
+		std::cout << "Данный пациент не записан на прием!\n";
+		return;
+	}
+
+	// вывод всей необходимой информации о пациенте
 	std::cout << std::endl;
 	patientToWorkWith->printInfoForDoctor();
 
 	string diagnosis;
 	string recommendations;
 
+	// ввод данных о приёме
 	std::cout << std::endl;
 	std::cout << "Введите информацию о приеме" << std::endl << std::endl;
 	std::cout << "Диагноз: ";
@@ -45,8 +56,10 @@ void Doctor::workWithPatient(AccountRepository<Patient>& pr)
 	std::cout << "Рекомендации: ";
 	getline(std::cin, recommendations);
 
+	// формирование отчета
 	patientToWorkWith->makeReport();
 
+	// изменение последней выписки пациента
 	patientToWorkWith->changeExtract(diagnosis, recommendations);
 	pr.updateRepository();
 }

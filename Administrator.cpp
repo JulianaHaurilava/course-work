@@ -138,8 +138,10 @@ void Administrator::workWithServices(ClinicRepository& cr)
 		switch (choice)
 		{
 		case 1:
-			cr.printTableOfServices();
+		{
+			cr.printTableOfServices(true);
 			break;
+		}
 		case 2:
 		{
 			std::cout << "¬ведите информацию о новой услуге\n";

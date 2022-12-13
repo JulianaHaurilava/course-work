@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Date.h"
+#include "Time.h"
 #include "InvalidPasswordExeption.h"
 #include "Hash.h"
 
@@ -52,6 +53,12 @@ namespace chps
     string getCorrectEncryptedPassword(std::istream& s);
 
     void endCase();
+
+    void checkHour(int hour);
+    void checkMinute(int minute);
+
+    Date getCorrectDateOfReseption(std::istream& s);
+    Time getCorrectTimeOfReseption(std::istream& s);
 }
 
 

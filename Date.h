@@ -19,5 +19,8 @@ struct Date
 
 	friend std::istream& operator >> (std::istream& in, Date& day);
 	friend std::ostream& operator<<(std::ostream& os, const Date& day);
+
+	friend bool operator<=(const Date& day_1, const Date& day_2);
+	friend bool operator>=(const Date& day_1, const Date& day_2);
 };
 

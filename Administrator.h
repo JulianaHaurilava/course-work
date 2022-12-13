@@ -14,8 +14,6 @@ using std::string;
 class Administrator :
 	public Account
 {
-	
-
 	void deactivateAccount(string loginToDeactivate, AccountRepository<Doctor>& dr,
 		AccountRepository<Patient>& pr);
 

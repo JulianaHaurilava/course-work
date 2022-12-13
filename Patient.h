@@ -10,13 +10,16 @@ class Patient :
     public User
 {
     Extract lastExtract;
+    Date dateOfReception;
+    Time timeOfReception;
 
     std::map<string, double> mapOfUnpaidServices;
     double totalPrice;
 
     bool editAccountInfo();
-    bool buyService(ClinicRepository cr);
+    bool makeOrder(ClinicRepository cr);
     void printUnpaidServices();
+    void makeReception();
 
 public:
     Patient();
@@ -24,6 +27,8 @@ public:
         Date dateOfBirth, Address address);
 
     void logInSystem(ClinicRepository& cr, AccountRepository<Patient>& pr);
+
+    Time getTimeOfReception();
 
     string getStringForFile() override;
     void print() override;
